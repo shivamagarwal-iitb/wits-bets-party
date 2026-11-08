@@ -158,7 +158,7 @@ app.get('/qr/:roomCode',async(req,res)=>{
   const room=getRoom(req.params.roomCode);
   if(!room)return res.status(404).send('Room not found');
   try{
-    const origin=(process.env.PUBLIC_URL||`${req.protocol}://${req.get('host')}`).replace(new RegExp('/+;
+    const origin=(process.env.PUBLIC_URL||`${req.protocol}://${req.get('host')}`).replace(new RegExp('/+$'),'');
     const url=`${origin}/?room=${encodeURIComponent(room.code)}`;
     const png=await QRCode.toBuffer(url,{type:'png',margin:2,width:360,errorCorrectionLevel:'M'});
     res.set('Content-Type','image/png');res.set('Cache-Control','no-store');res.send(png);
