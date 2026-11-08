@@ -12,18 +12,13 @@ app.use(express.static('public'));
 const rooms = new Map();
 const STARTING_CHIPS = 100;
 const QUESTIONS = [
-  {q:'How many bones are in the typical adult human body?', a:206},
-  {q:'In what year did the first human land on the Moon?', a:1969},
-  {q:'How many minutes does sunlight take to reach Earth, rounded to the nearest whole minute?', a:8},
-  {q:'How many keys are on a standard modern piano?', a:88},
-  {q:'How many elements were on the periodic table as of 2025?', a:118},
-  {q:'In what year did the first iPhone go on sale?', a:2007},
-  {q:'How many squares are on a standard chessboard?', a:64},
-  {q:'How many miles long is a marathon, rounded to the nearest whole mile?', a:26},
-  {q:'How many countries are members of the United Nations?', a:193},
-  {q:'In what year was the first modern Olympic Games held?', a:1896},
-  {q:'How many seconds are in one day?', a:86400},
-  {q:'How many hearts does an octopus have?', a:3}
+  {q:"How many oil lamps were lit in Ayodhya's Deepotsav 2022 record?", a:1576944},
+  {q:"How many diyas were displayed in Ayodhya's Deepotsav 2023 record?", a:2223676},
+  {q:"How many diyas were displayed in Ayodhya's Deepotsav 2024 record?", a:2512585},
+  {q:"How many diyas were displayed in Ayodhya's Deepotsav 2025 record?", a:2617215},
+  {q:"How many people performed diya rotations simultaneously at Ayodhya's 2024 Saryu Aarti record?", a:1121},
+  {q:"Within how many minutes were all the record-breaking diyas lit at Ayodhya's 2025 Deepotsav?", a:25},
+  {q:"Across how many ghats were the record-breaking lamps arranged at Ayodhya's 2025 Deepotsav?", a:56}
 ];
 const code = () => crypto.randomBytes(3).toString('hex').toUpperCase();
 const token = () => crypto.randomBytes(24).toString('hex');
@@ -94,7 +89,7 @@ io.on('connection',socket=>{
   socket.on('create',async (data,ack)=>{
     let id;do{id=code()}while(rooms.has(id));
     const hostToken=token();
-    const maxRounds=Number.isInteger(data?.rounds)&&data.rounds>=1&&data.rounds<=12?data.rounds:7;
+    const maxRounds=7;
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
       questions:[...QUESTIONS].sort(()=>Math.random()-.5).slice(0,maxRounds),players:new Map(),current:null,options:[],results:null};
     rooms.set(id,room);socket.data.hostToken=hostToken;identify(socket,room,{host:true});
