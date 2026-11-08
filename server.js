@@ -154,6 +154,16 @@ io.on('connection',socket=>{
     if(room&&socket.data.playerId){room.players.get(socket.data.playerId)?.sockets.delete(socket.id);broadcast(room);}
   });
 });
+app.get('/qr/:roomCode',async(req,res)=>{
+  const room=getRoom(req.params.roomCode);
+  if(!room)return res.status(404).send('Room not found');
+  try{
+    const origin=(process.env.PUBLIC_URL||`${req.protocol}://${req.get('host')}`).replace(/\\/$/,'');
+    const url=`${origin}/?room=${encodeURIComponent(room.code)}`;
+    const png=await QRCode.toBuffer(url,{type:'png',margin:2,width:360,errorCorrectionLevel:'M'});
+    res.set('Content-Type','image/png');res.set('Cache-Control','no-store');res.send(png);
+  }catch(e){console.error('QR generation failed',e);res.status(500).send('QR generation failed');}
+});
 app.get('/health',(_req,res)=>res.json({ok:true,rooms:rooms.size}));
 const port=Number(process.env.PORT||3000);
 server.listen(port,()=>console.log(`Wits & Bets Party listening on http://localhost:${port}`));
