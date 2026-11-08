@@ -7,14 +7,14 @@ const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const fmt=x=>Number(x).toLocaleString('en-US');
 function notice(message){const t=document.getElementById('toast');t.textContent=message;t.classList.remove('hidden');clearTimeout(notice.timer);notice.timer=setTimeout(()=>t.classList.add('hidden'),3500)}
 function send(event,payload,callback){if(!socket?.connected){notice('Still connecting. Please try again in a moment.');return;}socket.emit(event,payload,r=>{if(!r?.ok){notice(r?.error||'Something went wrong');return;}callback?.(r)})}
-function stored(){try{return JSON.parse(localStorage.getItem('wb_auth')||'null')}catch{return null}}
-function save(a){auth=a;localStorage.setItem('wb_auth',JSON.stringify(a))}
+function stored(){try{const a=JSON.parse(sessionStorage.getItem('wb_auth')||'null');return a?.code && (!initialRoom || a.code===initialRoom)?a:null}catch{return null}}
+function save(a){auth=a;sessionStorage.setItem('wb_auth',JSON.stringify(a))}
 socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const a=stored();if(a?.hostToken)send('resumeHost',a,()=>{auth=a;});else if(a?.playerToken)send('join',a,()=>{auth=a;});else renderWelcome();});
 socket?.on('disconnect',()=>{document.getElementById('connection').textContent='○ Reconnecting…'});
 socket?.on('state',s=>{const changed=state?.phase!==s.phase||state?.round!==s.round;if(changed)selected=null;state=s;render()});
 socket?.on('notice',x=>notice(x.error||x.message));
 socket?.on('connect_error',e=>{document.getElementById('connection').textContent='○ Reconnecting…';console.warn('Connection issue',e.message)});
-function renderWelcome(){if(state)return;root.innerHTML=`<div class="hero"><div class="eyebrow">A Festival of Lights party game</div><h1>Shine bright.<br>Bet smarter.</h1><p>Celebrate Diwali with seven surprising number questions, wager virtual chips on the closest guess, and climb the leaderboard.</p></div><div class="split"><section class="panel stack"><h2>🪔 Host a Diwali party</h2><p>Put the host screen on your TV. Guests join with a code or QR scan.</p><div class="pill">🪔 Exactly 7 festive rounds</div><button id="create">Create game room</button></section><section class="panel stack"><h2>📱 Join a game</h2><p>Enter the room code from your host's screen.</p><label class="field">Room code<input id="room" placeholder="ABC123" maxlength="6" value="${esc(initialRoom)}" autocapitalize="characters"></label><label class="field">Your name<input id="name" placeholder="e.g. Alex" maxlength="24"></label><button id="join">Join party</button></section></div>`;
+function renderWelcome(){if(state)return;root.innerHTML=`<div class="hero"><div class="eyebrow">A Festival of Lights party game</div><h1>Shine bright.<br>Bet smarter.</h1><p>Celebrate Diwali with seven surprising number questions, wager virtual chips on the closest guess, and climb the leaderboard.</p></div><div class="split"><section class="panel stack"><h2>🪔 Host a Diwali party</h2><p>Put the host screen on your TV. Guests join with a code or QR scan.</p><div class="pill">🪔 Exactly 7 festive rounds</div><button id="create">Create game room</button></section><section class="panel stack"><h2>📱 Join a game</h2><p>Enter the room code from your host's screen. Each browser tab can join as a different player.</p><label class="field">Room code<input id="room" placeholder="ABC123" maxlength="6" value="${esc(initialRoom)}" autocapitalize="characters"></label><label class="field">Your name<input id="name" placeholder="e.g. Alex" maxlength="24"></label><button id="join">Join party</button></section></div>`;
  document.getElementById('create').onclick=()=>send('create',{rounds:7,origin:location.origin},r=>{hostMeta=r;save({code:r.code,hostToken:r.hostToken});render();history.replaceState({},'',`/?room=${r.code}`)});
  document.getElementById('join').onclick=()=>{const code=document.getElementById('room').value.trim().toUpperCase(),name=document.getElementById('name').value.trim();send('join',{code,name},r=>{save({code,playerToken:r.playerToken,name:r.name});history.replaceState({},'',`/?room=${code}`)})};
 }
@@ -33,7 +33,7 @@ function render(){if(!state)return renderWelcome();root.innerHTML=renderGameHead
  document.getElementById('amount')?.addEventListener('change',e=>{betAmount=Number(e.target.value)});
  document.getElementById('place')?.addEventListener('click',()=>{const amount=Number(document.getElementById('amount').value);send('bet',{optionId:selected,amount},()=>{selected=null;notice('Bet placed!')})});
  document.getElementById('copy')?.addEventListener('click',async()=>{const url=`${location.origin}/?room=${state.code}`;try{await navigator.clipboard.writeText(url);notice('Invite link copied!')}catch{notice(url)}});
- document.getElementById('newGame')?.addEventListener('click',()=>{localStorage.removeItem('wb_auth');state=null;auth=null;history.replaceState({},'','/');renderWelcome()});
+ document.getElementById('newGame')?.addEventListener('click',()=>{sessionStorage.removeItem('wb_auth');state=null;auth=null;history.replaceState({},'','/');renderWelcome()});
 }
 renderWelcome();
 if(!socket){document.getElementById('connection').textContent='Connection unavailable';notice('Unable to load live connection. Refresh this page.');}
