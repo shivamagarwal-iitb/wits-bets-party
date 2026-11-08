@@ -1,16 +1,18 @@
-const socket=io();const root=document.getElementById('app');
+const root=document.getElementById('app');
+const socket=typeof io==='function'?io({transports:['polling','websocket'],timeout:12000,reconnection:true,reconnectionAttempts:Infinity}):null;
 const params=new URLSearchParams(location.search);const initialRoom=(params.get('room')||'').toUpperCase();
 let state=null,auth=null,selected=null,betAmount=10,hostMeta=null;
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=x=>Number(x).toLocaleString('en-US');
 function notice(message){const t=document.getElementById('toast');t.textContent=message;t.classList.remove('hidden');clearTimeout(notice.timer);notice.timer=setTimeout(()=>t.classList.add('hidden'),3500)}
-function send(event,payload,callback){socket.emit(event,payload,r=>{if(!r?.ok){notice(r?.error||'Something went wrong');return;}callback?.(r)})}
+function send(event,payload,callback){if(!socket?.connected){notice('Still connecting. Please try again in a moment.');return;}socket.emit(event,payload,r=>{if(!r?.ok){notice(r?.error||'Something went wrong');return;}callback?.(r)})}
 function stored(){try{return JSON.parse(localStorage.getItem('wb_auth')||'null')}catch{return null}}
 function save(a){auth=a;localStorage.setItem('wb_auth',JSON.stringify(a))}
-socket.on('connect',()=>{document.getElementById('connection').textContent='● Live';const a=stored();if(a?.hostToken)send('resumeHost',a,()=>{auth=a;});else if(a?.playerToken)send('join',a,()=>{auth=a;});else renderWelcome();});
-socket.on('disconnect',()=>{document.getElementById('connection').textContent='○ Reconnecting…'});
-socket.on('state',s=>{const changed=state?.phase!==s.phase||state?.round!==s.round;if(changed)selected=null;state=s;render()});
-socket.on('notice',x=>notice(x.error||x.message));
+socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const a=stored();if(a?.hostToken)send('resumeHost',a,()=>{auth=a;});else if(a?.playerToken)send('join',a,()=>{auth=a;});else renderWelcome();});
+socket?.on('disconnect',()=>{document.getElementById('connection').textContent='○ Reconnecting…'});
+socket?.on('state',s=>{const changed=state?.phase!==s.phase||state?.round!==s.round;if(changed)selected=null;state=s;render()});
+socket?.on('notice',x=>notice(x.error||x.message));
+socket?.on('connect_error',e=>{document.getElementById('connection').textContent='○ Reconnecting…';console.warn('Connection issue',e.message)});
 function renderWelcome(){if(state)return;root.innerHTML=`<div class="hero"><div class="eyebrow">A Festival of Lights party game</div><h1>Shine bright.<br>Bet smarter.</h1><p>Celebrate Diwali with seven surprising number questions, wager virtual chips on the closest guess, and climb the leaderboard.</p></div><div class="split"><section class="panel stack"><h2>🪔 Host a Diwali party</h2><p>Put the host screen on your TV. Guests join with a code or QR scan.</p><div class="pill">🪔 Exactly 7 festive rounds</div><button id="create">Create game room</button></section><section class="panel stack"><h2>📱 Join a game</h2><p>Enter the room code from your host's screen.</p><label class="field">Room code<input id="room" placeholder="ABC123" maxlength="6" value="${esc(initialRoom)}" autocapitalize="characters"></label><label class="field">Your name<input id="name" placeholder="e.g. Alex" maxlength="24"></label><button id="join">Join party</button></section></div>`;
  document.getElementById('create').onclick=()=>send('create',{rounds:7,origin:location.origin},r=>{hostMeta=r;save({code:r.code,hostToken:r.hostToken});history.replaceState({},'',`/?room=${r.code}`)});
  document.getElementById('join').onclick=()=>{const code=document.getElementById('room').value.trim().toUpperCase(),name=document.getElementById('name').value.trim();send('join',{code,name},r=>{save({code,playerToken:r.playerToken,name:r.name});history.replaceState({},'',`/?room=${code}`)})};
@@ -33,3 +35,4 @@ function render(){if(!state)return renderWelcome();root.innerHTML=top()+({lobby,
  document.getElementById('newGame')?.addEventListener('click',()=>{localStorage.removeItem('wb_auth');state=null;auth=null;history.replaceState({},'','/');renderWelcome()});
 }
 renderWelcome();
+if(!socket){document.getElementById('connection').textContent='Connection unavailable';notice('Unable to load live connection. Refresh this page.');}
