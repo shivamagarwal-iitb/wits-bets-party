@@ -1,3 +1,4 @@
+window.__gameScriptLoaded=true;
 const root=document.getElementById('app');
 const socket=typeof io==='function'?io({transports:['polling','websocket'],timeout:12000,reconnection:true,reconnectionAttempts:Infinity}):null;
 const params=new URLSearchParams(location.search);const initialRoom=(params.get('room')||'').toUpperCase();
