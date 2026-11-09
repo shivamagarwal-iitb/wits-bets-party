@@ -65,13 +65,13 @@ function startRound(room) {
 }
 function revealGuesses(room){
   const values=[...new Set([...room.players.values()].map(p=>p.guess).filter(v=>v!==null))].sort((a,b)=>a-b);
-  room.options=values.map((value,i)=>({id:String(i),value,odds:values.length<=1?2:Math.max(2,Math.min(6,Math.round(2+Math.abs(i-(values.length-1)/2))))}));
+  room.options=[{id:'all-high',value:null,odds:6},...values.map((value,i)=>({id:String(i),value,odds:values.length<=1?2:Math.max(2,Math.min(6,Math.round(2+Math.abs(i-(values.length-1)/2))))}))];
   room.phase='betting';
 }
 function settle(room){
   const answer=room.current.a;
-  const eligible=room.options.filter(o=>o.value<=answer);
-  const winning=eligible.length?eligible[eligible.length-1]:null;
+  const eligible=room.options.filter(o=>o.value!==null && o.value<=answer);
+  const winning=eligible.length?eligible[eligible.length-1]:room.options.find(o=>o.id==='all-high');
   const payouts=[];
   for(const p of room.players.values()){
     let winnings=0;
@@ -83,11 +83,12 @@ function settle(room){
         winnings+=(1+bet.extra)*option.odds+bet.extra;
       }
     }
-    const guessBonus=winning && p.guess===winning.value ? room.round : 0;
+    const guessBonus=winning && winning.id!=='all-high' && p.guess===winning.value ? room.round : 0;
     p.chips+=winnings+guessBonus;
     payouts.push({name:p.name,payout:winnings+guessBonus,betWinnings:winnings,guessBonus});
   }
-  room.results={answer,winningOptionId:winning?.id??null,winningValue:winning?.value??null,payouts,guessBonus:room.round};
+  const revealedBets=[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra})));
+  room.results={answer,winningOptionId:winning?.id??null,winningValue:winning?.value??null,payouts,guessBonus:room.round,revealedBets};
   room.phase='results';
 }
 io.on('connection',socket=>{
