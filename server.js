@@ -94,7 +94,7 @@ io.on('connection',socket=>{
       questions:[...QUESTIONS].sort(()=>Math.random()-.5).slice(0,maxRounds),players:new Map(),current:null,options:[],results:null};
     rooms.set(id,room);socket.data.hostToken=hostToken;identify(socket,room,{host:true});
     const base=(process.env.PUBLIC_URL||data?.origin||'').replace(/\/$/,'');
-    const url=base?`${base}/?room=${id}`:`/?room=${id}`;
+    const url=base?`${base}/?room=${id}&join=1`:`/?room=${id}&join=1`;
     let qr='';try{qr=await QRCode.toDataURL(url,{margin:1,width:280});}catch{}
     reply(ack,{ok:true,code:id,hostToken,joinUrl:url,qr});broadcast(room);
   });
@@ -159,7 +159,7 @@ app.get('/qr/:roomCode',async(req,res)=>{
   if(!room)return res.status(404).send('Room not found');
   try{
     const origin=(process.env.PUBLIC_URL||`${req.protocol}://${req.get('host')}`).replace(new RegExp('/+$'),'');
-    const url=`${origin}/?room=${encodeURIComponent(room.code)}`;
+    const url=`${origin}/?room=${encodeURIComponent(room.code)}&join=1`;
     const png=await QRCode.toBuffer(url,{type:'png',margin:2,width:360,errorCorrectionLevel:'M'});
     res.set('Content-Type','image/png');res.set('Cache-Control','no-store');res.send(png);
   }catch(e){console.error('QR generation failed',e);res.status(500).send('QR generation failed');}
