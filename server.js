@@ -19,34 +19,34 @@ const QUESTIONS = [
     "fact": "Barack Obama lit a traditional diya at the White House in 2009, becoming the first sitting U.S. president to personally take part in its Diwali ceremony. Here's the twist: the White House had hosted Diwali events since 2003, under George W. Bush, but Bush did not personally attend. Obama later celebrated Diwali with schoolchildren in Mumbai in 2010."
   },
   {
-    "q": "According to a report, what was the highest rupee-per-point stake at Aamir Khan's Diwali card parties?",
+    "q": "What was the highest reported rupee-per-point stake at Aamir Khan's Diwali card parties?",
     "a": 5000,
     "fact": "At Aamir Khan's Diwali card gatherings, a 2016 report described stakes ranging from just ₹5 all the way up to ₹5,000 per point, with roughly six card tables at his residence. That is quite a leap from the small-stakes card games many families enjoy during Diwali! The ₹5,000 figure is the reported upper end of the range, not what everyone bet."
   },
   {
-    "q": "How many tiers did the chocolate cake at Manish Malhotra's 2025 Diwali party have, according to NDTV?",
-    "a": 4,
-    "fact": "Manish Malhotra's star-studded 2025 Diwali party included an extravagant chocolate cake. NDTV described it as four-tiered, the answer used in this game; another report called it five-tiered. The differing descriptions are part of the story, so this is a party-trivia answer rather than an undisputed measurement."
-  },
-  {
-    "q": "At Ayodhya's 2025 Deepotsav, how many people performed aarti together to set a Guinness World Record?",
+    "q": "How many people performed aarti together at Ayodhya's 2025 Deepotsav to set a Guinness World Record?",
     "a": 2128,
     "fact": "At Ayodhya's 2025 Deepotsav, 2,128 participants performed aarti together in a record-setting ceremony on the banks of the Saryu River. The coordinated ritual was one of the festival's two headline Guinness World Records, alongside its enormous display of illuminated diyas."
   },
   {
-    "q": "At a record-setting Deepavali rangoli in Singapore made from sweets and snacks, how many ladoos were used?",
-    "a": 1500,
-    "fact": "This was no ordinary colored-powder rangoli! The 10-by-10-meter display at Singapore's Sembawang Recreation Centre used 1,500 ladoos, 900 pieces of cake and hundreds of packets of Indian snacks. It entered the Singapore Book of Records as the largest rangoli made from traditional Indian sweets and snacks."
-  },
-  {
-    "q": "A Lucknow sweet shop sold Exotica mithai covered in real 24-karat gold leaf. What was its reported price per kilogram?",
+    "q": "What was the reported price per kilogram of Lucknow's 24-karat gold-covered Exotica mithai?",
     "a": 50000,
     "fact": "A luxury mithai with a seriously extravagant price tag! Lucknow's Chappan Bhog sold Exotica for a reported ₹50,000 per kilogram. The sweet was finished with edible 24-karat gold leaf and featured ingredients such as macadamia nuts, blackberries and imported raisins. This is the reported price at the time of the story, not a current menu price."
   },
   {
-    "q": "According to the Gems and Jewellery Domestic Council's estimate, how many metric tons of gold were sold across India on Dhanteras in 2025?",
+    "q": "How many metric tons of gold were estimated to have been sold across India on Dhanteras in 2025?",
     "a": 40,
     "fact": "Dhanteras is traditionally an auspicious time to buy gold, and jewellery shops see a major festive rush. For Dhanteras 2025, the Gems and Jewellery Domestic Council estimated sales of about 40 metric tons of gold across India—that's roughly 40,000 kilograms in a single day! The number is an industry estimate, not an exact audited count, and estimates can vary by source."
+  },
+  {
+    "q": "How many minutes does India's special Diwali Muhurat Trading session last?",
+    "a": 60,
+    "fact": "Diwali is normally a stock-market holiday in India, but the NSE and BSE open for a special, symbolic Muhurat Trading session lasting 60 minutes. The tradition marks an auspicious start for investors, and some buy a small amount of shares as a good-luck gesture. The exact clock time changes from year to year, but the special trading session lasts one hour."
+  },
+  {
+    "q": "Roughly what percentage of India's fireworks are manufactured in and around Sivakasi, Tamil Nadu?",
+    "a": 90,
+    "fact": "A huge share of India's festive fireworks comes from one remarkable manufacturing hub: Sivakasi in Tamil Nadu, often called India's fireworks capital. Industry figures have commonly put its share at around 90%, although estimates vary by year and scope. The town is also famous for match-making and printing, and has long been nicknamed 'Kutty Japan' (Little Japan) for its industrial activity."
   }
 ];
 const code = () => crypto.randomBytes(3).toString('hex').toUpperCase();
