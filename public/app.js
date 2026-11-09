@@ -25,7 +25,7 @@ document.addEventListener('visibilitychange',refreshActiveTab);
 window.addEventListener('pageshow',refreshActiveTab);
 window.addEventListener('focus',refreshActiveTab);
 
-socket?.on('state',s=>{const changed=state?.phase!==s.phase||state?.round!==s.round;if(changed){selected=null;activeSlot=0;betAmount=0;}state=s;if(s.phase==='betting'&&selected===null)selected=s.ownBets?.find(b=>b.slot===activeSlot)?.optionId??null;render()});
+socket?.on('state',s=>{const changed=state?.phase!==s.phase||state?.round!==s.round;if(changed){selected=null;activeSlot=0;betAmount=0;}state=s;if(['betting','final-betting'].includes(s.phase)&&selected===null)selected=s.ownBets?.find(b=>b.slot===activeSlot)?.optionId??null;render()});
 socket?.on('notice',x=>notice(x.error||x.message));
 socket?.on('connect_error',e=>{document.getElementById('connection').textContent='○ Reconnecting…';console.warn('Connection issue',e.message)});
 function renderWelcome(){if(state)return;root.innerHTML=`<div class="hero"><div class="eyebrow">A Festival of Lights party game</div><h1>Shine bright.<br>Bet smarter.</h1><p>Celebrate Diwali with seven surprising number questions, place two reusable betting chips on the closest guess, and climb the leaderboard.</p></div><div class="split"><section class="panel stack"><h2>🪔 Host a Diwali party</h2><p>Put the host screen on your TV. Guests join with a code or QR scan.</p><div class="pill">🪔 Exactly 7 festive rounds</div><button id="create">Create game room</button></section><section class="panel stack"><h2>📱 Join a game</h2><p>Enter the room code from your host's screen. Each browser tab can join as a different player.</p><label class="field">Room code<input id="room" placeholder="ABC123" maxlength="6" value="${esc(initialRoom)}" autocapitalize="characters"></label><label class="field">Your name<input id="name" placeholder="e.g. Alex" maxlength="24"></label><button id="join">Join party</button></section></div>`;
@@ -45,11 +45,11 @@ function board(reveal=false){
  const bets=publicPhase?(reveal?(state.results?.revealedBets||[]):(state.publicBets||[])):(state.ownBets||[]).map(b=>({...b,name:'You'}));
  const options=state.guesses||[];
  return `<div class="tabletop-scroll"><div class="tabletop-board" style="--lane-count:${options.length}">
- <div class="tabletop-banner">✦ WITS & BETS ✦ <span>${reveal?'THE BIG REVEAL':state.phase==='open-bets'?'BETS REVEALED · FINAL CHANCE':state.phase==='locked-bets'?'ALL BETS LOCKED':'PLACE YOUR CHIPS'}</span></div>
+ <div class="tabletop-banner">✦ WITS & BETS ✦ <span>${reveal?'THE BIG REVEAL':state.phase==='open-bets'?'FIRST BETS REVEALED · VIEW ONLY':state.phase==='final-betting'?'FINAL PRIVATE BETTING':state.phase==='locked-bets'?'FINAL BETS REVEALED · LOCKED':'PLACE YOUR CHIPS'}</span></div>
  <div class="tabletop-lanes">${options.map((o,i)=>{
  const winner=reveal&&state.results?.winningOptionId===o.id;
  const placed=bets.filter(b=>b.optionId===o.id);
- const editable=!reveal&&['betting','open-bets'].includes(state.phase);
+ const editable=!reveal&&['betting','final-betting'].includes(state.phase);
  const chosen=editable&&selected===o.id;
  return `<div class="tabletop-lane ${winner?'lane-winner':''} ${chosen?'lane-selected':''} ${o.id==='all-high'?'lane-all-high':''}" ${editable&&state.isPlayer?'data-option="'+esc(o.id)+'" role="button" tabindex="0"':''}>
  <div class="lane-odds">PAYS ${o.odds}:1</div>
@@ -62,16 +62,16 @@ function board(reveal=false){
  </div></div>`;
 }
 function betting(){
- const editable=['betting','open-bets'].includes(state.phase);
+ const editable=['betting','final-betting'].includes(state.phase);
  const own=state.ownBets||[];
  const chosen=own.find(b=>b.slot===activeSlot);
  const available=myChips()+(chosen?.extra||0);
- return `<div class="panel stack"><div class="eyebrow">Round ${state.round} · ${state.phase==='open-bets'?'Final betting chance':state.phase==='locked-bets'?'Bets locked':'Private betting'}</div><div class="question">${esc(state.question)}</div>
+ return `<div class="panel stack"><div class="eyebrow">Round ${state.round} · ${state.phase==='open-bets'?'First bets revealed':state.phase==='final-betting'?'Final private betting':state.phase==='locked-bets'?'Final bets locked':'Private betting'}</div><div class="question">${esc(state.question)}</div>
  <p>Bet on the closest guess <strong>without going over</strong>, or choose <strong>All Answers Too High</strong>. Your two golden chips are permanent. You can stack earned chips underneath either one, but extras on losing bets are lost.</p>
  ${state.isPlayer&&editable?`<div class="bet-controls"><div class="muted">CHOOSE A PERMANENT CHIP</div><div class="row"><button class="${activeSlot===0?'':'secondary'}" data-slot="0">🟡 Chip 1: ${own.find(b=>b.slot===0)?optionLabel(state.guesses.find(o=>o.id===own.find(b=>b.slot===0).optionId)):'Unplaced'}</button><button class="${activeSlot===1?'':'secondary'}" data-slot="1">🟡 Chip 2: ${own.find(b=>b.slot===1)?optionLabel(state.guesses.find(o=>o.id===own.find(b=>b.slot===1).optionId)):'Unplaced'}</button></div><p class="muted">Now placing chip ${activeSlot+1}. Select a card below. You may put both chips on one answer.</p></div>`:''}
  ${playerLegend()}
  ${board(false)}
- ${state.isPlayer&&editable?`<div class="bet-controls"><label class="field">Extra earned chips under chip ${activeSlot+1} (optional)<input id="amount" type="number" min="0" max="${available}" step="1" value="${chosen?.extra??betAmount}"></label><p class="muted">Earned chips available: ${fmt(available)} · ${state.phase==='betting'?'Your bets are private':'Everyone can see all bets now'}</p><button id="place" ${selected===null?'disabled':''}>Confirm chip ${activeSlot+1} on ${optionLabel(state.guesses.find(o=>o.id===selected))}</button><p class="muted">${own.length}/2 permanent chips placed. You can change either bet until the host locks betting.</p></div>`:(state.host?`<p class="muted">${state.phase==='betting'?'🔒 Bets are currently private. Reveal them to allow final adjustments.':state.phase==='open-bets'?'👀 All bets are visible. Players may change them until you lock betting.':'🔐 Bets are locked. Nobody can change them now.'}</p><button id="advance">${state.phase==='betting'?'Reveal everyone’s bets (allow changes) →':state.phase==='open-bets'?'Lock all bets →':'Reveal the correct answer →'}</button>`:`<p class="muted">${state.phase==='locked-bets'?'🔐 All bets are locked. Waiting for the host to reveal the answer.':'Waiting for the host.'}</p>`)}</div>`;
+ ${state.isPlayer&&editable?`<div class="bet-controls"><label class="field">Extra earned chips under chip ${activeSlot+1} (optional)<input id="amount" type="number" min="0" max="${available}" step="1" value="${chosen?.extra??betAmount}"></label><p class="muted">Earned chips available: ${fmt(available)} · Your bets are private</p><button id="place" ${selected===null?'disabled':''}>Confirm chip ${activeSlot+1} on ${optionLabel(state.guesses.find(o=>o.id===selected))}</button><p class="muted">${own.length}/2 permanent chips placed. You can change either bet during private betting. Your final choices will be revealed when the host locks them.</p></div>`:(state.host?`<p class="muted">${state.phase==='betting'?'🔒 First bets are private. Reveal the first placements for everyone to see.':state.phase==='open-bets'?'👀 First bets are visible, but changes are paused. Start a new private betting phase for final adjustments.':state.phase==='final-betting'?'🔒 Final adjustments are private. Lock and reveal everyone’s final bets.':'🔐 Final bets are public and locked. Nobody can change them now.'}</p><button id="advance">${state.phase==='betting'?'Reveal first bets →':state.phase==='open-bets'?'Start private final betting →':state.phase==='final-betting'?'Lock & reveal final bets →':'Reveal the correct answer →'}</button>`:`<p class="muted">${state.phase==='open-bets'?'👀 First bets are visible. Wait for private final betting to begin.':state.phase==='locked-bets'?'🔐 Final bets are public and locked. Waiting for the answer.':'Waiting for the host.'}</p>`)}</div>`;
 }
 function results(){
  const r=state.results;
@@ -86,7 +86,7 @@ function results(){
  <p class="muted">Both permanent betting chips return next round; earned chips carry forward.</p>${state.host?`<button id="advance">${state.round>=state.maxRounds?'Finish game →':'Next round →'}</button>`:'<p>Waiting for host to start the next round…</p>'}</div>`;
 }
 function finished(){return `<div class="panel stack"><div class="eyebrow">Final results</div><h1>🎉 Game over!</h1><div class="winner"><div class="muted">PARTY CHAMPION</div><div class="big">${esc(state.players[0]?.name||'No winner')}</div><p>${fmt(state.players[0]?.chips||0)} virtual chips</p></div><p>Thanks for playing! To host another game, open a new private browser tab and create a fresh room.</p><button class="secondary" id="newGame">Create a new game</button></div>`}
-function render(){if(!state)return renderWelcome();root.innerHTML=renderGameHeader()+({lobby,guessing,betting,'open-bets':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard());
+function render(){if(!state)return renderWelcome();root.innerHTML=renderGameHeader()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard());
  document.getElementById('advance')?.addEventListener('click',()=>send('advance',{}));
  document.getElementById('submitGuess')?.addEventListener('click',()=>{const input=document.getElementById('guess');if(!input.value.trim())return notice('Enter a number');send('guess',{value:Number(input.value)})});
  document.querySelectorAll('[data-option]').forEach(el=>{const choose=()=>{selected=el.dataset.option;render()};el.onclick=choose;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}}});
