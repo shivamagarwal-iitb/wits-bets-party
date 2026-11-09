@@ -69,6 +69,7 @@ function state(room, viewerId, host=false) {
     ownGuess:viewerId?room.players.get(viewerId)?.guess:null,
     ownBets:viewerId?room.players.get(viewerId)?.bets:[],
     host, isPlayer:!!viewerId,
+    recoveryPlayers:host?[...room.players.values()].map(p=>({name:p.name,playerToken:p.secret})):[],
     canAdvance:host && room.phase!=='finished'
   };
 }
