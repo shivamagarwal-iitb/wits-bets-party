@@ -167,12 +167,3 @@ app.get('/qr/:roomCode',async(req,res)=>{
 app.get('/health',(_req,res)=>res.json({ok:true,rooms:rooms.size}));
 const port=Number(process.env.PORT||3000);
 server.listen(port,()=>console.log(`Wits & Bets Party listening on http://localhost:${port}`));
-),'');
-    const url=`${origin}/?room=${encodeURIComponent(room.code)}`;
-    const png=await QRCode.toBuffer(url,{type:'png',margin:2,width:360,errorCorrectionLevel:'M'});
-    res.set('Content-Type','image/png');res.set('Cache-Control','no-store');res.send(png);
-  }catch(e){console.error('QR generation failed',e);res.status(500).send('QR generation failed');}
-});
-app.get('/health',(_req,res)=>res.json({ok:true,rooms:rooms.size}));
-const port=Number(process.env.PORT||3000);
-server.listen(port,()=>console.log(`Wits & Bets Party listening on http://localhost:${port}`));
