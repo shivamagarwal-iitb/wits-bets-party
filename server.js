@@ -29,13 +29,14 @@ const err = (ack, message) => reply(ack,{ok:false,error:message});
 function getRoom(id) { return rooms.get(String(id ?? '').toUpperCase()); }
 function playerView(p) { return {id:p.id,name:p.name,chips:p.chips,connected:p.sockets.size,submitted:p.guess!==null}; }
 function state(room, viewerId, host=false) {
-  const isRevealed = ['betting','results'].includes(room.phase);
+  const isRevealed = ['betting','open-bets','locked-bets','results'].includes(room.phase);
   return {
     code:room.code, phase:room.phase, round:room.round, maxRounds:room.maxRounds,
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
     question:room.phase==='lobby'?null:room.current?.q,
     guesses:isRevealed?room.options:[],
     results:room.phase==='results'?room.results:null,
+    publicBets:['open-bets','locked-bets','results'].includes(room.phase)?[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra}))):[],
     ownGuess:viewerId?room.players.get(viewerId)?.guess:null,
     ownBets:viewerId?room.players.get(viewerId)?.bets:[],
     host, isPlayer:!!viewerId,
@@ -134,7 +135,7 @@ io.on('connection',socket=>{
   });
   socket.on('bet',(data,ack)=>{
     const room=getRoom(socket.data.roomCode);const p=room?.players.get(socket.data.playerId);
-    if(!p||room.phase!=='betting')return err(ack,'Betting is closed.');
+    if(!p||!['betting','open-bets'].includes(room.phase))return err(ack,'Betting is locked.');
     const slot=data?.slot,extra=data?.extra;
     if(!Number.isInteger(slot)||slot<0||slot>1)return err(ack,'Choose betting chip 1 or 2.');
     if(!room.options.some(o=>o.id===data?.optionId))return err(ack,'Choose a valid answer.');
@@ -157,7 +158,9 @@ io.on('connection',socket=>{
     }else if(room.phase==='guessing'){
       if(![...room.players.values()].some(p=>p.guess!==null))return err(ack,'Wait for at least one guess.');
       revealGuesses(room);
-    }else if(room.phase==='betting')settle(room);
+    }else if(room.phase==='betting')room.phase='open-bets';
+    else if(room.phase==='open-bets')room.phase='locked-bets';
+    else if(room.phase==='locked-bets')settle(room);
     else if(room.phase==='results')startRound(room);
     else return err(ack,'The game has ended.');
     reply(ack,{ok:true});broadcast(room);
