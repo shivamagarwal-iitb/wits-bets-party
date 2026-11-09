@@ -91,8 +91,31 @@ button.outline{color:#ffd166;border-color:#b77b4c}
 .winner-person{display:inline-block;border:2px solid var(--player-color);background:#241c2a;border-radius:25px;padding:5px 9px;margin:3px;font-size:12px;font-weight:800}
 .answer-fact{background:#283e39;border:1px solid #7bc3a1;border-radius:16px;padding:19px}
 .answer-fact h2{color:#d4f9d8}
+
+/* Per-device board layouts: host defaults to horizontal, players to vertical. */
+.board-layout-switch{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin:4px 0 10px}
+.board-layout-switch span{font-size:12px;font-weight:800;color:#ffe2ad;margin-right:auto}
+.board-layout-switch button{font-size:12px;min-height:36px;padding:8px 12px;border-radius:10px}
+.tabletop-scroll.vertical-mode{overflow-x:hidden}
+.vertical-mode .tabletop-board{min-width:0!important;width:100%;padding:10px}
+.vertical-mode .tabletop-banner{padding:5px 0 12px;font-size:15px}
+.vertical-mode .tabletop-lanes{display:flex;flex-direction:column;gap:7px}
+.vertical-mode .tabletop-lane{min-height:0;display:grid;grid-template-columns:minmax(74px,auto) minmax(0,1fr);grid-template-areas:"card odds" "card guesses" "card chips" "status status";align-items:center;justify-items:stretch;gap:4px 12px;padding:10px;border-radius:10px}
+.vertical-mode .lane-card{grid-area:card;min-height:70px;max-width:155px;padding:8px;align-self:stretch}
+.vertical-mode .lane-card>span{font-size:clamp(17px,4.7vw,25px)}
+.vertical-mode .lane-card .lane-special{font-size:11px}
+.vertical-mode .lane-odds{grid-area:odds;justify-self:start}
+.vertical-mode .guess-owners{grid-area:guesses;display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-start;min-height:0;gap:4px}
+.vertical-mode .lane-chips{grid-area:chips;display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-start;min-height:0;gap:4px}
+.vertical-mode .table-chip{width:auto;max-width:160px;min-width:66px;flex-direction:row;flex-wrap:wrap;gap:4px;padding:4px 6px}
+.vertical-mode .player-chip-dot{width:17px;height:17px;border-width:2px}
+.vertical-mode .table-chip b{font-size:11px}
+.vertical-mode .table-chip small{font-size:10px}
+.vertical-mode .lane-empty{font-size:13px;padding:0}
+.vertical-mode .lane-winning-label,.vertical-mode .lane-selected-label{grid-area:status;text-align:left}
+@media(max-width:420px){.vertical-mode .tabletop-lane{grid-template-columns:minmax(72px,36%) minmax(0,1fr);gap:3px 8px;padding:8px}.vertical-mode .lane-card>span{font-size:19px}.vertical-mode .guess-owner{font-size:10px}}
 </style></head><body><main><header><div class="logo">🪔 DIWALI <span>WITS & BETS</span> ✨</div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A Festival of Lights party game</div><h1>Shine bright.<br>Bet smarter.</h1><p>Seven festive rounds of guessing and betting with friends.</p></div><div class="panel stack"><h2>🪔 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=diwali-answer-facts-14" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=hybrid-board-15" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
