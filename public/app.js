@@ -40,15 +40,21 @@ function guessing(){return `<div class="panel stack"><div class="eyebrow">Round 
 function optionLabel(o){return o?.id==='all-high'?'ALL TOO HIGH':o?.value===null?'ALL TOO HIGH':fmt(o?.value)}
 function board(reveal=false){
  const bets=reveal?(state.results?.revealedBets||[]):(state.ownBets||[]).map(b=>({...b,name:'You'}));
- return `<div class="bet-board">${state.guesses.map(o=>{
+ const options=state.guesses||[];
+ return `<div class="tabletop-scroll"><div class="tabletop-board" style="--lane-count:${options.length}">
+ <div class="tabletop-banner">✦ WITS & BETS ✦ <span>${reveal?'THE BIG REVEAL':'PLACE YOUR CHIPS'}</span></div>
+ <div class="tabletop-lanes">${options.map((o,i)=>{
  const winner=reveal&&state.results?.winningOptionId===o.id;
  const placed=bets.filter(b=>b.optionId===o.id);
  const chosen=!reveal&&selected===o.id;
- return `<div class="board-tile ${winner?'board-winner':''} ${chosen?'board-selected':''} ${o.id==='all-high'?'board-all-high':''}" ${!reveal&&state.isPlayer?'data-option="'+esc(o.id)+'" role="button" tabindex="0"':''}>
- <div class="board-top"><span class="board-odds">${o.odds}:1</span>${winner?'<span class="board-win-label">🏆 WINNER</span>':''}</div>
- <div class="board-answer">${optionLabel(o)}</div><div class="board-subtitle">${o.id==='all-high'?'Every guess exceeds the answer':'Numerical guess'}</div>
- <div class="chip-pile">${placed.map(p=>`<div class="chip-stack"><span class="chip-token">🟡</span><span class="chip-owner">${esc(p.name)} · Chip ${p.slot+1}</span>${p.extra?`<span class="chip-extra">+${fmt(p.extra)} stacked</span>`:''}</div>`).join('')||`<span class="board-empty">${reveal?'No bets':'Tap to choose'}</span>`}</div>
- </div>`}).join('')}</div>`;
+ return `<div class="tabletop-lane ${winner?'lane-winner':''} ${chosen?'lane-selected':''} ${o.id==='all-high'?'lane-all-high':''}" ${!reveal&&state.isPlayer?'data-option="'+esc(o.id)+'" role="button" tabindex="0"':''}>
+ <div class="lane-odds">PAYS ${o.odds}:1</div>
+ <div class="lane-chips">${placed.map(p=>`<div class="table-chip"><span>🟡</span><b>${esc(p.name)}</b><small>#${p.slot+1}${p.extra?' +'+fmt(p.extra):''}</small></div>`).join('')||'<div class="lane-empty">○</div>'}</div>
+ <div class="lane-card">${o.id==='all-high'?'<span class="lane-special">ALL GUESSES<br>TOO HIGH</span>':`<span>${fmt(o.value)}</span>`}</div>
+ ${winner?'<div class="lane-winning-label">🏆 WINNER</div>':chosen?'<div class="lane-selected-label">✓ SELECTED</div>':''}
+ </div>`}).join('')}</div>
+ <div class="tabletop-footer">🪔 ${reveal?'Everyone’s chips revealed':'Only your chips are visible'} · Swipe board sideways if needed 🪔</div>
+ </div></div>`;
 }
 function betting(){
  const own=state.ownBets||[];
