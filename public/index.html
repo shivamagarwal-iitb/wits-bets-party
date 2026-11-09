@@ -45,8 +45,32 @@ button.outline{color:#ffd166;border-color:#b77b4c}
 .payout-card{display:grid;gap:5px;padding:13px;background:#3d2343;border:1px solid #9d6a61;border-radius:14px}
 .payout-card .big{color:#ffda86}.payout-card small{color:#e0c3d7}
 @media(max-width:500px){.bet-board{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.board-tile{min-height:160px;padding:10px}.board-answer{font-size:20px}.chip-stack{font-size:11px}}
+
+/* Classic tabletop-inspired horizontal betting board */
+.tabletop-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:16px;border:2px solid #ad8751;background:#153c2d}
+.tabletop-board{min-width:max(100%,calc(var(--lane-count) * 116px));background:repeating-linear-gradient(0deg,#164633,#164633 16px,#194b38 17px,#194b38 33px);padding:13px 10px 9px;color:#fff6df}
+.tabletop-banner{text-align:center;font-size:17px;letter-spacing:2px;font-weight:950;color:#ffda7c;padding:9px 0 15px;text-shadow:0 2px 4px #10261c}
+.tabletop-banner span{display:block;font-size:10px;letter-spacing:3px;color:#d4e6d4;margin-top:5px}
+.tabletop-lanes{display:grid;grid-template-columns:repeat(var(--lane-count),minmax(108px,1fr));gap:4px}
+.tabletop-lane{position:relative;min-height:260px;display:flex;flex-direction:column;align-items:center;gap:9px;padding:10px 6px 14px;background:linear-gradient(90deg,#27543f,#1a4636);border:2px solid #d4c6a4;border-radius:7px;cursor:default}
+.tabletop-lane[data-option]{cursor:pointer}
+.tabletop-lane[data-option]:focus-visible{outline:3px solid #ffd166;outline-offset:2px}
+.tabletop-lane.lane-selected{background:#45633a;border-color:#ffdf6a;box-shadow:inset 0 0 0 3px #e8c860}
+.tabletop-lane.lane-winner{background:#6d632d;border:3px solid #ffda57;box-shadow:0 0 22px #ffdc5c99}
+.tabletop-lane.lane-all-high{background:#325e54}
+.lane-odds{font-size:11px;font-weight:950;color:#ffe6a0;letter-spacing:.5px;white-space:nowrap}
+.lane-chips{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;min-height:105px;width:100%}
+.table-chip{width:95%;max-width:112px;display:flex;flex-direction:column;align-items:center;background:#2c1c24dd;border:1px solid #ffcf65;border-radius:12px;padding:4px 3px;box-shadow:0 3px 5px #0005;line-height:1.1}
+.table-chip span{font-size:20px}.table-chip b{font-size:11px;max-width:100%;overflow-wrap:anywhere;text-align:center}.table-chip small{font-size:10px;color:#ffe2a5}
+.lane-empty{color:#d6d9c0;font-size:24px;opacity:.35;padding-top:22px}
+.lane-card{width:100%;min-height:70px;display:flex;align-items:center;justify-content:center;text-align:center;background:#fff9e9;color:#1e2e27;border:4px solid #d2aa6d;border-radius:5px;padding:5px 2px;box-shadow:0 3px 6px #0006}
+.lane-card>span{font-size:21px;font-weight:950;overflow-wrap:anywhere}
+.lane-card .lane-special{font-size:12px;line-height:1.2}
+.lane-winning-label,.lane-selected-label{font-size:11px;font-weight:950;color:#ffdf78;text-align:center}
+.tabletop-footer{text-align:center;padding:12px 0 4px;font-size:11px;letter-spacing:.3px;color:#e8d8a8}
+@media(max-width:650px){.tabletop-board{min-width:calc(var(--lane-count) * 112px)}.tabletop-lane{min-height:245px}}
 </style></head><body><main><header><div class="logo">🪔 DIWALI <span>WITS & BETS</span> ✨</div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A Festival of Lights party game</div><h1>Shine bright.<br>Bet smarter.</h1><p>Seven festive rounds of guessing and betting with friends.</p></div><div class="panel stack"><h2>🪔 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=diwali-reveal-board-10" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=diwali-tabletop-lanes-11" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
