@@ -4,6 +4,10 @@ const socket=typeof io==='function'?io({transports:['polling','websocket'],timeo
 const params=new URLSearchParams(location.search);const initialRoom=(params.get('room')||'').toUpperCase();const forceJoin=params.get('join')==='1';
 let state=null,auth=null,selected=null,betAmount=0,activeSlot=0,hostMeta=null;
 let joinedThisPage=false;
+let boardPreference=null;
+try{const saved=localStorage.getItem('wb_board_layout');if(['vertical','horizontal'].includes(saved))boardPreference=saved;}catch{}
+function boardLayout(){return boardPreference||(state?.host?'horizontal':'vertical');}
+function setBoardLayout(layout){if(!['vertical','horizontal'].includes(layout))return;boardPreference=layout;try{localStorage.setItem('wb_board_layout',layout);}catch{}render();}
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=x=>Number(x).toLocaleString('en-US');
 function notice(message){const t=document.getElementById('toast');t.textContent=message;t.classList.remove('hidden');clearTimeout(notice.timer);notice.timer=setTimeout(()=>t.classList.add('hidden'),3500)}
@@ -44,7 +48,9 @@ function board(reveal=false){
  const publicPhase=reveal||['open-bets','locked-bets'].includes(state.phase);
  const bets=publicPhase?(reveal?(state.results?.revealedBets||[]):(state.publicBets||[])):(state.ownBets||[]).map(b=>({...b,name:'You'}));
  const options=state.guesses||[];
- return `<div class="tabletop-scroll"><div class="tabletop-board" style="--lane-count:${options.length}">
+ const layout=boardLayout();
+ const controls=`<div class="board-layout-switch" aria-label="Board layout"><span>Board view</span><button type="button" class="${layout==='vertical'?'':'secondary'}" data-layout="vertical" aria-pressed="${layout==='vertical'}">☷ Vertical</button><button type="button" class="${layout==='horizontal'?'':'secondary'}" data-layout="horizontal" aria-pressed="${layout==='horizontal'}">▥ Horizontal</button></div>`;
+ return controls+`<div class="tabletop-scroll ${layout==='vertical'?'vertical-mode':''}"><div class="tabletop-board" style="--lane-count:${options.length}">
  <div class="tabletop-banner">✦ WITS & BETS ✦ <span>${reveal?'THE BIG REVEAL':state.phase==='open-bets'?'FIRST BETS REVEALED · VIEW ONLY':state.phase==='final-betting'?'FINAL PRIVATE BETTING':state.phase==='locked-bets'?'FINAL BETS REVEALED · LOCKED':'PLACE YOUR CHIPS'}</span></div>
  <div class="tabletop-lanes">${options.map((o,i)=>{
  const winner=reveal&&state.results?.winningOptionId===o.id;
@@ -58,7 +64,7 @@ function board(reveal=false){
  <div class="guess-owners">${(o.guessers||[]).map(g=>`<span class="guess-owner ${winner?'winning-guesser':''}" style="--player-color:${g.color}"><i></i>${esc(g.name)}</span>`).join('')}</div>
  ${winner?'<div class="lane-winning-label">🏆 WINNER</div>':chosen?'<div class="lane-selected-label">✓ SELECTED</div>':''}
  </div>`}).join('')}</div>
- <div class="tabletop-footer">🪔 ${publicPhase?'Everyone’s chips are visible':'Only your chips are visible'} · Swipe board sideways if needed 🪔</div>
+ <div class="tabletop-footer">🪔 ${publicPhase?'Everyone’s chips are visible':'Only your chips are visible'} ${layout==='horizontal'?'· Swipe board sideways if needed':''} 🪔</div>
  </div></div>`;
 }
 function betting(){
@@ -89,6 +95,7 @@ function finished(){return `<div class="panel stack"><div class="eyebrow">Final 
 function render(){if(!state)return renderWelcome();root.innerHTML=renderGameHeader()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard());
  document.getElementById('advance')?.addEventListener('click',()=>send('advance',{}));
  document.getElementById('submitGuess')?.addEventListener('click',()=>{const input=document.getElementById('guess');if(!input.value.trim())return notice('Enter a number');send('guess',{value:Number(input.value)})});
+ document.querySelectorAll('[data-layout]').forEach(el=>el.addEventListener('click',()=>setBoardLayout(el.dataset.layout)));
  document.querySelectorAll('[data-option]').forEach(el=>{const choose=()=>{selected=el.dataset.option;render()};el.onclick=choose;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}}});
  document.querySelectorAll('[data-slot]').forEach(el=>el.onclick=()=>{activeSlot=Number(el.dataset.slot);selected=state.ownBets?.find(b=>b.slot===activeSlot)?.optionId??null;betAmount=0;render()});
  document.getElementById('amount')?.addEventListener('change',e=>{betAmount=Number(e.target.value)});
