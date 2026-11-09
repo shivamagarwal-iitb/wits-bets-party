@@ -19,7 +19,8 @@ const QUESTIONS = [
   {"q":"How many feet wide was the original rangoli artwork created for the 2026 U.S. Diwali postage stamp?","a":8,"fact":"The U.S. Postal Service's 2026 Diwali stamp began as an eight-foot-wide rangoli by Houston-area artist Sangita Bhutada. She spent eight to ten days creating it with colored sand and starch-based powders, sometimes using an ordinary kitchen strainer. Photographer Bijay Dixit captured the art, which was then shrunk to stamp size. It was the second U.S. Diwali stamp, following one in 2016."},
   {"q":"How many paise per point did Shabana Azmi say her family played for at Diwali card gatherings?","a":10,"fact":"Shabana Azmi recalled her family's Diwali card gatherings where the stake was just 10 paise per point. It's a charming contrast to the glamorous image of Bollywood's Diwali card parties: for her family, the fun and company mattered more than big-money gambling."},
   {"q":"How many tiers did the chocolate cake at Manish Malhotra's 2025 Diwali party have?","a":4,"fact":"Manish Malhotra's star-studded 2025 Diwali party included an extravagant chocolate cake. NDTV described it as four-tiered, the answer used in this game; another report called it five-tiered. The differing descriptions are part of the story, so this is a party-trivia answer rather than an undisputed measurement."},
-  {"q":"How many war memorials did Prime Minister Narendra Modi visit on Diwali in 2015?","a":3,"fact":"On Diwali in 2015, Prime Minister Narendra Modi visited three memorials in Punjab: Dograi, Barki and Asal Uttar. The visits commemorated soldiers of the 1965 India–Pakistan war, which had taken place 50 years earlier. The stops made that Diwali a day of remembrance as well as celebration."}
+  {"q":"How many war memorials did Prime Minister Narendra Modi visit on Diwali in 2015?","a":3,"fact":"On Diwali in 2015, Prime Minister Narendra Modi visited three memorials in Punjab: Dograi, Barki and Asal Uttar. The visits commemorated soldiers of the 1965 India–Pakistan war, which had taken place 50 years earlier. The stops made that Diwali a day of remembrance as well as celebration."},
+  {"q":"At Ayodhya's 2025 Deepotsav, how many people performed aarti together to set a Guinness World Record?","a":2128,"fact":"At Ayodhya's 2025 Deepotsav, 2,128 participants performed aarti together in a record-setting ceremony on the banks of the Saryu River. The coordinated ritual was one of the festival's two headline Guinness World Records, alongside its enormous display of illuminated diyas."}
 ];
 const code = () => crypto.randomBytes(3).toString('hex').toUpperCase();
 const token = () => crypto.randomBytes(24).toString('hex');
@@ -97,7 +98,7 @@ io.on('connection',socket=>{
   socket.on('create',async (data,ack)=>{
     let id;do{id=code()}while(rooms.has(id));
     const hostToken=token();
-    const maxRounds=7;
+    const maxRounds=8;
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
       questions:[...QUESTIONS].sort(()=>Math.random()-.5).slice(0,maxRounds),players:new Map(),current:null,options:[],results:null};
     rooms.set(id,room);socket.data.hostToken=hostToken;identify(socket,room,{host:true});
