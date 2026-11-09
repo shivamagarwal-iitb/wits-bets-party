@@ -13,16 +13,41 @@ const rooms = new Map();
 const PLAYER_COLORS=['#ff7878','#68c8ff','#ffcf65','#a8e27a','#d5a0ff','#ff9bce','#6be2c6','#ffa66b','#a2b8ff','#e6e778','#f48e9a','#85d5df'];
 const STARTING_CHIPS = 0; // Earned chips; two permanent betting tokens are separate.
 const QUESTIONS = [
-  {"q":"In which year did a sitting U.S. president first personally celebrate Diwali at the White House?","a":2009,"fact":"Barack Obama lit a traditional diya at the White House in 2009, becoming the first sitting U.S. president to personally take part in its Diwali ceremony. Here's the twist: the White House had hosted Diwali events since 2003, under George W. Bush, but Bush did not personally attend. Obama later celebrated Diwali with schoolchildren in Mumbai in 2010."},
-  {"q":"In which year did Singapore declare Deepavali an official public holiday?","a":1929,"fact":"Singapore recognized Deepavali as an official public holiday in 1929, long before the country gained independence in 1965. Today its Little India district is known for elaborate Deepavali street lights, decorations and festive markets."},
-  {"q":"How many diyas were lit at Ayodhya's record-breaking Deepotsav in 2025?","a":2617215,"fact":"In 2025, volunteers illuminated 2,617,215 clay diyas at Ayodhya's Deepotsav along the Saryu River. Imagine placing, filling and lighting more than 2.6 million tiny oil lamps! The enormous display celebrates the festival's association with Lord Rama's return to Ayodhya."},
-  {"q":"How many feet wide was the original rangoli artwork created for the 2026 U.S. Diwali postage stamp?","a":8,"fact":"The U.S. Postal Service's 2026 Diwali stamp began as an eight-foot-wide rangoli by Houston-area artist Sangita Bhutada. She spent eight to ten days creating it with colored sand and starch-based powders, sometimes using an ordinary kitchen strainer. Photographer Bijay Dixit captured the art, which was then shrunk to stamp size. It was the second U.S. Diwali stamp, following one in 2016."},
-  {"q":"How many paise per point did Shabana Azmi say her family played for at Diwali card gatherings?","a":10,"fact":"Shabana Azmi recalled her family's Diwali card gatherings where the stake was just 10 paise per point. It's a charming contrast to the glamorous image of Bollywood's Diwali card parties: for her family, the fun and company mattered more than big-money gambling."},
-  {"q":"How many tiers did the chocolate cake at Manish Malhotra's 2025 Diwali party have?","a":4,"fact":"Manish Malhotra's star-studded 2025 Diwali party included an extravagant chocolate cake. NDTV described it as four-tiered, the answer used in this game; another report called it five-tiered. The differing descriptions are part of the story, so this is a party-trivia answer rather than an undisputed measurement."},
-  {"q":"How many war memorials did Prime Minister Narendra Modi visit on Diwali in 2015?","a":3,"fact":"On Diwali in 2015, Prime Minister Narendra Modi visited three memorials in Punjab: Dograi, Barki and Asal Uttar. The visits commemorated soldiers of the 1965 India–Pakistan war, which had taken place 50 years earlier. The stops made that Diwali a day of remembrance as well as celebration."},
-  {"q":"At Ayodhya's 2025 Deepotsav, how many people performed aarti together to set a Guinness World Record?","a":2128,"fact":"At Ayodhya's 2025 Deepotsav, 2,128 participants performed aarti together in a record-setting ceremony on the banks of the Saryu River. The coordinated ritual was one of the festival's two headline Guinness World Records, alongside its enormous display of illuminated diyas."},
-  {"q":"At a record-setting Deepavali rangoli in Singapore made from actual sweets and snacks, how many ladoos were used?","a":1500,"fact":"This was no ordinary colored-powder rangoli! The 10-by-10-meter display at Singapore's Sembawang Recreation Centre used 1,500 ladoos, 900 pieces of cake and hundreds of packets of Indian snacks. It entered the Singapore Book of Records as the largest rangoli made from traditional Indian sweets and snacks."},
-  {"q":"How many days before Diwali in 2026 did Manish Malhotra host his star-studded Bollywood party?","a":3,"fact":"Manish Malhotra hosted his 2026 Diwali gathering at his Mumbai home on November 5, three days before Diwali on November 8. Celebrities including Aishwarya Rai Bachchan, Kareena Kapoor and Shah Rukh Khan attended. One guest jokingly described the 200-plus-person event as 'intimate' and said Shah Rukh danced until dawn. The party itself did not last three days!"}
+  {
+    "q": "In which year did a sitting U.S. president first personally celebrate Diwali at the White House?",
+    "a": 2009,
+    "fact": "Barack Obama lit a traditional diya at the White House in 2009, becoming the first sitting U.S. president to personally take part in its Diwali ceremony. Here's the twist: the White House had hosted Diwali events since 2003, under George W. Bush, but Bush did not personally attend. Obama later celebrated Diwali with schoolchildren in Mumbai in 2010."
+  },
+  {
+    "q": "In which year did Singapore declare Deepavali an official public holiday?",
+    "a": 1929,
+    "fact": "Singapore recognized Deepavali as an official public holiday in 1929, long before the country gained independence in 1965. Today its Little India district is known for elaborate Deepavali street lights, decorations and festive markets."
+  },
+  {
+    "q": "How many diyas were lit at Ayodhya's record-breaking Deepotsav in 2025?",
+    "a": 2617215,
+    "fact": "In 2025, volunteers illuminated 2,617,215 clay diyas at Ayodhya's Deepotsav along the Saryu River. Imagine placing, filling and lighting more than 2.6 million tiny oil lamps! The enormous display celebrates the festival's association with Lord Rama's return to Ayodhya."
+  },
+  {
+    "q": "According to a report, what was the highest rupee-per-point stake at Aamir Khan's Diwali card parties?",
+    "a": 5000,
+    "fact": "At Aamir Khan's Diwali card gatherings, a 2016 report described stakes ranging from just ₹5 all the way up to ₹5,000 per point, with roughly six card tables at his residence. That is quite a leap from the small-stakes card games many families enjoy during Diwali! The ₹5,000 figure is the reported upper end of the range, not what everyone bet."
+  },
+  {
+    "q": "How many tiers did the chocolate cake at Manish Malhotra's 2025 Diwali party have?",
+    "a": 4,
+    "fact": "Manish Malhotra's star-studded 2025 Diwali party included an extravagant chocolate cake. NDTV described it as four-tiered, the answer used in this game; another report called it five-tiered. The differing descriptions are part of the story, so this is a party-trivia answer rather than an undisputed measurement."
+  },
+  {
+    "q": "At Ayodhya's 2025 Deepotsav, how many people performed aarti together to set a Guinness World Record?",
+    "a": 2128,
+    "fact": "At Ayodhya's 2025 Deepotsav, 2,128 participants performed aarti together in a record-setting ceremony on the banks of the Saryu River. The coordinated ritual was one of the festival's two headline Guinness World Records, alongside its enormous display of illuminated diyas."
+  },
+  {
+    "q": "At a record-setting Deepavali rangoli in Singapore made from actual sweets and snacks, how many ladoos were used?",
+    "a": 1500,
+    "fact": "This was no ordinary colored-powder rangoli! The 10-by-10-meter display at Singapore's Sembawang Recreation Centre used 1,500 ladoos, 900 pieces of cake and hundreds of packets of Indian snacks. It entered the Singapore Book of Records as the largest rangoli made from traditional Indian sweets and snacks."
+  }
 ];
 const code = () => crypto.randomBytes(3).toString('hex').toUpperCase();
 const token = () => crypto.randomBytes(24).toString('hex');
@@ -100,7 +125,7 @@ io.on('connection',socket=>{
   socket.on('create',async (data,ack)=>{
     let id;do{id=code()}while(rooms.has(id));
     const hostToken=token();
-    const maxRounds=10;
+    const maxRounds=7;
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
       questions:[...QUESTIONS].sort(()=>Math.random()-.5).slice(0,maxRounds),players:new Map(),current:null,options:[],results:null};
     rooms.set(id,room);socket.data.hostToken=hostToken;identify(socket,room,{host:true});
