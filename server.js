@@ -14,39 +14,39 @@ const PLAYER_COLORS=['#ff7878','#68c8ff','#ffcf65','#a8e27a','#d5a0ff','#ff9bce'
 const STARTING_CHIPS = 0; // Earned chips; two permanent betting tokens are separate.
 const QUESTIONS = [
   {
-    "q": "In which year did a sitting U.S. president first personally celebrate Diwali at the White House?",
-    "a": 2009,
-    "fact": "Barack Obama lit a traditional diya at the White House in 2009, becoming the first sitting U.S. president to personally take part in its Diwali ceremony. Here's the twist: the White House had hosted Diwali events since 2003, under George W. Bush, but Bush did not personally attend. Obama later celebrated Diwali with schoolchildren in Mumbai in 2010."
+    "q": "How many awards had the 2000 film Kaho Naa... Pyaar Hai reportedly won when its makers sought a Guinness World Records entry?",
+    "a": 92,
+    "fact": "A July 2001 report said Kaho Naa... Pyaar Hai had collected 92 awards across the cast, music and crew. The Hrithik Roshan debut became famous for its extraordinary award haul. Source: Rediff, July 2, 2001."
   },
   {
-    "q": "What was the highest reported rupee-per-point stake at Aamir Khan's Diwali card parties?",
-    "a": 5000,
-    "fact": "At Aamir Khan's Diwali card gatherings, a 2016 report described stakes ranging from just ₹5 all the way up to ₹5,000 per point, with roughly six card tables at his residence. That is quite a leap from the small-stakes card games many families enjoy during Diwali! The ₹5,000 figure is the reported upper end of the range, not what everyone bet."
+    "q": "How many Bollywood stars made cameo appearances in the song Deewangi Deewangi from Om Shanti Om (2007)?",
+    "a": 31,
+    "fact": "The star-studded song featured 31 celebrity cameos. Director Farah Khan later recalled that Amitabh Bachchan could not participate because of Abhishek Bachchan and Aishwarya Rai's wedding that week. Source: The Indian Express, May 2024."
   },
   {
-    "q": "How many people performed aarti together at Ayodhya's 2025 Deepotsav to set a Guinness World Record?",
-    "a": 2128,
-    "fact": "At Ayodhya's 2025 Deepotsav, 2,128 participants performed aarti together in a record-setting ceremony on the banks of the Saryu River. The coordinated ritual was one of the festival's two headline Guinness World Records, alongside its enormous display of illuminated diyas."
+    "q": "How many metric tonnes of tomatoes were flown in from Portugal for the La Tomatina sequence in Zindagi Na Milegi Dobara (2011)?",
+    "a": 16,
+    "fact": "The production imported about 16 tonnes of tomatoes from Portugal because the local tomatoes were not ripe enough. Producer Ritesh Sidhwani described the scene as an enormous logistical challenge. Source: Bollywood Hungama, March 2011."
   },
   {
-    "q": "What was the reported price per kilogram of Lucknow's 24-karat gold-covered Exotica mithai?",
-    "a": 50000,
-    "fact": "A luxury mithai with a seriously extravagant price tag! Lucknow's Chappan Bhog sold Exotica for a reported ₹50,000 per kilogram. The sweet was finished with edible 24-karat gold leaf and featured ingredients such as macadamia nuts, blackberries and imported raisins. This is the reported price at the time of the story, not a current menu price."
+    "q": "Approximately how many mirrors were used to create the Aaina Mahal set for Deewani Mastani in Bajirao Mastani (2015)?",
+    "a": 20000,
+    "fact": "Contemporary reporting described over 20,000 mirrors brought from Jaipur for the grand Aaina Mahal set. The question uses the rounded reported figure. Source: The Indian Express, September 2015."
   },
   {
-    "q": "How many metric tons of gold were estimated to have been sold across India on Dhanteras in 2025?",
-    "a": 40,
-    "fact": "Dhanteras is traditionally an auspicious time to buy gold, and jewellery shops see a major festive rush. For Dhanteras 2025, the Gems and Jewellery Domestic Council estimated sales of about 40 metric tons of gold across India—that's roughly 40,000 kilograms in a single day! The number is an industry estimate, not an exact audited count, and estimates can vary by source."
+    "q": "Across how many locations in Spain was Zindagi Na Milegi Dobara (2011) reportedly filmed?",
+    "a": 107,
+    "fact": "A behind-the-scenes retrospective reported that the film was shot at 107 locations across Spain, including the celebrated Tomatina sequence. Source: The Indian Express, July 2023."
   },
   {
-    "q": "How many minutes does India's special Diwali Muhurat Trading session last?",
-    "a": 60,
-    "fact": "Diwali is normally a stock-market holiday in India, but the NSE and BSE open for a special, symbolic Muhurat Trading session lasting 60 minutes. The tradition marks an auspicious start for investors, and some buy a small amount of shares as a good-luck gesture. The exact clock time changes from year to year, but the special trading session lasts one hour."
+    "q": "According to Bollywood Hungama's box-office records, how many days did 3 Idiots (2009) take to reach ₹200 crore in Indian net box-office collections?",
+    "a": 70,
+    "fact": "3 Idiots was the first Hindi film to join the ₹200-crore domestic net club. Bollywood Hungama's milestone table lists 70 days to cross it. Box-office tracking methods can vary between publications. Source: Bollywood Hungama, ₹200 Crore Club feature."
   },
   {
-    "q": "Roughly what percentage of India's fireworks are manufactured in and around Sivakasi, Tamil Nadu?",
-    "a": 90,
-    "fact": "A huge share of India's festive fireworks comes from one remarkable manufacturing hub: Sivakasi in Tamil Nadu, often called India's fireworks capital. Industry figures have commonly put its share at around 90%, although estimates vary by year and scope. The town is also famous for match-making and printing, and has long been nicknamed 'Kutty Japan' (Little Japan) for its industrial activity."
+    "q": "According to Bollywood Hungama, how many days did Sultan (2016) take to cross ₹200 crore in Indian net box-office collections?",
+    "a": 6,
+    "fact": "Salman Khan's Sultan crossed ₹200 crore in six days, one of the quickest milestones at the time. Source: Bollywood Hungama, ₹200 Crore Club feature."
   }
 ];
 const code = () => crypto.randomBytes(3).toString('hex').toUpperCase();
