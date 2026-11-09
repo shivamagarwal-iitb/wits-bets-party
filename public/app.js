@@ -3,14 +3,28 @@ const root=document.getElementById('app');
 const socket=typeof io==='function'?io({transports:['polling','websocket'],timeout:12000,reconnection:true,reconnectionAttempts:Infinity}):null;
 const params=new URLSearchParams(location.search);const initialRoom=(params.get('room')||'').toUpperCase();const forceJoin=params.get('join')==='1';
 let state=null,auth=null,selected=null,betAmount=10,hostMeta=null;
+let joinedThisPage=false;
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=x=>Number(x).toLocaleString('en-US');
 function notice(message){const t=document.getElementById('toast');t.textContent=message;t.classList.remove('hidden');clearTimeout(notice.timer);notice.timer=setTimeout(()=>t.classList.add('hidden'),3500)}
 function send(event,payload,callback){if(!socket?.connected){notice('Still connecting. Please try again in a moment.');return;}socket.emit(event,payload,r=>{if(!r?.ok){notice(r?.error||'Something went wrong');return;}callback?.(r)})}
-function stored(){if(forceJoin)return null;try{const a=JSON.parse(sessionStorage.getItem('wb_auth')||'null');return a?.code && (!initialRoom || a.code===initialRoom)?a:null}catch{return null}}
-function save(a){auth=a;sessionStorage.setItem('wb_auth',JSON.stringify(a))}
+function stored(){if(forceJoin&&!joinedThisPage)return null;try{const a=JSON.parse(sessionStorage.getItem('wb_auth')||'null');return a?.code && (!initialRoom || a.code===initialRoom)?a:null}catch{return null}}
+function save(a){auth=a;joinedThisPage=true;sessionStorage.setItem('wb_auth',JSON.stringify(a))}
 socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const a=stored();if(a?.hostToken)send('resumeHost',a,()=>{auth=a;});else if(a?.playerToken)send('join',a,()=>{auth=a;});else renderWelcome();});
 socket?.on('disconnect',()=>{document.getElementById('connection').textContent='○ Reconnecting…'});
+// iOS pauses background tabs: explicitly rejoin and request current state when a tab becomes active.
+function refreshActiveTab(){
+  if(document.visibilityState==='hidden')return;
+  const a=auth||stored();
+  if(!socket)return;
+  if(!socket.connected){socket.connect();return;}
+  if(a?.hostToken)send('resumeHost',a,()=>{auth=a;});
+  else if(a?.playerToken)send('join',a,()=>{auth=a;});
+}
+document.addEventListener('visibilitychange',refreshActiveTab);
+window.addEventListener('pageshow',refreshActiveTab);
+window.addEventListener('focus',refreshActiveTab);
+
 socket?.on('state',s=>{const changed=state?.phase!==s.phase||state?.round!==s.round;if(changed)selected=null;state=s;render()});
 socket?.on('notice',x=>notice(x.error||x.message));
 socket?.on('connect_error',e=>{document.getElementById('connection').textContent='○ Reconnecting…';console.warn('Connection issue',e.message)});
