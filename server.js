@@ -30,7 +30,7 @@ const err = (ack, message) => reply(ack,{ok:false,error:message});
 function getRoom(id) { return rooms.get(String(id ?? '').toUpperCase()); }
 function playerView(p) { return {id:p.id,name:p.name,chips:p.chips,connected:p.sockets.size,submitted:p.guess!==null,color:p.color}; }
 function state(room, viewerId, host=false) {
-  const isRevealed = ['betting','open-bets','locked-bets','results'].includes(room.phase);
+  const isRevealed = ['betting','open-bets','final-betting','locked-bets','results'].includes(room.phase);
   return {
     code:room.code, phase:room.phase, round:room.round, maxRounds:room.maxRounds,
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
@@ -136,7 +136,7 @@ io.on('connection',socket=>{
   });
   socket.on('bet',(data,ack)=>{
     const room=getRoom(socket.data.roomCode);const p=room?.players.get(socket.data.playerId);
-    if(!p||!['betting','open-bets'].includes(room.phase))return err(ack,'Betting is locked.');
+    if(!p||!['betting','final-betting'].includes(room.phase))return err(ack,'Betting is locked.');
     const slot=data?.slot,extra=data?.extra;
     if(!Number.isInteger(slot)||slot<0||slot>1)return err(ack,'Choose betting chip 1 or 2.');
     if(!room.options.some(o=>o.id===data?.optionId))return err(ack,'Choose a valid answer.');
@@ -160,7 +160,8 @@ io.on('connection',socket=>{
       if(![...room.players.values()].some(p=>p.guess!==null))return err(ack,'Wait for at least one guess.');
       revealGuesses(room);
     }else if(room.phase==='betting')room.phase='open-bets';
-    else if(room.phase==='open-bets')room.phase='locked-bets';
+    else if(room.phase==='open-bets')room.phase='final-betting';
+    else if(room.phase==='final-betting')room.phase='locked-bets';
     else if(room.phase==='locked-bets')settle(room);
     else if(room.phase==='results')startRound(room);
     else return err(ack,'The game has ended.');
