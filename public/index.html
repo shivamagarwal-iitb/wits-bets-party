@@ -81,8 +81,18 @@ button.outline{color:#ffd166;border-color:#b77b4c}
 .guess-owners{display:flex;flex-direction:column;gap:3px;align-items:center;width:100%;min-height:24px}
 .guess-owner{display:flex;align-items:center;gap:3px;max-width:100%;font-size:10px;font-weight:800;background:#112c25;padding:3px 5px;border-radius:6px;overflow-wrap:anywhere}
 .guess-owner i{width:9px;height:9px}
+
+.reveal-hero{text-align:center;background:radial-gradient(circle at center,#8c6b28,#4e2c34);border:2px solid #ffd66b;box-shadow:0 0 24px #ffc95b55}
+.reveal-hero .big{color:#ffe7a3;font-size:clamp(36px,8vw,62px)}
+.winning-chip{background:#66501c;border:3px solid #fff0a1;box-shadow:0 0 16px #ffdc6b}
+.winning-guesser{background:#745b25;border:2px solid #ffe178;box-shadow:0 0 12px #ffe17877}
+.reveal-highlights{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.reveal-highlights>div{border:1px solid #d4aa60;border-radius:15px;background:#3c2b3f;padding:14px}
+.winner-person{display:inline-block;border:2px solid var(--player-color);background:#241c2a;border-radius:25px;padding:5px 9px;margin:3px;font-size:12px;font-weight:800}
+.answer-fact{background:#283e39;border:1px solid #7bc3a1;border-radius:16px;padding:19px}
+.answer-fact h2{color:#d4f9d8}
 </style></head><body><main><header><div class="logo">🪔 DIWALI <span>WITS & BETS</span> ✨</div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A Festival of Lights party game</div><h1>Shine bright.<br>Bet smarter.</h1><p>Seven festive rounds of guessing and betting with friends.</p></div><div class="panel stack"><h2>🪔 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=diwali-player-colors-13" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=diwali-answer-facts-14" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
