@@ -13,13 +13,13 @@ const rooms = new Map();
 const PLAYER_COLORS=['#ff7878','#68c8ff','#ffcf65','#a8e27a','#d5a0ff','#ff9bce','#6be2c6','#ffa66b','#a2b8ff','#e6e778','#f48e9a','#85d5df'];
 const STARTING_CHIPS = 0; // Earned chips; two permanent betting tokens are separate.
 const QUESTIONS = [
-  {q:"How many oil lamps were lit in Ayodhya's Deepotsav 2022 record?", a:1576944},
-  {q:"How many diyas were displayed in Ayodhya's Deepotsav 2023 record?", a:2223676},
-  {q:"How many diyas were displayed in Ayodhya's Deepotsav 2024 record?", a:2512585},
-  {q:"How many diyas were displayed in Ayodhya's Deepotsav 2025 record?", a:2617215},
-  {q:"How many people performed diya rotations simultaneously at Ayodhya's 2024 Saryu Aarti record?", a:1121},
-  {q:"Within how many minutes were all the record-breaking diyas lit at Ayodhya's 2025 Deepotsav?", a:25},
-  {q:"Across how many ghats were the record-breaking lamps arranged at Ayodhya's 2025 Deepotsav?", a:56}
+  {q:"How many oil lamps were lit in Ayodhya's Deepotsav 2022 record?", a:1576944, fact:"Deepotsav is Ayodhya's festival of lights. Volunteers arrange and illuminate enormous numbers of clay oil lamps, called diyas, along the city's riverfront."},
+  {q:"How many diyas were displayed in Ayodhya's Deepotsav 2023 record?", a:2223676, fact:"The Saryu riverfront is central to Ayodhya's Deepotsav. Organizers count lamps lit as part of the event's record-setting display."},
+  {q:"How many diyas were displayed in Ayodhya's Deepotsav 2024 record?", a:2512585, fact:"Deepotsav's huge lamp displays involve thousands of volunteers. The counted diyas create glowing patterns across the ghats beside the Saryu River."},
+  {q:"How many diyas were displayed in Ayodhya's Deepotsav 2025 record?", a:2617215, fact:"The lamps at Deepotsav are traditional clay diyas. A single display can involve millions of individually placed and lit lamps."},
+  {q:"How many people performed diya rotations simultaneously at Ayodhya's 2024 Saryu Aarti record?", a:1121, fact:"During Saryu Aarti, worshippers perform a ritual of light beside the river. This question counts participants in a synchronized diya-rotation event, not the number of lamps."},
+  {q:"Within how many minutes were all the record-breaking diyas lit at Ayodhya's 2025 Deepotsav?", a:25, fact:"Lighting millions of diyas requires coordinated teams. The number in this question is the time window for lighting the record-setting display, rather than the duration of the entire festival."},
+  {q:"Across how many ghats were the record-breaking lamps arranged at Ayodhya's 2025 Deepotsav?", a:56, fact:"A ghat is a stepped riverbank used for access to the water and ceremonies. The Deepotsav lamps were spread across multiple ghats along the Saryu River."}
 ];
 const code = () => crypto.randomBytes(3).toString('hex').toUpperCase();
 const token = () => crypto.randomBytes(24).toString('hex');
@@ -90,7 +90,7 @@ function settle(room){
     payouts.push({name:p.name,payout:winnings+guessBonus,betWinnings:winnings,guessBonus});
   }
   const revealedBets=[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra})));
-  room.results={answer,winningOptionId:winning?.id??null,winningValue:winning?.value??null,payouts,guessBonus:room.round,revealedBets};
+  room.results={answer,explanation:room.current.fact,winningOptionId:winning?.id??null,winningValue:winning?.value??null,payouts,guessBonus:room.round,revealedBets};
   room.phase='results';
 }
 io.on('connection',socket=>{
