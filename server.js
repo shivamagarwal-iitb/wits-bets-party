@@ -19,9 +19,9 @@ const QUESTIONS = [
     "fact": "Barack Obama lit a traditional diya at the White House in 2009, becoming the first sitting U.S. president to personally take part in its Diwali ceremony. Here's the twist: the White House had hosted Diwali events since 2003, under George W. Bush, but Bush did not personally attend. Obama later celebrated Diwali with schoolchildren in Mumbai in 2010."
   },
   {
-    "q": "Bollywood actress Shabana Azmi once recalled playing cards with her family during Diwali. How many paise per point did they bet?",
-    "a": 10,
-    "fact": "Just 10 paise per point—that's only ₹0.10! While Bollywood Diwali parties are famous for glamorous, high-stakes card games, Shabana Azmi recalled her family playing for a mere tenth of a rupee per point. Sometimes the bragging rights are worth more than the winnings! This is the stake she recalled for her own family's games, not a claim about every Bollywood party."
+    "q": "What was the highest reported rupee-per-point stake at Aamir Khan's Diwali card parties?",
+    "a": 5000,
+    "fact": "At Aamir Khan's Diwali card gatherings, a 2016 report described stakes ranging from just ₹5 all the way up to ₹5,000 per point, with roughly six card tables at his residence. That is quite a leap from the small-stakes card games many families enjoy during Diwali! The ₹5,000 figure is the reported upper end of the range, not what everyone bet."
   },
   {
     "q": "How many people performed aarti together at Ayodhya's 2025 Deepotsav to set a Guinness World Record?",
