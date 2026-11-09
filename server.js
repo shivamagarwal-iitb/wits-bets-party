@@ -10,7 +10,7 @@ const io = new Server(server, { cors: { origin: false } });
 app.disable('x-powered-by');
 app.use(express.static('public'));
 const rooms = new Map();
-const STARTING_CHIPS = 100;
+const STARTING_CHIPS = 0; // Earned chips; two permanent betting tokens are separate.
 const QUESTIONS = [
   {q:"How many oil lamps were lit in Ayodhya's Deepotsav 2022 record?", a:1576944},
   {q:"How many diyas were displayed in Ayodhya's Deepotsav 2023 record?", a:2223676},
@@ -27,7 +27,7 @@ const integer = x => Number.isSafeInteger(x) && x >= 0;
 const reply = (ack, data) => { if (typeof ack === 'function') ack(data); };
 const err = (ack, message) => reply(ack,{ok:false,error:message});
 function getRoom(id) { return rooms.get(String(id ?? '').toUpperCase()); }
-function playerView(p) { return {id:p.id,name:p.name,chips:p.chips,connected:p.sockets.size,submitted:p.guess!==null,betCount:p.bets.length}; }
+function playerView(p) { return {id:p.id,name:p.name,chips:p.chips,connected:p.sockets.size,submitted:p.guess!==null}; }
 function state(room, viewerId, host=false) {
   const isRevealed = ['betting','results'].includes(room.phase);
   return {
@@ -74,15 +74,20 @@ function settle(room){
   const winning=eligible.length?eligible[eligible.length-1]:null;
   const payouts=[];
   for(const p of room.players.values()){
-    let payout=0;
+    let winnings=0;
     for(const bet of p.bets){
-      const option=room.options.find(o=>o.id===bet.optionId);
-      if(winning && bet.optionId===winning.id) payout+=bet.amount*(option.odds+1);
+      if(winning && bet.optionId===winning.id){
+        const option=room.options.find(o=>o.id===bet.optionId);
+        // Permanent chip pays profit but never leaves the player.
+        // Extra chips were deducted at placement; winning extra stake is returned.
+        winnings+=(1+bet.extra)*option.odds+bet.extra;
+      }
     }
-    p.chips+=payout;
-    payouts.push({name:p.name,payout});
+    const guessBonus=winning && p.guess===winning.value ? room.round : 0;
+    p.chips+=winnings+guessBonus;
+    payouts.push({name:p.name,payout:winnings+guessBonus,betWinnings:winnings,guessBonus});
   }
-  room.results={answer,winningOptionId:winning?.id??null,winningValue:winning?.value??null,payouts};
+  room.results={answer,winningOptionId:winning?.id??null,winningValue:winning?.value??null,payouts,guessBonus:room.round};
   room.phase='results';
 }
 io.on('connection',socket=>{
@@ -129,11 +134,18 @@ io.on('connection',socket=>{
   socket.on('bet',(data,ack)=>{
     const room=getRoom(socket.data.roomCode);const p=room?.players.get(socket.data.playerId);
     if(!p||room.phase!=='betting')return err(ack,'Betting is closed.');
+    const slot=data?.slot,extra=data?.extra;
+    if(!Number.isInteger(slot)||slot<0||slot>1)return err(ack,'Choose betting chip 1 or 2.');
     if(!room.options.some(o=>o.id===data?.optionId))return err(ack,'Choose a valid answer.');
-    if(!integer(data?.amount)||data.amount<1||data.amount>20)return err(ack,'Bet 1–20 chips at a time.');
-    if(p.chips<data.amount)return err(ack,'Not enough chips.');
-    if(p.bets.length>=2)return err(ack,'Maximum two bets per round.');
-    p.chips-=data.amount;p.bets.push({optionId:data.optionId,amount:data.amount});
+    if(!integer(extra))return err(ack,'Extra chips must be a nonnegative whole number.');
+    const previous=p.bets.find(b=>b.slot===slot);
+    const available=p.chips+(previous?.extra||0);
+    if(extra>available)return err(ack,'Not enough earned chips.');
+    p.chips=available-extra;
+    const updated={slot,optionId:data.optionId,extra};
+    p.bets=p.bets.filter(b=>b.slot!==slot);
+    p.bets.push(updated);
+    p.bets.sort((a,b)=>a.slot-b.slot);
     reply(ack,{ok:true});broadcast(room);
   });
   socket.on('advance',(data,ack)=>{
