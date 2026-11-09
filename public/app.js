@@ -1,7 +1,7 @@
 window.__gameScriptLoaded=true;
 const root=document.getElementById('app');
 const socket=typeof io==='function'?io({transports:['polling','websocket'],timeout:12000,reconnection:true,reconnectionAttempts:Infinity}):null;
-const params=new URLSearchParams(location.search);const initialRoom=(params.get('room')||'').toUpperCase();const forceJoin=params.get('join')==='1';
+const params=new URLSearchParams(location.search);const initialRoom=(params.get('room')||'').toUpperCase();const forceJoin=params.get('join')==='1';const recoveryToken=params.get('resume');
 let state=null,auth=null,selected=null,betAmount=0,activeSlot=0,hostMeta=null;
 let joinedThisPage=false;
 // Preserve an unsubmitted guess when other players trigger live state updates.
@@ -14,9 +14,30 @@ const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const fmt=x=>Number(x).toLocaleString('en-US');
 function notice(message){const t=document.getElementById('toast');t.textContent=message;t.classList.remove('hidden');clearTimeout(notice.timer);notice.timer=setTimeout(()=>t.classList.add('hidden'),3500)}
 function send(event,payload,callback){if(!socket?.connected){notice('Still connecting. Please try again in a moment.');return;}socket.emit(event,payload,r=>{if(!r?.ok){notice(r?.error||'Something went wrong');return;}callback?.(r)})}
-function stored(){if(forceJoin&&!joinedThisPage)return null;try{const a=JSON.parse(sessionStorage.getItem('wb_auth')||'null');return a?.code && (!initialRoom || a.code===initialRoom)?a:null}catch{return null}}
-function save(a){auth=a;joinedThisPage=true;sessionStorage.setItem('wb_auth',JSON.stringify(a))}
-socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const a=stored();if(a?.hostToken)send('resumeHost',a,()=>{auth=a;});else if(a?.playerToken)send('join',a,()=>{auth=a;});else renderWelcome();});
+function stored(){
+ if(auth?.code&&(!initialRoom||auth.code===initialRoom))return auth;
+ // A private recovery link is a bearer credential: restore the same player even on a new device.
+ if(recoveryToken&&initialRoom)return {code:initialRoom,playerToken:recoveryToken};
+ try{
+  const session=JSON.parse(sessionStorage.getItem('wb_auth')||'null');
+  if(session?.code&&(!initialRoom||session.code===initialRoom))return session;
+  const persistent=JSON.parse(localStorage.getItem('wb_auth_'+initialRoom)||'null');
+  if(initialRoom&&persistent?.code===initialRoom)return persistent;
+  const last=JSON.parse(localStorage.getItem('wb_auth_last')||'null');
+  if(!initialRoom&&!forceJoin&&last?.code)return last;
+ }catch{}
+ return null;
+}
+function save(a){
+ auth=a;joinedThisPage=true;
+ try{sessionStorage.setItem('wb_auth',JSON.stringify(a));localStorage.setItem('wb_auth_'+a.code,JSON.stringify(a));localStorage.setItem('wb_auth_last',JSON.stringify(a))}catch{}
+}
+function cleanRecoveryUrl(){if(recoveryToken){const url=new URL(location.href);url.searchParams.delete('resume');history.replaceState({},'',url.pathname+url.search+url.hash)}}
+function resumeSession(a){
+ if(a?.hostToken)send('resumeHost',a,()=>{save(a);cleanRecoveryUrl()});
+ else if(a?.playerToken)send('join',a,r=>{save({code:a.code,playerToken:r.playerToken,name:r.name});cleanRecoveryUrl()});
+}
+socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const a=stored();if(a)resumeSession(a);else renderWelcome();});
 socket?.on('disconnect',()=>{document.getElementById('connection').textContent='○ Reconnecting…'});
 // iOS pauses background tabs: explicitly rejoin and request current state when a tab becomes active.
 function refreshActiveTab(){
@@ -24,8 +45,7 @@ function refreshActiveTab(){
   const a=auth||stored();
   if(!socket)return;
   if(!socket.connected){socket.connect();return;}
-  if(a?.hostToken)send('resumeHost',a,()=>{auth=a;});
-  else if(a?.playerToken)send('join',a,()=>{auth=a;});
+  if(a)resumeSession(a);
 }
 document.addEventListener('visibilitychange',refreshActiveTab);
 window.addEventListener('pageshow',refreshActiveTab);
@@ -39,6 +59,11 @@ function renderWelcome(){if(state)return;root.innerHTML=`<div class="hero"><div 
  document.getElementById('join').onclick=()=>{const code=document.getElementById('room').value.trim().toUpperCase(),name=document.getElementById('name').value.trim();send('join',{code,name},r=>{save({code,playerToken:r.playerToken,name:r.name});history.replaceState({},'',`/?room=${code}`)})};
 }
 function renderGameHeader(){return `<div class="row between section"><span class="pill">ROOM ${esc(state.code)}</span><span class="pill">${state.phase==='lobby'?'Waiting for players':state.phase==='finished'?'Game complete':`Round ${state.round} / ${state.maxRounds}`}</span>${state.isPlayer?`<span class="pill">🪙 ${fmt(myChips())} earned chips</span>`:''}</div>`}
+function recoveryPanel(){
+ if(!state?.host||state.phase==='finished')return '';
+ const players=state.recoveryPlayers||[];
+ return `<section class="panel section"><h3>🔄 Player rejoin links</h3><p class="muted">If someone closes their browser or loses their place, send them their personal rejoin link. It restores their same player, chips, guesses and current round. Share each link privately.</p><div class="row">${players.map((p,i)=>`<button class="secondary" data-recover="${i}">Copy ${esc(p.name)}'s rejoin link</button>`).join('')}</div></section>`;
+}
 function myChips(){return state.players.find(p=>p.name===auth?.name)?.chips??0}
 function leaderboard(){return `<section class="panel section"><h2>🏆 Leaderboard</h2><table class="leaderboard"><thead><tr><th>Rank</th><th>Player</th><th>Earned chips</th></tr></thead><tbody>${state.players.map((p,i)=>`<tr><td>${i+1}</td><td>${esc(p.name)} ${p.connected?'🟢':'⚪'}</td><td><strong>${fmt(p.chips)}</strong></td></tr>`).join('')}</tbody></table></section>`}
 function lobby(){return `<div class="panel stack"><div class="eyebrow">Game lobby</div><h1 style="margin:0">Ready to play?</h1><p>Waiting for the host to begin. Share this room code with friends.</p><div class="code">${esc(state.code)}</div>${state.host?`<div class="hostjoin"><img id="qr" alt="QR code to join game" src="/qr/${encodeURIComponent(state.code)}"><div><p>Scan to join from any phone.</p><div class="row"><button class="secondary" id="copy">Copy invite link</button></div></div></div>`:''}<div class="row"><span class="pill">${state.players.length} / 30 players</span><span class="pill">${state.maxRounds} rounds</span></div><div class="row">${state.players.map(p=>`<span class="pill">${esc(p.name)}</span>`).join('')}</div>${state.host?`<button id="advance" ${state.players.length<2?'disabled':''}>Start game →</button>`:'<p class="muted">The host will start when everyone is ready.</p>'}</div>`}
@@ -94,10 +119,15 @@ function results(){
  <p class="muted">Both permanent betting chips return next round; earned chips carry forward.</p>${state.host?`<button id="advance">${state.round>=state.maxRounds?'Finish game →':'Next round →'}</button>`:'<p>Waiting for host to start the next round…</p>'}</div>`;
 }
 function finished(){return `<div class="panel stack"><div class="eyebrow">Final results</div><h1>🎉 Game over!</h1><div class="winner"><div class="muted">PARTY CHAMPION</div><div class="big">${esc(state.players[0]?.name||'No winner')}</div><p>${fmt(state.players[0]?.chips||0)} virtual chips</p></div><p>Thanks for playing! To host another game, open a new private browser tab and create a fresh room.</p><button class="secondary" id="newGame">Create a new game</button></div>`}
-function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML=renderGameHeader()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard());
+function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML=renderGameHeader()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+recoveryPanel();
  const guessInput=document.getElementById('guess');
  guessInput?.addEventListener('input',()=>{guessDraft=guessInput.value;});
  if(guessFocused&&guessInput){guessInput.focus({preventScroll:true});try{if(cursor!==null)guessInput.setSelectionRange(cursor,cursor)}catch{}}
+ document.querySelectorAll('[data-recover]').forEach(el=>el.addEventListener('click',async()=>{
+  const p=state.recoveryPlayers?.[Number(el.dataset.recover)];if(!p)return;
+  const url=new URL('/',location.origin);url.searchParams.set('room',state.code);url.searchParams.set('resume',p.playerToken);
+  try{await navigator.clipboard.writeText(url.href);notice('Private rejoin link copied for '+p.name)}catch{window.prompt('Copy private rejoin link for '+p.name,url.href)}
+ }));
  document.getElementById('advance')?.addEventListener('click',()=>send('advance',{}));
  document.getElementById('submitGuess')?.addEventListener('click',()=>{const input=document.getElementById('guess');if(!input.value.trim())return notice('Enter a number');send('guess',{value:Number(input.value)},()=>{guessDraft=null;notice('✓ Guess saved!')})});
  document.querySelectorAll('[data-layout]').forEach(el=>el.addEventListener('click',()=>setBoardLayout(el.dataset.layout)));
@@ -106,7 +136,7 @@ function render(){if(!state)return renderWelcome();const oldGuess=document.getEl
  document.getElementById('amount')?.addEventListener('change',e=>{betAmount=Number(e.target.value)});
  document.getElementById('place')?.addEventListener('click',()=>{const amount=Number(document.getElementById('amount').value);send('bet',{slot:activeSlot,optionId:selected,extra:amount},()=>{notice('Permanent chip '+(activeSlot+1)+' saved!');if(activeSlot===0&&!state.ownBets?.some(b=>b.slot===1)){activeSlot=1;selected=null;betAmount=0;render()}})});
  document.getElementById('copy')?.addEventListener('click',async()=>{const url=`${location.origin}/?room=${state.code}&join=1`;try{await navigator.clipboard.writeText(url);notice('Invite link copied!')}catch{notice(url)}});
- document.getElementById('newGame')?.addEventListener('click',()=>{sessionStorage.removeItem('wb_auth');state=null;auth=null;history.replaceState({},'','/');renderWelcome()});
+ document.getElementById('newGame')?.addEventListener('click',()=>{try{sessionStorage.removeItem('wb_auth');localStorage.removeItem('wb_auth_last');if(state?.code)localStorage.removeItem('wb_auth_'+state.code)}catch{}state=null;auth=null;history.replaceState({},'','/');renderWelcome()});
 }
 renderWelcome();
 if(!socket){document.getElementById('connection').textContent='Connection unavailable';notice('Unable to load live connection. Refresh this page.');}
