@@ -1,13 +1,13 @@
 window.__gameScriptLoaded=true;
 const root=document.getElementById('app');
 const socket=typeof io==='function'?io({transports:['polling','websocket'],timeout:12000,reconnection:true,reconnectionAttempts:Infinity}):null;
-const params=new URLSearchParams(location.search);const initialRoom=(params.get('room')||'').toUpperCase();
+const params=new URLSearchParams(location.search);const initialRoom=(params.get('room')||'').toUpperCase();const forceJoin=params.get('join')==='1';
 let state=null,auth=null,selected=null,betAmount=10,hostMeta=null;
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=x=>Number(x).toLocaleString('en-US');
 function notice(message){const t=document.getElementById('toast');t.textContent=message;t.classList.remove('hidden');clearTimeout(notice.timer);notice.timer=setTimeout(()=>t.classList.add('hidden'),3500)}
 function send(event,payload,callback){if(!socket?.connected){notice('Still connecting. Please try again in a moment.');return;}socket.emit(event,payload,r=>{if(!r?.ok){notice(r?.error||'Something went wrong');return;}callback?.(r)})}
-function stored(){try{const a=JSON.parse(sessionStorage.getItem('wb_auth')||'null');return a?.code && (!initialRoom || a.code===initialRoom)?a:null}catch{return null}}
+function stored(){if(forceJoin)return null;try{const a=JSON.parse(sessionStorage.getItem('wb_auth')||'null');return a?.code && (!initialRoom || a.code===initialRoom)?a:null}catch{return null}}
 function save(a){auth=a;sessionStorage.setItem('wb_auth',JSON.stringify(a))}
 socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const a=stored();if(a?.hostToken)send('resumeHost',a,()=>{auth=a;});else if(a?.playerToken)send('join',a,()=>{auth=a;});else renderWelcome();});
 socket?.on('disconnect',()=>{document.getElementById('connection').textContent='○ Reconnecting…'});
@@ -32,7 +32,7 @@ function render(){if(!state)return renderWelcome();root.innerHTML=renderGameHead
  document.querySelectorAll('[data-option]').forEach(el=>el.onclick=()=>{selected=el.dataset.option;render()});
  document.getElementById('amount')?.addEventListener('change',e=>{betAmount=Number(e.target.value)});
  document.getElementById('place')?.addEventListener('click',()=>{const amount=Number(document.getElementById('amount').value);send('bet',{optionId:selected,amount},()=>{selected=null;notice('Bet placed!')})});
- document.getElementById('copy')?.addEventListener('click',async()=>{const url=`${location.origin}/?room=${state.code}`;try{await navigator.clipboard.writeText(url);notice('Invite link copied!')}catch{notice(url)}});
+ document.getElementById('copy')?.addEventListener('click',async()=>{const url=`${location.origin}/?room=${state.code}&join=1`;try{await navigator.clipboard.writeText(url);notice('Invite link copied!')}catch{notice(url)}});
  document.getElementById('newGame')?.addEventListener('click',()=>{sessionStorage.removeItem('wb_auth');state=null;auth=null;history.replaceState({},'','/');renderWelcome()});
 }
 renderWelcome();
