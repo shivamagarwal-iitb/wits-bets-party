@@ -127,7 +127,7 @@ io.on('connection',socket=>{
     const hostToken=token();
     const maxRounds=7;
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
-      questions:[...QUESTIONS].sort(()=>Math.random()-.5).slice(0,maxRounds),players:new Map(),current:null,options:[],results:null};
+      questions:QUESTIONS.slice(0,maxRounds),players:new Map(),current:null,options:[],results:null};
     rooms.set(id,room);socket.data.hostToken=hostToken;identify(socket,room,{host:true});
     const base=(process.env.PUBLIC_URL||data?.origin||'').replace(/\/$/,'');
     const url=base?`${base}/?room=${id}&join=1`:`/?room=${id}&join=1`;
