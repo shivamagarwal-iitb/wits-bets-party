@@ -10,6 +10,7 @@ const io = new Server(server, { cors: { origin: false } });
 app.disable('x-powered-by');
 app.use(express.static('public'));
 const rooms = new Map();
+const PLAYER_COLORS=['#ff7878','#68c8ff','#ffcf65','#a8e27a','#d5a0ff','#ff9bce','#6be2c6','#ffa66b','#a2b8ff','#e6e778','#f48e9a','#85d5df'];
 const STARTING_CHIPS = 0; // Earned chips; two permanent betting tokens are separate.
 const QUESTIONS = [
   {q:"How many oil lamps were lit in Ayodhya's Deepotsav 2022 record?", a:1576944},
@@ -27,7 +28,7 @@ const integer = x => Number.isSafeInteger(x) && x >= 0;
 const reply = (ack, data) => { if (typeof ack === 'function') ack(data); };
 const err = (ack, message) => reply(ack,{ok:false,error:message});
 function getRoom(id) { return rooms.get(String(id ?? '').toUpperCase()); }
-function playerView(p) { return {id:p.id,name:p.name,chips:p.chips,connected:p.sockets.size,submitted:p.guess!==null}; }
+function playerView(p) { return {id:p.id,name:p.name,chips:p.chips,connected:p.sockets.size,submitted:p.guess!==null,color:p.color}; }
 function state(room, viewerId, host=false) {
   const isRevealed = ['betting','open-bets','locked-bets','results'].includes(room.phase);
   return {
@@ -66,7 +67,7 @@ function startRound(room) {
 }
 function revealGuesses(room){
   const values=[...new Set([...room.players.values()].map(p=>p.guess).filter(v=>v!==null))].sort((a,b)=>a-b);
-  room.options=[{id:'all-high',value:null,odds:6},...values.map((value,i)=>({id:String(i),value,odds:values.length<=1?2:Math.max(2,Math.min(6,Math.round(2+Math.abs(i-(values.length-1)/2))))}))];
+  room.options=[{id:'all-high',value:null,odds:6,guessers:[]},...values.map((value,i)=>({id:String(i),value,guessers:[...room.players.values()].filter(p=>p.guess===value).map(p=>({name:p.name,color:p.color})),odds:values.length<=1?2:Math.max(2,Math.min(6,Math.round(2+Math.abs(i-(values.length-1)/2))))}))];
   room.phase='betting';
 }
 function settle(room){
@@ -122,7 +123,7 @@ io.on('connection',socket=>{
       if(!name)return err(ack,'Enter a name.');
       if(room.players.size>=30)return err(ack,'Room is full (30 players).');
       if([...room.players.values()].some(p=>p.name.toLowerCase()===name.toLowerCase()))return err(ack,'That name is taken.');
-      player={id:token(),secret:token(),name,chips:STARTING_CHIPS,guess:null,bets:[],sockets:new Set()};
+      player={id:token(),secret:token(),name,color:PLAYER_COLORS[room.players.size%PLAYER_COLORS.length],chips:STARTING_CHIPS,guess:null,bets:[],sockets:new Set()};
       room.players.set(player.id,player);
     }
     identify(socket,room,{player});reply(ack,{ok:true,playerToken:player.secret,name:player.name});broadcast(room);
