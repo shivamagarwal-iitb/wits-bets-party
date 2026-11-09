@@ -13,13 +13,13 @@ const rooms = new Map();
 const PLAYER_COLORS=['#ff7878','#68c8ff','#ffcf65','#a8e27a','#d5a0ff','#ff9bce','#6be2c6','#ffa66b','#a2b8ff','#e6e778','#f48e9a','#85d5df'];
 const STARTING_CHIPS = 0; // Earned chips; two permanent betting tokens are separate.
 const QUESTIONS = [
-  {q:"How many oil lamps were lit in Ayodhya's Deepotsav 2022 record?", a:1576944, fact:"Deepotsav is Ayodhya's festival of lights. Volunteers arrange and illuminate enormous numbers of clay oil lamps, called diyas, along the city's riverfront."},
-  {q:"How many diyas were displayed in Ayodhya's Deepotsav 2023 record?", a:2223676, fact:"The Saryu riverfront is central to Ayodhya's Deepotsav. Organizers count lamps lit as part of the event's record-setting display."},
-  {q:"How many diyas were displayed in Ayodhya's Deepotsav 2024 record?", a:2512585, fact:"Deepotsav's huge lamp displays involve thousands of volunteers. The counted diyas create glowing patterns across the ghats beside the Saryu River."},
-  {q:"How many diyas were displayed in Ayodhya's Deepotsav 2025 record?", a:2617215, fact:"The lamps at Deepotsav are traditional clay diyas. A single display can involve millions of individually placed and lit lamps."},
-  {q:"How many people performed diya rotations simultaneously at Ayodhya's 2024 Saryu Aarti record?", a:1121, fact:"During Saryu Aarti, worshippers perform a ritual of light beside the river. This question counts participants in a synchronized diya-rotation event, not the number of lamps."},
-  {q:"Within how many minutes were all the record-breaking diyas lit at Ayodhya's 2025 Deepotsav?", a:25, fact:"Lighting millions of diyas requires coordinated teams. The number in this question is the time window for lighting the record-setting display, rather than the duration of the entire festival."},
-  {q:"Across how many ghats were the record-breaking lamps arranged at Ayodhya's 2025 Deepotsav?", a:56, fact:"A ghat is a stepped riverbank used for access to the water and ceremonies. The Deepotsav lamps were spread across multiple ghats along the Saryu River."}
+  {"q":"In which year did a sitting U.S. president first personally celebrate Diwali at the White House?","a":2009,"fact":"In 2009, President Barack Obama became the first sitting U.S. president to personally celebrate Diwali at the White House. White House Diwali events had begun earlier, in 2003."},
+  {"q":"In which year did Singapore declare Deepavali an official public holiday?","a":1929,"fact":"Deepavali was recognized as an official public holiday in Singapore in 1929, decades before Singapore became independent."},
+  {"q":"How many diyas were lit at Ayodhya's record-breaking Deepotsav in 2025?","a":2617215,"fact":"Ayodhya's 2025 Deepotsav featured 2,617,215 lit clay oil lamps along the Saryu riverfront—a spectacular coordinated display."},
+  {"q":"How many feet wide was the original rangoli artwork created for the 2026 U.S. Diwali postage stamp?","a":8,"fact":"The artwork behind the 2026 U.S. Diwali stamp was an eight-foot-wide rangoli. The colorful design was photographed and reproduced at postage-stamp size."},
+  {"q":"How many paise per point did Shabana Azmi say her family played for at Diwali card gatherings?","a":10,"fact":"Shabana Azmi recalled her family's Diwali card games being played for just 10 paise per point—a modest stake for a famous Bollywood gathering."},
+  {"q":"How many tiers did the chocolate cake at Manish Malhotra's 2025 Diwali party have?","a":4,"fact":"One report described the lavish chocolate cake at Manish Malhotra's 2025 Diwali party as four-tiered. Other coverage said five tiers; this game uses the four-tier report."},
+  {"q":"How many war memorials did Prime Minister Narendra Modi visit on Diwali in 2015?","a":3,"fact":"On Diwali in 2015, Prime Minister Narendra Modi visited three memorials in Punjab associated with the 1965 India–Pakistan war: Dograi, Barki and Asal Uttar."}
 ];
 const code = () => crypto.randomBytes(3).toString('hex').toUpperCase();
 const token = () => crypto.randomBytes(24).toString('hex');
