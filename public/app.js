@@ -115,9 +115,9 @@ function board(reveal=false){
 function formatTimer(ms){const sec=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');}
 function updateBetTimer(){
  const el=document.getElementById('bet-timer');
- if(!el||!state)return;
+ if(!state)return;
  const remaining=(state.bettingDeadline||0)-Date.now();
- el.textContent=state.phase==='betting'?formatTimer(remaining):'00:00';
+ if(el)el.textContent=state.phase==='betting'?formatTimer(remaining):'00:00';
  const guessing=document.getElementById('guess-timer');
  if(guessing)guessing.textContent=state.phase==='guessing'?(state.guessingDeadline?formatTimer(state.guessingDeadline-Date.now()):'Time up'):'00:00';
 }
