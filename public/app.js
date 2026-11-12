@@ -6,6 +6,7 @@ let state=null,auth=null,selected=null,betAmount=0,activeSlot=0,hostMeta=null;
 let joinedThisPage=false;
 // Preserve an unsubmitted guess when other players trigger live state updates.
 let guessDraft=null;
+let timerTick=null;
 let boardPreference=null;
 try{const saved=localStorage.getItem('wb_board_layout');if(['vertical','horizontal'].includes(saved))boardPreference=saved;}catch{}
 function boardLayout(){return boardPreference||(state?.host?'horizontal':'vertical');}
@@ -51,7 +52,24 @@ document.addEventListener('visibilitychange',refreshActiveTab);
 window.addEventListener('pageshow',refreshActiveTab);
 window.addEventListener('focus',refreshActiveTab);
 
-socket?.on('state',s=>{const changed=state?.phase!==s.phase||state?.round!==s.round;if(changed){selected=null;activeSlot=0;betAmount=0;guessDraft=null;}state=s;if(['betting','final-betting'].includes(s.phase)&&selected===null)selected=s.ownBets?.find(b=>b.slot===activeSlot)?.optionId??null;render()});
+socket?.on('state',s=>{
+ const changed=state?.phase!==s.phase||state?.round!==s.round;
+ const liveOnly=!changed&&s.phase==='betting'&&state?.phase==='betting';
+ if(changed){selected=null;activeSlot=0;betAmount=0;guessDraft=null;}
+ state=s;
+ if(s.phase==='betting'&&selected===null)selected=s.ownBets?.find(b=>b.slot===activeSlot)?.optionId??null;
+ if(liveOnly&&document.getElementById('live-board')){
+   // Update only the public board, not the betting controls/input being used.
+   const el=document.getElementById('live-board');
+   el.innerHTML=board(false);
+   wireBoardChoices();
+   const summary=document.getElementById('bet-summary');
+   if(summary)summary.textContent=(s.ownBets||[]).length+'/2 permanent chips placed';
+   const chips=document.getElementById('chips-available');
+   if(chips)chips.textContent=fmt(myChips());
+   updateBetTimer();
+ }else render();
+});
 socket?.on('notice',x=>notice(x.error||x.message));
 socket?.on('connect_error',e=>{document.getElementById('connection').textContent='○ Reconnecting…';console.warn('Connection issue',e.message)});
 function renderWelcome(){if(state)return;root.innerHTML=`<div class="hero"><div class="eyebrow">A Bollywood trivia party game</div><h1>Shine bright.<br>Bet smarter.</h1><p>Play seven surprising Bollywood number questions, place two reusable betting chips on the closest guess, and climb the leaderboard.</p></div><div class="split"><section class="panel stack"><h2>🎬 Host a Bollywood party</h2><p>Put the host screen on your TV. Guests join with a code or QR scan.</p><div class="pill">🎬 Exactly 7 Bollywood rounds</div><button id="create">Create game room</button></section><section class="panel stack"><h2>📱 Join a game</h2><p>Enter the room code from your host's screen. Each browser tab can join as a different player.</p><label class="field">Room code<input id="room" placeholder="ABC123" maxlength="6" value="${esc(initialRoom)}" autocapitalize="characters"></label><label class="field">Your name<input id="name" placeholder="e.g. Alex" maxlength="24"></label><button id="join">Join party</button></section></div>`;
@@ -72,13 +90,13 @@ function optionLabel(o){return o?.id==='all-high'?'ALL TOO HIGH':o?.value===null
 function playerColor(name){return state.players.find(p=>p.name===name)?.color||'#ffd166'}
 function playerLegend(){return `<div class="player-legend"><strong>PLAYER COLORS</strong><div class="legend-items">${state.players.map(p=>`<span class="legend-person"><i style="background:${p.color||'#ffd166'}"></i>${esc(p.name)}</span>`).join('')}</div></div>`}
 function board(reveal=false){
- const publicPhase=reveal||['open-bets','locked-bets'].includes(state.phase);
+ const publicPhase=reveal||['betting','locked-bets'].includes(state.phase);
  const bets=publicPhase?(reveal?(state.results?.revealedBets||[]):(state.publicBets||[])):(state.ownBets||[]).map(b=>({...b,name:'You'}));
  const options=state.guesses||[];
  const layout=boardLayout();
  const controls=`<div class="board-layout-switch" aria-label="Board layout"><span>Board view</span><button type="button" class="${layout==='vertical'?'':'secondary'}" data-layout="vertical" aria-pressed="${layout==='vertical'}">☷ Vertical</button><button type="button" class="${layout==='horizontal'?'':'secondary'}" data-layout="horizontal" aria-pressed="${layout==='horizontal'}">▥ Horizontal</button></div>`;
  return controls+`<div class="tabletop-scroll ${layout==='vertical'?'vertical-mode':''}"><div class="tabletop-board" style="--lane-count:${options.length}">
- <div class="tabletop-banner">✦ WITS & BETS ✦ <span>${reveal?'THE BIG REVEAL':state.phase==='open-bets'?'FIRST BETS REVEALED · VIEW ONLY':state.phase==='final-betting'?'FINAL PRIVATE BETTING':state.phase==='locked-bets'?'FINAL BETS REVEALED · LOCKED':'PLACE YOUR CHIPS'}</span></div>
+ <div class="tabletop-banner">✦ WITS & BETS ✦ <span>${reveal?'THE BIG REVEAL':state.phase==='locked-bets'?'BETS LOCKED':'LIVE PUBLIC BETTING'}</span></div>
  <div class="tabletop-lanes">${options.map((o,i)=>{
  const winner=reveal&&state.results?.winningOptionId===o.id;
  const placed=bets.filter(b=>b.optionId===o.id);
@@ -94,17 +112,31 @@ function board(reveal=false){
  <div class="tabletop-footer">🎬 ${publicPhase?'Everyone’s chips are visible':'Only your chips are visible'} ${layout==='horizontal'?'· Swipe board sideways if needed':''} 🎬</div>
  </div></div>`;
 }
+function formatTimer(ms){const sec=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');}
+function updateBetTimer(){
+ const el=document.getElementById('bet-timer');
+ if(!el||!state)return;
+ const remaining=(state.bettingDeadline||0)-Date.now();
+ el.textContent=state.phase==='betting'?formatTimer(remaining):'00:00';
+}
+function timerSettings(){
+ if(!state.host)return '';
+ return `<div class="row"><label class="field">Betting timer (seconds, 15–1800)<input id="timer-seconds" type="number" min="15" max="1800" step="1" value="${state.bettingSeconds||180}"></label><button class="secondary" id="set-timer">${state.phase==='betting'?'Apply & restart timer':'Set betting timer'}</button></div><p class="muted">Default 3 minutes. Change it before a round or while betting; applying during betting restarts the countdown.</p>`;
+}
 function betting(){
- const editable=['betting','final-betting'].includes(state.phase);
+ const editable=state.phase==='betting';
  const own=state.ownBets||[];
  const chosen=own.find(b=>b.slot===activeSlot);
  const available=myChips()+(chosen?.extra||0);
- return `<div class="panel stack"><div class="eyebrow">Round ${state.round} · ${state.phase==='open-bets'?'First bets revealed':state.phase==='final-betting'?'Final private betting':state.phase==='locked-bets'?'Final bets locked':'Private betting'}</div><div class="question">${esc(state.question)}</div>
- <p>Bet on the closest guess <strong>without going over</strong>, or choose <strong>All Answers Too High</strong>. Your two golden chips are permanent. You can stack earned chips underneath either one, but extras on losing bets are lost.</p>
- ${state.isPlayer&&editable?`<div class="bet-controls"><div class="muted">CHOOSE A PERMANENT CHIP</div><div class="row"><button class="${activeSlot===0?'':'secondary'}" data-slot="0">🟡 Chip 1: ${own.find(b=>b.slot===0)?optionLabel(state.guesses.find(o=>o.id===own.find(b=>b.slot===0).optionId)):'Unplaced'}</button><button class="${activeSlot===1?'':'secondary'}" data-slot="1">🟡 Chip 2: ${own.find(b=>b.slot===1)?optionLabel(state.guesses.find(o=>o.id===own.find(b=>b.slot===1).optionId)):'Unplaced'}</button></div><p class="muted">Now placing chip ${activeSlot+1}. Select a card below. You may put both chips on one answer.</p></div>`:''}
+ return `<div class="panel stack"><div class="eyebrow">Round ${state.round} · ${editable?'Live public betting':'Betting closed'}</div><div class="question">${esc(state.question)}</div>
+ <p>Bet on the closest guess <strong>without going over</strong>, or choose <strong>All Answers Too High</strong>. Everyone can see chip placements and changes live. Your two permanent chips return each round.</p>
+ <div class="row"><span class="pill">⏱ <strong id="bet-timer">${formatTimer((state.bettingDeadline||0)-Date.now())}</strong></span><span class="pill">${editable?'Betting open · changes allowed':'Bets locked'}</span></div>
+ ${timerSettings()}
+ ${state.isPlayer&&editable?`<div class="bet-controls"><div class="muted">CHOOSE A PERMANENT CHIP</div><div class="row"><button class="${activeSlot===0?'':'secondary'}" data-slot="0">🟡 Chip 1</button><button class="${activeSlot===1?'':'secondary'}" data-slot="1">🟡 Chip 2</button></div><p class="muted">Select a card on the live board. You can change either chip until betting closes.</p></div>`:''}
  ${playerLegend()}
- ${board(false)}
- ${state.isPlayer&&editable?`<div class="bet-controls"><label class="field">Extra earned chips under chip ${activeSlot+1} (optional)<input id="amount" type="number" min="0" max="${available}" step="1" value="${chosen?.extra??betAmount}"></label><p class="muted">Earned chips available: ${fmt(available)} · Your bets are private</p><button id="place" ${selected===null?'disabled':''}>Confirm chip ${activeSlot+1} on ${optionLabel(state.guesses.find(o=>o.id===selected))}</button><p class="muted">${own.length}/2 permanent chips placed. You can change either bet during private betting. Your final choices will be revealed when the host locks them.</p></div>`:(state.host?`<p class="muted">${state.phase==='betting'?'🔒 First bets are private. Reveal the first placements for everyone to see.':state.phase==='open-bets'?'👀 First bets are visible, but changes are paused. Start a new private betting phase for final adjustments.':state.phase==='final-betting'?'🔒 Final adjustments are private. Lock and reveal everyone’s final bets.':'🔐 Final bets are public and locked. Nobody can change them now.'}</p><button id="advance">${state.phase==='betting'?'Reveal first bets →':state.phase==='open-bets'?'Start private final betting →':state.phase==='final-betting'?'Lock & reveal final bets →':'Reveal the correct answer →'}</button>`:`<p class="muted">${state.phase==='open-bets'?'👀 First bets are visible. Wait for private final betting to begin.':state.phase==='locked-bets'?'🔐 Final bets are public and locked. Waiting for the answer.':'Waiting for the host.'}</p>`)}</div>`;
+ <div id="live-board">${board(false)}</div>
+ ${state.isPlayer&&editable?`<div class="bet-controls"><label class="field">Extra earned chips under chip ${activeSlot+1} (optional)<input id="amount" type="number" min="0" max="${available}" step="1" value="${chosen?.extra??betAmount}"></label><p class="muted">Earned chips available: <span id="chips-available">${fmt(myChips())}</span></p><button id="place" ${selected===null?'disabled':''}>Place / update chip ${activeSlot+1}</button><p class="muted"><span id="bet-summary">${own.length}/2 permanent chips placed</span>. All bets are public and editable until the deadline.</p></div>`:(state.host&&editable?'<button id="advance">Close betting now →</button>':state.host?'<button id="advance">Reveal the correct answer →</button>':'<p class="muted">Waiting for the host.</p>')}
+ </div>`;
 }
 function results(){
  const r=state.results;
@@ -119,7 +151,10 @@ function results(){
  <p class="muted">Both permanent betting chips return next round; earned chips carry forward.</p>${state.host?`<button id="advance">${state.round>=state.maxRounds?'Finish game →':'Next round →'}</button>`:'<p>Waiting for host to start the next round…</p>'}</div>`;
 }
 function finished(){return `<div class="panel stack"><div class="eyebrow">Final results</div><h1>🎉 Game over!</h1><div class="winner"><div class="muted">PARTY CHAMPION</div><div class="big">${esc(state.players[0]?.name||'No winner')}</div><p>${fmt(state.players[0]?.chips||0)} virtual chips</p></div><p>Thanks for playing! To host another game, open a new private browser tab and create a fresh room.</p><button class="secondary" id="newGame">Create a new game</button></div>`}
-function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML=renderGameHeader()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+recoveryPanel();
+function wireBoardChoices(){
+ document.querySelectorAll('[data-option]').forEach(el=>{const choose=()=>{selected=el.dataset.option;document.querySelectorAll('[data-option]').forEach(lane=>lane.classList.toggle('lane-selected',lane.dataset.option===selected));const place=document.getElementById('place');if(place)place.disabled=false;};el.onclick=choose;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}}});
+}
+function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML=renderGameHeader()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+recoveryPanel();updateBetTimer();
  const guessInput=document.getElementById('guess');
  guessInput?.addEventListener('input',()=>{guessDraft=guessInput.value;});
  if(guessFocused&&guessInput){guessInput.focus({preventScroll:true});try{if(cursor!==null)guessInput.setSelectionRange(cursor,cursor)}catch{}}
@@ -131,12 +166,17 @@ function render(){if(!state)return renderWelcome();const oldGuess=document.getEl
  document.getElementById('advance')?.addEventListener('click',()=>send('advance',{}));
  document.getElementById('submitGuess')?.addEventListener('click',()=>{const input=document.getElementById('guess');if(!input.value.trim())return notice('Enter a number');send('guess',{value:Number(input.value)},()=>{guessDraft=null;notice('✓ Guess saved!')})});
  document.querySelectorAll('[data-layout]').forEach(el=>el.addEventListener('click',()=>setBoardLayout(el.dataset.layout)));
- document.querySelectorAll('[data-option]').forEach(el=>{const choose=()=>{selected=el.dataset.option;render()};el.onclick=choose;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}}});
+ wireBoardChoices();
  document.querySelectorAll('[data-slot]').forEach(el=>el.onclick=()=>{activeSlot=Number(el.dataset.slot);selected=state.ownBets?.find(b=>b.slot===activeSlot)?.optionId??null;betAmount=0;render()});
- document.getElementById('amount')?.addEventListener('change',e=>{betAmount=Number(e.target.value)});
- document.getElementById('place')?.addEventListener('click',()=>{const amount=Number(document.getElementById('amount').value);send('bet',{slot:activeSlot,optionId:selected,extra:amount},()=>{notice('Permanent chip '+(activeSlot+1)+' saved!');if(activeSlot===0&&!state.ownBets?.some(b=>b.slot===1)){activeSlot=1;selected=null;betAmount=0;render()}})});
+ document.getElementById('amount')?.addEventListener('input',e=>{betAmount=Number(e.target.value)});
+ document.getElementById('set-timer')?.addEventListener('click',()=>{
+  const seconds=Number(document.getElementById('timer-seconds').value);
+  send('setBettingTimer',{seconds},()=>notice('Betting timer updated'));
+ });
+ document.getElementById('place')?.addEventListener('click',()=>{const amount=Number(document.getElementById('amount').value);send('bet',{slot:activeSlot,optionId:selected,extra:amount},()=>{notice('Chip '+(activeSlot+1)+' saved!');if(activeSlot===0&&!state.ownBets?.some(b=>b.slot===1)){activeSlot=1;selected=null;betAmount=0;render()}})});
  document.getElementById('copy')?.addEventListener('click',async()=>{const url=`${location.origin}/?room=${state.code}&join=1`;try{await navigator.clipboard.writeText(url);notice('Invite link copied!')}catch{notice(url)}});
  document.getElementById('newGame')?.addEventListener('click',()=>{try{sessionStorage.removeItem('wb_auth');localStorage.removeItem('wb_auth_last');if(state?.code)localStorage.removeItem('wb_auth_'+state.code)}catch{}state=null;auth=null;history.replaceState({},'','/');renderWelcome()});
 }
 renderWelcome();
+timerTick=setInterval(updateBetTimer,250);
 if(!socket){document.getElementById('connection').textContent='Connection unavailable';notice('Unable to load live connection. Refresh this page.');}
