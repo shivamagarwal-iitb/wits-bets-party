@@ -257,17 +257,43 @@ io.on('connection',socket=>{
     const room=getRoom(data?.code);
     if(!room)return err(ack,'Room not found. Ask the host for a new code.');
     if(room.phase==='finished')return err(ack,'This game has finished.');
+    const name=safeName(data?.name);
     let player=[...room.players.values()].find(p=>p.secret===data?.playerToken);
     if(!player){
-      if(room.phase!=='lobby')return err(ack,'Game already started. Ask the host to start a new game.');
-      const name=safeName(data?.name);
       if(!name)return err(ack,'Enter a name.');
-      if(room.players.size>=30)return err(ack,'Room is full (30 players).');
-      if([...room.players.values()].some(p=>p.name.toLowerCase()===name.toLowerCase()))return err(ack,'That name is taken.');
-      player={id:token(),secret:token(),name,color:PLAYER_COLORS[room.players.size%PLAYER_COLORS.length],avatar:validAvatar(data?.avatar)?data.avatar:null,chips:STARTING_CHIPS,guess:null,bets:[],sockets:new Set()};
-      room.players.set(player.id,player);
+      const existing=[...room.players.values()].find(p=>p.name.toLocaleLowerCase()===name.toLocaleLowerCase());
+      if(existing){
+        // A stored private token is preferred. A name alone can recover a disconnected
+        // seat, but must never silently displace someone who is actively playing.
+        if(existing.sockets.size)return err(ack,'That name is already playing. Use your original browser or ask the host for help.');
+        if(existing.bot)return err(ack,'That name is reserved by a test player.');
+        player=existing;
+      }else{
+        if(room.players.size>=30)return err(ack,'Room is full (30 players).');
+        player={id:token(),secret:token(),name,color:PLAYER_COLORS[room.players.size%PLAYER_COLORS.length],avatar:validAvatar(data?.avatar)?data.avatar:null,chips:STARTING_CHIPS,guess:null,bets:[],sockets:new Set()};
+        room.players.set(player.id,player);
+      }
     }
-    identify(socket,room,{player});reply(ack,{ok:true,playerToken:player.secret,name:player.name});broadcast(room);
+    // A rejoining player retains their score, guesses, bets and avatar.
+    identify(socket,room,{player});reply(ack,{ok:true,playerToken:player.secret,name:player.name,rejoined:!!data?.playerToken||player!==null});broadcast(room);
+  });
+  socket.on('removePlayer',(data,ack)=>{
+    const room=hostRoom(socket);
+    if(!room)return err(ack,'Only the host can remove players.');
+    const player=room.players.get(data?.playerId);
+    if(!player)return err(ack,'Player not found.');
+    if(player.bot)return err(ack,'Test players cannot be removed here.');
+    // Invalidate the old player token and any open sessions immediately.
+    for(const id of player.sockets){
+      const client=io.sockets.sockets.get(id);
+      if(client){client.data.playerId=null;client.data.roomCode=null;client.data.isHost=false;client.leave(room.code);client.emit('removed',{message:'The host removed you from the room. You can join again as a new player.'});}
+    }
+    player.sockets.clear();
+    room.players.delete(player.id);
+    // Preserve an already-revealed betting board's option IDs and existing bets,
+    // while removing the former player's displayed attribution.
+    for(const option of room.options||[])option.guessers=option.guessers?.filter(g=>g.name!==player.name)||[];
+    reply(ack,{ok:true});broadcast(room);
   });
   socket.on('guess',(data,ack)=>{
     const room=getRoom(socket.data.roomCode);const p=room?.players.get(socket.data.playerId);
