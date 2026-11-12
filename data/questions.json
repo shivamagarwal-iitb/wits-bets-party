@@ -241,670 +241,599 @@
   ],
   "cricket": [
     {
-      "id": "ci1",
-      "q": "In what year did Rajasthan Royals win their first Indian Premier League title?",
-      "a": 2008,
-      "fact": "Rajasthan Royals won the Indian Premier League in 2008. Source: historical Indian Premier League champions."
+      "id": "cx001",
+      "topic": "world-cup",
+      "q": "How many runs did India score in the 1983 Cricket World Cup final?",
+      "a": 183,
+      "fact": "India were all out for 183 at Lord's and defended the total against West Indies."
     },
     {
-      "id": "ci2",
-      "q": "In what year did Deccan Chargers win their first Indian Premier League title?",
-      "a": 2009,
-      "fact": "Deccan Chargers won the Indian Premier League in 2009. Source: historical Indian Premier League champions."
+      "id": "cx002",
+      "topic": "world-cup",
+      "q": "By how many runs did India win the 1983 Cricket World Cup final?",
+      "a": 43,
+      "fact": "India defeated West Indies by 43 runs at Lord's."
     },
     {
-      "id": "ci3",
-      "q": "In what year did Chennai Super Kings win their first Indian Premier League title?",
-      "a": 2010,
-      "fact": "Chennai Super Kings won the Indian Premier League in 2010. Source: historical Indian Premier League champions."
+      "id": "cx003",
+      "topic": "world-cup",
+      "q": "How many wickets did Kapil Dev take in the 1983 World Cup final?",
+      "a": 1,
+      "fact": "Kapil Dev dismissed Andy Roberts; Mohinder Amarnath and Madan Lal took three wickets each."
     },
     {
-      "id": "ci4",
-      "q": "In what year did Chennai Super Kings win their second Indian Premier League title?",
-      "a": 2011,
-      "fact": "Chennai Super Kings won the Indian Premier League in 2011. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci5",
-      "q": "In what year did Kolkata Knight Riders win their first Indian Premier League title?",
-      "a": 2012,
-      "fact": "Kolkata Knight Riders won the Indian Premier League in 2012. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci6",
-      "q": "In what year did Mumbai Indians win their first Indian Premier League title?",
-      "a": 2013,
-      "fact": "Mumbai Indians won the Indian Premier League in 2013. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci7",
-      "q": "In what year did Kolkata Knight Riders win their second Indian Premier League title?",
-      "a": 2014,
-      "fact": "Kolkata Knight Riders won the Indian Premier League in 2014. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci8",
-      "q": "In what year did Mumbai Indians win their second Indian Premier League title?",
-      "a": 2015,
-      "fact": "Mumbai Indians won the Indian Premier League in 2015. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci9",
-      "q": "In what year did Sunrisers Hyderabad win their first Indian Premier League title?",
-      "a": 2016,
-      "fact": "Sunrisers Hyderabad won the Indian Premier League in 2016. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci10",
-      "q": "In what year did Mumbai Indians win their third Indian Premier League title?",
-      "a": 2017,
-      "fact": "Mumbai Indians won the Indian Premier League in 2017. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci11",
-      "q": "In what year did Chennai Super Kings win their third Indian Premier League title?",
-      "a": 2018,
-      "fact": "Chennai Super Kings won the Indian Premier League in 2018. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci12",
-      "q": "In what year did Mumbai Indians win their 4th Indian Premier League title?",
-      "a": 2019,
-      "fact": "Mumbai Indians won the Indian Premier League in 2019. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci13",
-      "q": "In what year did Mumbai Indians win their 5th Indian Premier League title?",
-      "a": 2020,
-      "fact": "Mumbai Indians won the Indian Premier League in 2020. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci14",
-      "q": "In what year did Chennai Super Kings win their 4th Indian Premier League title?",
-      "a": 2021,
-      "fact": "Chennai Super Kings won the Indian Premier League in 2021. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci15",
-      "q": "In what year did Gujarat Titans win their first Indian Premier League title?",
-      "a": 2022,
-      "fact": "Gujarat Titans won the Indian Premier League in 2022. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci16",
-      "q": "In what year did Chennai Super Kings win their 5th Indian Premier League title?",
-      "a": 2023,
-      "fact": "Chennai Super Kings won the Indian Premier League in 2023. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci17",
-      "q": "In what year did Kolkata Knight Riders win their third Indian Premier League title?",
-      "a": 2024,
-      "fact": "Kolkata Knight Riders won the Indian Premier League in 2024. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "ci18",
-      "q": "In what year did Royal Challengers Bengaluru win their first Indian Premier League title?",
-      "a": 2025,
-      "fact": "Royal Challengers Bengaluru won the Indian Premier League in 2025. Source: historical Indian Premier League champions."
-    },
-    {
-      "id": "cw1",
-      "q": "In what year did West Indies win their first men's ODI Cricket World Cup title?",
-      "a": 1975,
-      "fact": "West Indies won the men's ODI Cricket World Cup in 1975. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "cw2",
-      "q": "In what year did West Indies win their second men's ODI Cricket World Cup title?",
-      "a": 1979,
-      "fact": "West Indies won the men's ODI Cricket World Cup in 1979. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "cw3",
-      "q": "In what year did India win their first men's ODI Cricket World Cup title?",
-      "a": 1983,
-      "fact": "India won the men's ODI Cricket World Cup in 1983. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "cw4",
-      "q": "In what year did Australia win their first men's ODI Cricket World Cup title?",
-      "a": 1987,
-      "fact": "Australia won the men's ODI Cricket World Cup in 1987. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "cw5",
-      "q": "In what year did Pakistan win their first men's ODI Cricket World Cup title?",
-      "a": 1992,
-      "fact": "Pakistan won the men's ODI Cricket World Cup in 1992. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "cw6",
-      "q": "In what year did Sri Lanka win their first men's ODI Cricket World Cup title?",
-      "a": 1996,
-      "fact": "Sri Lanka won the men's ODI Cricket World Cup in 1996. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "cw7",
-      "q": "In what year did Australia win their second men's ODI Cricket World Cup title?",
-      "a": 1999,
-      "fact": "Australia won the men's ODI Cricket World Cup in 1999. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "cw8",
-      "q": "In what year did Australia win their third men's ODI Cricket World Cup title?",
-      "a": 2003,
-      "fact": "Australia won the men's ODI Cricket World Cup in 2003. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "cw9",
-      "q": "In what year did Australia win their 4th men's ODI Cricket World Cup title?",
-      "a": 2007,
-      "fact": "Australia won the men's ODI Cricket World Cup in 2007. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "cw10",
-      "q": "In what year did India win their second men's ODI Cricket World Cup title?",
-      "a": 2011,
-      "fact": "India won the men's ODI Cricket World Cup in 2011. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "cw11",
-      "q": "In what year did Australia win their 5th men's ODI Cricket World Cup title?",
-      "a": 2015,
-      "fact": "Australia won the men's ODI Cricket World Cup in 2015. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "cw12",
-      "q": "In what year did England win their first men's ODI Cricket World Cup title?",
-      "a": 2019,
-      "fact": "England won the men's ODI Cricket World Cup in 2019. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "cw13",
-      "q": "In what year did Australia win their 6th men's ODI Cricket World Cup title?",
-      "a": 2023,
-      "fact": "Australia won the men's ODI Cricket World Cup in 2023. Source: historical men's ODI Cricket World Cup champions."
-    },
-    {
-      "id": "ct1",
-      "q": "In what year did India win their first men's T20 World Cup title?",
-      "a": 2007,
-      "fact": "India won the men's T20 World Cup in 2007. Source: historical men's T20 World Cup champions."
-    },
-    {
-      "id": "ct2",
-      "q": "In what year did Pakistan win their first men's T20 World Cup title?",
-      "a": 2009,
-      "fact": "Pakistan won the men's T20 World Cup in 2009. Source: historical men's T20 World Cup champions."
-    },
-    {
-      "id": "ct3",
-      "q": "In what year did England win their first men's T20 World Cup title?",
-      "a": 2010,
-      "fact": "England won the men's T20 World Cup in 2010. Source: historical men's T20 World Cup champions."
-    },
-    {
-      "id": "ct4",
-      "q": "In what year did West Indies win their first men's T20 World Cup title?",
-      "a": 2012,
-      "fact": "West Indies won the men's T20 World Cup in 2012. Source: historical men's T20 World Cup champions."
-    },
-    {
-      "id": "ct5",
-      "q": "In what year did Sri Lanka win their first men's T20 World Cup title?",
-      "a": 2014,
-      "fact": "Sri Lanka won the men's T20 World Cup in 2014. Source: historical men's T20 World Cup champions."
-    },
-    {
-      "id": "ct6",
-      "q": "In what year did West Indies win their second men's T20 World Cup title?",
-      "a": 2016,
-      "fact": "West Indies won the men's T20 World Cup in 2016. Source: historical men's T20 World Cup champions."
-    },
-    {
-      "id": "ct7",
-      "q": "In what year did Australia win their first men's T20 World Cup title?",
-      "a": 2021,
-      "fact": "Australia won the men's T20 World Cup in 2021. Source: historical men's T20 World Cup champions."
-    },
-    {
-      "id": "ct8",
-      "q": "In what year did England win their second men's T20 World Cup title?",
-      "a": 2022,
-      "fact": "England won the men's T20 World Cup in 2022. Source: historical men's T20 World Cup champions."
-    },
-    {
-      "id": "ct9",
-      "q": "In what year did India win their second men's T20 World Cup title?",
-      "a": 2024,
-      "fact": "India won the men's T20 World Cup in 2024. Source: historical men's T20 World Cup champions."
-    },
-    {
-      "id": "cr1",
-      "q": "How many ODI career centuries did Sachin Tendulkar record?",
-      "a": 49,
-      "fact": "Sachin Tendulkar: ODI career centuries — 49. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr2",
-      "q": "How many international career centuries did Sachin Tendulkar record?",
-      "a": 100,
-      "fact": "Sachin Tendulkar: international career centuries — 100. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr3",
-      "q": "How many ODI centuries at the end of the 2023 World Cup did Virat Kohli record?",
-      "a": 50,
-      "fact": "Virat Kohli: ODI centuries at the end of the 2023 World Cup — 50. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr4",
-      "q": "How many ODI double centuries through 2025 did Rohit Sharma record?",
-      "a": 3,
-      "fact": "Rohit Sharma: ODI double centuries through 2025 — 3. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr5",
-      "q": "How many individual ODI best score did Rohit Sharma record?",
-      "a": 264,
-      "fact": "Rohit Sharma: individual ODI best score — 264. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr6",
-      "q": "How many Test career runs did Sachin Tendulkar record?",
-      "a": 15921,
-      "fact": "Sachin Tendulkar: Test career runs — 15921. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr7",
-      "q": "How many ODI career runs did Sachin Tendulkar record?",
-      "a": 18426,
-      "fact": "Sachin Tendulkar: ODI career runs — 18426. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr8",
-      "q": "How many Test career centuries did Sachin Tendulkar record?",
-      "a": 51,
-      "fact": "Sachin Tendulkar: Test career centuries — 51. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr9",
-      "q": "How many Test career matches did Sachin Tendulkar record?",
-      "a": 200,
-      "fact": "Sachin Tendulkar: Test career matches — 200. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr10",
-      "q": "How many Test career wickets did Muttiah Muralitharan record?",
-      "a": 800,
-      "fact": "Muttiah Muralitharan: Test career wickets — 800. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr11",
-      "q": "How many Test career wickets did Shane Warne record?",
-      "a": 708,
-      "fact": "Shane Warne: Test career wickets — 708. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr12",
-      "q": "How many Test career wickets did James Anderson record?",
-      "a": 704,
-      "fact": "James Anderson: Test career wickets — 704. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr13",
-      "q": "How many Test career wickets did Anil Kumble record?",
-      "a": 619,
-      "fact": "Anil Kumble: Test career wickets — 619. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr14",
-      "q": "How many Test career wickets did Ravichandran Ashwin record?",
-      "a": 537,
-      "fact": "Ravichandran Ashwin: Test career wickets — 537. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr15",
-      "q": "How many Test career wickets did Glenn McGrath record?",
-      "a": 563,
-      "fact": "Glenn McGrath: Test career wickets — 563. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr16",
-      "q": "How many Test career wickets did Stuart Broad record?",
-      "a": 604,
-      "fact": "Stuart Broad: Test career wickets — 604. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr17",
-      "q": "How many Test career wickets did Kapil Dev record?",
-      "a": 434,
-      "fact": "Kapil Dev: Test career wickets — 434. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr18",
-      "q": "How many Test career wickets did Richard Hadlee record?",
-      "a": 431,
-      "fact": "Richard Hadlee: Test career wickets — 431. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr19",
-      "q": "How many Test career wickets did Courtney Walsh record?",
-      "a": 519,
-      "fact": "Courtney Walsh: Test career wickets — 519. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr20",
-      "q": "How many highest individual Test innings did Brian Lara record?",
-      "a": 400,
-      "fact": "Brian Lara: highest individual Test innings — 400. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr21",
-      "q": "How many highest individual first-class innings did Brian Lara record?",
-      "a": 501,
-      "fact": "Brian Lara: highest individual first-class innings — 501. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr22",
-      "q": "How many highest individual Test innings did Virender Sehwag record?",
-      "a": 319,
-      "fact": "Virender Sehwag: highest individual Test innings — 319. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr23",
-      "q": "How many highest individual Test innings did Karun Nair record?",
-      "a": 303,
-      "fact": "Karun Nair: highest individual Test innings — 303. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr24",
-      "q": "How many sixes in one over against Stuart Broad at the 2007 T20 World Cup did Yuvraj Singh record?",
-      "a": 6,
-      "fact": "Yuvraj Singh: sixes in one over against Stuart Broad at the 2007 T20 World Cup — 6. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr25",
-      "q": "How many balls to reach fifty against England in the 2007 T20 World Cup did Yuvraj Singh record?",
-      "a": 12,
-      "fact": "Yuvraj Singh: balls to reach fifty against England in the 2007 T20 World Cup — 12. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr26",
-      "q": "How many balls to reach his fastest ODI fifty in 2015 did AB de Villiers record?",
-      "a": 16,
-      "fact": "AB de Villiers: balls to reach his fastest ODI fifty in 2015 — 16. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr27",
-      "q": "How many balls to reach his fastest ODI hundred in 2015 did AB de Villiers record?",
-      "a": 31,
-      "fact": "AB de Villiers: balls to reach his fastest ODI hundred in 2015 — 31. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr28",
-      "q": "How many highest individual IPL innings did Chris Gayle record?",
+      "id": "cx004",
+      "topic": "world-cup",
+      "q": "How many runs did Kapil Dev score against Zimbabwe in his famous 1983 World Cup rescue innings?",
       "a": 175,
-      "fact": "Chris Gayle: highest individual IPL innings — 175. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "fact": "Kapil Dev's unbeaten 175 came after India had slumped to 17 for five."
     },
     {
-      "id": "cr29",
-      "q": "How many runs in the first IPL match in 2008 did Brendon McCullum record?",
-      "a": 158,
-      "fact": "Brendon McCullum: runs in the first IPL match in 2008 — 158. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr30",
-      "q": "How many runs in the 2016 IPL season did Virat Kohli record?",
-      "a": 973,
-      "fact": "Virat Kohli: runs in the 2016 IPL season — 973. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr31",
-      "q": "How many centuries in the 2016 IPL season did Virat Kohli record?",
-      "a": 4,
-      "fact": "Virat Kohli: centuries in the 2016 IPL season — 4. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr32",
-      "q": "How many centuries in the 2022 IPL season did Jos Buttler record?",
-      "a": 4,
-      "fact": "Jos Buttler: centuries in the 2022 IPL season — 4. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr33",
-      "q": "How many runs in the 2023 IPL season did Shubman Gill record?",
-      "a": 890,
-      "fact": "Shubman Gill: runs in the 2023 IPL season — 890. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr34",
-      "q": "How many runs in the 2016 IPL season did David Warner record?",
-      "a": 848,
-      "fact": "David Warner: runs in the 2016 IPL season — 848. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr35",
-      "q": "How many sixes in the 2013 IPL innings against Pune Warriors did Chris Gayle record?",
-      "a": 17,
-      "fact": "Chris Gayle: sixes in the 2013 IPL innings against Pune Warriors — 17. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr36",
-      "q": "How many runs in the 2011 ODI World Cup final did MS Dhoni record?",
-      "a": 91,
-      "fact": "MS Dhoni: runs in the 2011 ODI World Cup final — 91. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr37",
-      "q": "How many runs in the 2011 ODI World Cup final did Gautam Gambhir record?",
-      "a": 97,
-      "fact": "Gautam Gambhir: runs in the 2011 ODI World Cup final — 97. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr38",
-      "q": "How many runs in the 2011 ODI World Cup final did Mahela Jayawardene record?",
-      "a": 103,
-      "fact": "Mahela Jayawardene: runs in the 2011 ODI World Cup final — 103. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr39",
-      "q": "How many runs in the 2003 ODI World Cup final did Ricky Ponting record?",
-      "a": 140,
-      "fact": "Ricky Ponting: runs in the 2003 ODI World Cup final — 140. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr40",
-      "q": "How many runs in the 2007 ODI World Cup final did Adam Gilchrist record?",
-      "a": 149,
-      "fact": "Adam Gilchrist: runs in the 2007 ODI World Cup final — 149. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr41",
-      "q": "How many runs in the 2023 ODI World Cup final did Travis Head record?",
-      "a": 137,
-      "fact": "Travis Head: runs in the 2023 ODI World Cup final — 137. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr42",
-      "q": "How many runs in the 2019 ODI World Cup final did Ben Stokes record?",
-      "a": 84,
-      "fact": "Ben Stokes: runs in the 2019 ODI World Cup final — 84. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr43",
-      "q": "How many runs in the 2023 ODI World Cup tournament did Virat Kohli record?",
-      "a": 765,
-      "fact": "Virat Kohli: runs in the 2023 ODI World Cup tournament — 765. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr44",
-      "q": "How many runs in the 2003 ODI World Cup tournament did Sachin Tendulkar record?",
-      "a": 673,
-      "fact": "Sachin Tendulkar: runs in the 2003 ODI World Cup tournament — 673. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr45",
-      "q": "How many runs in the 2007 ODI World Cup tournament did Matthew Hayden record?",
-      "a": 659,
-      "fact": "Matthew Hayden: runs in the 2007 ODI World Cup tournament — 659. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr46",
-      "q": "How many centuries in the 2019 ODI World Cup tournament did Rohit Sharma record?",
+      "id": "cx005",
+      "topic": "world-cup",
+      "q": "How many wickets had India lost when Kapil Dev came in against Zimbabwe in the 1983 World Cup?",
       "a": 5,
-      "fact": "Rohit Sharma: centuries in the 2019 ODI World Cup tournament — 5. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "fact": "India were 17 for five when Kapil Dev arrived."
     },
     {
-      "id": "cr47",
-      "q": "How many wickets in the 2023 ODI World Cup tournament did Mohammed Shami record?",
-      "a": 24,
-      "fact": "Mohammed Shami: wickets in the 2023 ODI World Cup tournament — 24. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx006",
+      "topic": "world-cup",
+      "q": "How many runs did MS Dhoni score in the 2011 World Cup final?",
+      "a": 91,
+      "fact": "Dhoni scored an unbeaten 91 against Sri Lanka in Mumbai."
     },
     {
-      "id": "cr48",
-      "q": "How many wickets in the 2019 ODI World Cup tournament did Mitchell Starc record?",
-      "a": 27,
-      "fact": "Mitchell Starc: wickets in the 2019 ODI World Cup tournament — 27. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx007",
+      "topic": "world-cup",
+      "q": "How many runs did Gautam Gambhir score in the 2011 World Cup final?",
+      "a": 97,
+      "fact": "Gambhir made 97 in India's successful chase."
     },
     {
-      "id": "cr49",
-      "q": "How many wickets in the 2007 ODI World Cup tournament did Glenn McGrath record?",
-      "a": 26,
-      "fact": "Glenn McGrath: wickets in the 2007 ODI World Cup tournament — 26. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx008",
+      "topic": "world-cup",
+      "q": "How many runs did Sri Lanka score in the 2011 World Cup final?",
+      "a": 274,
+      "fact": "Sri Lanka made 274 for six before India chased 275."
     },
     {
-      "id": "cr50",
-      "q": "How many balls for his 1996 ODI century against Sri Lanka did Shahid Afridi record?",
-      "a": 37,
-      "fact": "Shahid Afridi: balls for his 1996 ODI century against Sri Lanka — 37. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx009",
+      "topic": "world-cup",
+      "q": "How many balls were left when India won the 2011 World Cup final?",
+      "a": 10,
+      "fact": "Dhoni's winning six came in the 49th over, with ten balls remaining."
     },
     {
-      "id": "cr51",
-      "q": "How many balls for his 2014 ODI century against West Indies did Corey Anderson record?",
-      "a": 36,
-      "fact": "Corey Anderson: balls for his 2014 ODI century against West Indies — 36. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx010",
+      "topic": "world-cup",
+      "q": "How many wickets did India lose in the 2023 men's ODI World Cup final?",
+      "a": 10,
+      "fact": "India were bowled out for 240 by Australia."
     },
     {
-      "id": "cr52",
-      "q": "How many runs in the 2021 T20 World Cup tournament did Babar Azam record?",
-      "a": 303,
-      "fact": "Babar Azam: runs in the 2021 T20 World Cup tournament — 303. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx011",
+      "topic": "world-cup",
+      "q": "How many runs did Travis Head score in the 2023 ODI World Cup final?",
+      "a": 137,
+      "fact": "Head's 137 powered Australia's chase against India."
     },
     {
-      "id": "cr53",
-      "q": "How many runs in the 2014 T20 World Cup tournament did Virat Kohli record?",
-      "a": 319,
-      "fact": "Virat Kohli: runs in the 2014 T20 World Cup tournament — 319. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx012",
+      "topic": "world-cup",
+      "q": "How many runs did Australia score in the 1999 World Cup semifinal tie against South Africa?",
+      "a": 213,
+      "fact": "Both teams were all out for 213; Australia progressed on Super Six standing."
     },
     {
-      "id": "cr54",
-      "q": "How many runs in the 2016 T20 World Cup tournament did Virat Kohli record?",
-      "a": 273,
-      "fact": "Virat Kohli: runs in the 2016 T20 World Cup tournament — 273. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx013",
+      "topic": "world-cup",
+      "q": "How many runs did New Zealand and England each score in the 2019 men's World Cup final before the Super Over?",
+      "a": 241,
+      "fact": "Both teams finished on 241 after 50 overs at Lord's."
     },
     {
-      "id": "cr55",
-      "q": "How many runs in the 2022 T20 World Cup tournament did Virat Kohli record?",
-      "a": 296,
-      "fact": "Virat Kohli: runs in the 2022 T20 World Cup tournament — 296. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr56",
-      "q": "How many wickets in the 2011 ODI World Cup tournament did Yuvraj Singh record?",
+      "id": "cx014",
+      "topic": "world-cup",
+      "q": "How many runs did each side score in the 2019 World Cup final Super Over?",
       "a": 15,
-      "fact": "Yuvraj Singh: wickets in the 2011 ODI World Cup tournament — 15. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "fact": "England and New Zealand each scored 15 in the Super Over; England won on boundary count."
     },
     {
-      "id": "cr57",
-      "q": "How many wickets in the 2011 ODI World Cup tournament did Zaheer Khan record?",
-      "a": 21,
-      "fact": "Zaheer Khan: wickets in the 2011 ODI World Cup tournament — 21. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx015",
+      "topic": "world-cup",
+      "q": "How many runs did Carlos Brathwaite hit from four consecutive sixes to finish the 2016 men's T20 World Cup final?",
+      "a": 24,
+      "fact": "Brathwaite hit Ben Stokes for four straight sixes to seal West Indies' win."
     },
     {
-      "id": "cr58",
-      "q": "How many wickets in the 2019 ODI World Cup tournament did Shakib Al Hasan record?",
-      "a": 11,
-      "fact": "Shakib Al Hasan: wickets in the 2019 ODI World Cup tournament — 11. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx016",
+      "topic": "world-cup",
+      "q": "How many wickets did India lose in the 2024 men's T20 World Cup final?",
+      "a": 7,
+      "fact": "India posted 176 for seven before defending the total against South Africa."
     },
     {
-      "id": "cr59",
-      "q": "How many runs in the 2019 ODI World Cup tournament did Shakib Al Hasan record?",
-      "a": 606,
-      "fact": "Shakib Al Hasan: runs in the 2019 ODI World Cup tournament — 606. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx017",
+      "topic": "world-cup",
+      "q": "By how many runs did India win the 2024 men's T20 World Cup final?",
+      "a": 7,
+      "fact": "India held off South Africa by seven runs in Barbados."
     },
     {
-      "id": "cr60",
-      "q": "How many runs in his unbeaten innings against Afghanistan at the 2023 ODI World Cup did Glenn Maxwell record?",
-      "a": 201,
-      "fact": "Glenn Maxwell: runs in his unbeaten innings against Afghanistan at the 2023 ODI World Cup — 201. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx018",
+      "topic": "ipl",
+      "q": "How many runs did Chris Gayle score in his record IPL innings for Royal Challengers Bangalore in 2013?",
+      "a": 175,
+      "fact": "Gayle made 175 not out against Pune Warriors India."
     },
     {
-      "id": "cr61",
-      "q": "How many runs in his ODI double century against Bangladesh in 2022 did Ishan Kishan record?",
-      "a": 210,
-      "fact": "Ishan Kishan: runs in his ODI double century against Bangladesh in 2022 — 210. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx019",
+      "topic": "ipl",
+      "q": "How many balls did Chris Gayle need for his 2013 IPL century against Pune Warriors India?",
+      "a": 30,
+      "fact": "Gayle reached his century in 30 balls."
     },
     {
-      "id": "cr62",
-      "q": "How many runs in his ODI double century against New Zealand in 2023 did Shubman Gill record?",
-      "a": 208,
-      "fact": "Shubman Gill: runs in his ODI double century against New Zealand in 2023 — 208. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx020",
+      "topic": "ipl",
+      "q": "How many sixes did Chris Gayle hit in his 175-run IPL innings in 2013?",
+      "a": 17,
+      "fact": "Gayle smashed 17 sixes against Pune Warriors India."
     },
     {
-      "id": "cr63",
-      "q": "How many runs in the first men's ODI double century in 2010 did Sachin Tendulkar record?",
+      "id": "cx021",
+      "topic": "ipl",
+      "q": "How many runs did Brendon McCullum score in the first-ever IPL match in 2008?",
+      "a": 158,
+      "fact": "McCullum hit 158 not out for Kolkata Knight Riders against RCB."
+    },
+    {
+      "id": "cx022",
+      "topic": "ipl",
+      "q": "How many balls did Brendon McCullum face in his unbeaten 158 in the first IPL match?",
+      "a": 73,
+      "fact": "McCullum's opening-night innings came from 73 deliveries."
+    },
+    {
+      "id": "cx023",
+      "topic": "ipl",
+      "q": "How many runs did Mumbai Indians win the 2019 IPL final by?",
+      "a": 1,
+      "fact": "Mumbai Indians edged Chennai Super Kings by one run."
+    },
+    {
+      "id": "cx024",
+      "topic": "ipl",
+      "q": "How many wickets did Rashid Khan take in his IPL hat-trick against Kolkata Knight Riders in 2023?",
+      "a": 3,
+      "fact": "Rashid took three wickets in three consecutive balls for Gujarat Titans."
+    },
+    {
+      "id": "cx025",
+      "topic": "ipl",
+      "q": "How many runs did Rinku Singh hit with five consecutive sixes off the last five balls against Gujarat Titans in 2023?",
+      "a": 30,
+      "fact": "Rinku Singh hit Yash Dayal for five straight sixes in an improbable chase."
+    },
+    {
+      "id": "cx026",
+      "topic": "ipl",
+      "q": "How many runs did Kolkata Knight Riders need from the final five balls when Rinku Singh struck five sixes in 2023?",
+      "a": 28,
+      "fact": "KKR needed 28 off five balls; Rinku hit 30 runs to win."
+    },
+    {
+      "id": "cx027",
+      "topic": "ipl",
+      "q": "How many wickets did Alzarri Joseph take in his record IPL debut spell in 2019?",
+      "a": 6,
+      "fact": "Joseph took six wickets for 12 runs for Mumbai Indians against Sunrisers Hyderabad."
+    },
+    {
+      "id": "cx028",
+      "topic": "ipl",
+      "q": "How many runs did Alzarri Joseph concede in his six-wicket IPL debut spell?",
+      "a": 12,
+      "fact": "His figures were 6 for 12 against Sunrisers Hyderabad."
+    },
+    {
+      "id": "cx029",
+      "topic": "ipl",
+      "q": "How many runs did Virat Kohli score in the 2016 IPL season?",
+      "a": 973,
+      "fact": "Kohli's 973 runs in 2016 remain a famous single-season batting benchmark."
+    },
+    {
+      "id": "cx030",
+      "topic": "ipl",
+      "q": "How many centuries did Virat Kohli score during the 2016 IPL season?",
+      "a": 4,
+      "fact": "Kohli hit four centuries for Royal Challengers Bangalore in 2016."
+    },
+    {
+      "id": "cx031",
+      "topic": "ipl",
+      "q": "How many runs did Rajasthan Royals score to win the inaugural IPL final in 2008?",
+      "a": 164,
+      "fact": "Rajasthan reached 164 for seven to beat Chennai's 163 for five."
+    },
+    {
+      "id": "cx032",
+      "topic": "ipl",
+      "q": "How many runs did Chennai Super Kings score in the 2023 IPL final after the rain-revised target?",
+      "a": 171,
+      "fact": "CSK reached 171 for five in 15 overs to chase the revised target of 171."
+    },
+    {
+      "id": "cx033",
+      "topic": "unusual-records",
+      "q": "How many sixes did Yuvraj Singh hit in a single over against Stuart Broad in the 2007 T20 World Cup?",
+      "a": 6,
+      "fact": "Yuvraj struck six sixes in one over in Durban."
+    },
+    {
+      "id": "cx034",
+      "topic": "unusual-records",
+      "q": "How many balls did Yuvraj Singh take to reach his fifty against England in the 2007 T20 World Cup?",
+      "a": 12,
+      "fact": "His fifty off 12 balls became an iconic T20 World Cup record."
+    },
+    {
+      "id": "cx035",
+      "topic": "unusual-records",
+      "q": "How many runs did Herschelle Gibbs score from six consecutive sixes at the 2007 ODI World Cup?",
+      "a": 36,
+      "fact": "Gibbs hit six sixes in one over against the Netherlands."
+    },
+    {
+      "id": "cx036",
+      "topic": "unusual-records",
+      "q": "How many runs did South Africa successfully chase against Australia in the famous 2006 Johannesburg ODI?",
+      "a": 438,
+      "fact": "South Africa made 438 for nine to chase Australia's 434 for four."
+    },
+    {
+      "id": "cx037",
+      "topic": "unusual-records",
+      "q": "How many runs did Australia score in the 2006 ODI that South Africa famously chased?",
+      "a": 434,
+      "fact": "Australia posted 434 for four, then a world-record ODI total."
+    },
+    {
+      "id": "cx038",
+      "topic": "unusual-records",
+      "q": "How many runs did AB de Villiers score off the balls needed for his fastest ODI hundred in 2015?",
+      "a": 100,
+      "fact": "De Villiers reached a century off just 31 balls against West Indies."
+    },
+    {
+      "id": "cx039",
+      "topic": "unusual-records",
+      "q": "How many balls did AB de Villiers need for the fastest ODI century in 2015?",
+      "a": 31,
+      "fact": "He hit a hundred off 31 balls against West Indies in Johannesburg."
+    },
+    {
+      "id": "cx040",
+      "topic": "unusual-records",
+      "q": "How many balls did AB de Villiers need for his fastest ODI fifty in the same 2015 innings?",
+      "a": 16,
+      "fact": "He reached fifty off 16 deliveries against West Indies."
+    },
+    {
+      "id": "cx041",
+      "topic": "unusual-records",
+      "q": "How many runs did Brian Lara score in his record Test innings against England in 2004?",
+      "a": 400,
+      "fact": "Lara scored 400 not out in Antigua."
+    },
+    {
+      "id": "cx042",
+      "topic": "unusual-records",
+      "q": "How many runs did Brian Lara score in his record first-class innings for Warwickshire in 1994?",
+      "a": 501,
+      "fact": "Lara's unbeaten 501 against Durham remains legendary."
+    },
+    {
+      "id": "cx043",
+      "topic": "unusual-records",
+      "q": "How many runs did Jim Laker concede while taking 19 wickets in the 1956 Old Trafford Test?",
+      "a": 90,
+      "fact": "Laker took 19 wickets for 90 runs across the two innings."
+    },
+    {
+      "id": "cx044",
+      "topic": "unusual-records",
+      "q": "How many wickets did Jim Laker take in one Test match against Australia in 1956?",
+      "a": 19,
+      "fact": "Laker's 19 for 90 is one of cricket's most extraordinary bowling feats."
+    },
+    {
+      "id": "cx045",
+      "topic": "unusual-records",
+      "q": "How many wickets did Anil Kumble take in a single innings against Pakistan in Delhi in 1999?",
+      "a": 10,
+      "fact": "Kumble took all ten wickets in Pakistan's second innings."
+    },
+    {
+      "id": "cx046",
+      "topic": "unusual-records",
+      "q": "How many wickets did Ajaz Patel take in one innings against India in Mumbai in 2021?",
+      "a": 10,
+      "fact": "Patel became the third bowler to take all ten wickets in a Test innings."
+    },
+    {
+      "id": "cx047",
+      "topic": "unusual-records",
+      "q": "How many runs did Sachin Tendulkar score in his first ODI double century against South Africa in 2010?",
       "a": 200,
-      "fact": "Sachin Tendulkar: runs in the first men's ODI double century in 2010 — 200. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "fact": "Tendulkar made 200 not out in Gwalior."
     },
     {
-      "id": "cr64",
-      "q": "How many runs against West Indies in the 2015 ODI World Cup quarter-final did Martin Guptill record?",
-      "a": 237,
-      "fact": "Martin Guptill: runs against West Indies in the 2015 ODI World Cup quarter-final — 237. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr65",
-      "q": "How many runs against Zimbabwe in the 2015 ODI World Cup did Chris Gayle record?",
-      "a": 215,
-      "fact": "Chris Gayle: runs against Zimbabwe in the 2015 ODI World Cup — 215. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr66",
-      "q": "How many runs against West Indies in the 2011 ODI series at Indore did Virender Sehwag record?",
-      "a": 219,
-      "fact": "Virender Sehwag: runs against West Indies in the 2011 ODI series at Indore — 219. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr67",
-      "q": "How many runs against Zimbabwe in the 2018 ODI series did Fakhar Zaman record?",
-      "a": 210,
-      "fact": "Fakhar Zaman: runs against Zimbabwe in the 2018 ODI series — 210. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr68",
-      "q": "How many runs in his 2013 ODI double century against Australia did Rohit Sharma record?",
-      "a": 209,
-      "fact": "Rohit Sharma: runs in his 2013 ODI double century against Australia — 209. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
-    },
-    {
-      "id": "cr69",
-      "q": "How many runs in his 2014 ODI double century against Sri Lanka did Rohit Sharma record?",
+      "id": "cx048",
+      "topic": "unusual-records",
+      "q": "How many runs did Rohit Sharma score in his record ODI innings against Sri Lanka in 2014?",
       "a": 264,
-      "fact": "Rohit Sharma: runs in his 2014 ODI double century against Sri Lanka — 264. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "fact": "Rohit made 264 at Eden Gardens."
     },
     {
-      "id": "cr70",
-      "q": "How many runs in his 2017 ODI double century against Sri Lanka did Rohit Sharma record?",
-      "a": 208,
-      "fact": "Rohit Sharma: runs in his 2017 ODI double century against Sri Lanka — 208. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx049",
+      "topic": "unusual-records",
+      "q": "How many runs did Virender Sehwag score in his highest Test innings against South Africa in 2008?",
+      "a": 319,
+      "fact": "Sehwag hit 319 in Chennai."
     },
     {
-      "id": "cr71",
-      "q": "How many runs in his 2016 Test innings against Pakistan at Sydney did David Warner record?",
-      "a": 113,
-      "fact": "David Warner: runs in his 2016 Test innings against Pakistan at Sydney — 113. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+      "id": "cx050",
+      "topic": "unusual-records",
+      "q": "How many runs did Karun Nair score in his triple century against England in 2016?",
+      "a": 303,
+      "fact": "Nair made 303 not out in Chennai."
+    },
+    {
+      "id": "cx051",
+      "topic": "unusual-records",
+      "q": "How many runs did VVS Laxman score in the famous 2001 Kolkata Test against Australia?",
+      "a": 281,
+      "fact": "Laxman's 281 helped India turn a follow-on into victory."
+    },
+    {
+      "id": "cx052",
+      "topic": "unusual-records",
+      "q": "How many runs did Rahul Dravid score in that 2001 Kolkata Test's epic partnership innings?",
+      "a": 180,
+      "fact": "Dravid made 180 alongside VVS Laxman."
+    },
+    {
+      "id": "cx053",
+      "topic": "unusual-records",
+      "q": "How many runs did England score in their 2022 ODI innings against the Netherlands, a then-world-record total?",
+      "a": 498,
+      "fact": "England posted 498 for four in Amstelveen."
+    },
+    {
+      "id": "cx054",
+      "topic": "captains-and-legends",
+      "q": "How many international centuries did Sachin Tendulkar score across Tests and ODIs?",
+      "a": 100,
+      "fact": "Tendulkar finished with 51 Test and 49 ODI hundreds."
+    },
+    {
+      "id": "cx055",
+      "topic": "captains-and-legends",
+      "q": "How many ODI centuries did Sachin Tendulkar score in his career?",
+      "a": 49,
+      "fact": "Sachin scored 49 ODI hundreds."
+    },
+    {
+      "id": "cx056",
+      "topic": "captains-and-legends",
+      "q": "How many Test centuries did Sachin Tendulkar score in his career?",
+      "a": 51,
+      "fact": "Sachin scored 51 Test hundreds."
+    },
+    {
+      "id": "cx057",
+      "topic": "captains-and-legends",
+      "q": "How many ODI centuries had Virat Kohli scored when he broke Sachin's record at the 2023 World Cup?",
+      "a": 50,
+      "fact": "Kohli scored his 50th ODI century in the 2023 semifinal against New Zealand."
+    },
+    {
+      "id": "cx058",
+      "topic": "captains-and-legends",
+      "q": "How many ODI double centuries had Rohit Sharma scored by the end of 2023?",
+      "a": 3,
+      "fact": "Rohit has three ODI double centuries."
+    },
+    {
+      "id": "cx059",
+      "topic": "captains-and-legends",
+      "q": "How many Test wickets did Muttiah Muralitharan finish his career with?",
+      "a": 800,
+      "fact": "Muralitharan ended his Test career with exactly 800 wickets."
+    },
+    {
+      "id": "cx060",
+      "topic": "captains-and-legends",
+      "q": "How many Test wickets did Shane Warne finish his career with?",
+      "a": 708,
+      "fact": "Warne retired with 708 Test wickets."
+    },
+    {
+      "id": "cx061",
+      "topic": "captains-and-legends",
+      "q": "How many runs did Sachin Tendulkar finish with in Test cricket?",
+      "a": 15921,
+      "fact": "Tendulkar's Test aggregate was 15,921 runs."
+    },
+    {
+      "id": "cx062",
+      "topic": "captains-and-legends",
+      "q": "How many runs did Don Bradman score in his final Test innings?",
+      "a": 0,
+      "fact": "Bradman was bowled for a duck in his final Test innings at The Oval."
+    },
+    {
+      "id": "cx063",
+      "topic": "captains-and-legends",
+      "q": "How many runs did Don Bradman need in his final Test innings to finish with a batting average of 100?",
+      "a": 4,
+      "fact": "Four runs would have taken Bradman's average to 100; he made a duck."
+    },
+    {
+      "id": "cx064",
+      "topic": "captains-and-legends",
+      "q": "How many Test runs did Don Bradman score in his career?",
+      "a": 6996,
+      "fact": "Bradman scored 6,996 Test runs in 52 matches."
+    },
+    {
+      "id": "cx065",
+      "topic": "captains-and-legends",
+      "q": "How many international wickets did Wasim Akram take across Tests and ODIs?",
+      "a": 916,
+      "fact": "Akram took 414 Test wickets and 502 ODI wickets."
+    },
+    {
+      "id": "cx066",
+      "topic": "stadiums-and-history",
+      "q": "How many spectators is the Melbourne Cricket Ground commonly said to accommodate for major sporting events?",
+      "a": 100024,
+      "fact": "The MCG's often-cited capacity is approximately 100,024, though configurations vary."
+    },
+    {
+      "id": "cx067",
+      "topic": "stadiums-and-history",
+      "q": "How many players were on each side in the first officially recognized Test match in 1877?",
+      "a": 11,
+      "fact": "The inaugural Test between Australia and England used eleven players per side."
+    },
+    {
+      "id": "cx068",
+      "topic": "stadiums-and-history",
+      "q": "How many days did the timeless Test between South Africa and England in Durban in 1939 last before being abandoned?",
+      "a": 10,
+      "fact": "The 1939 Durban timeless Test ended after ten days of play because England had to catch a ship."
+    },
+    {
+      "id": "cx069",
+      "topic": "stadiums-and-history",
+      "q": "How many runs did England need to win when the 1939 Durban timeless Test was abandoned?",
+      "a": 42,
+      "fact": "England needed 42 runs to win when the match was called off."
+    },
+    {
+      "id": "cx070",
+      "topic": "stadiums-and-history",
+      "q": "How many runs did Australia win the first officially recognized Test match by in 1877?",
+      "a": 45,
+      "fact": "Australia defeated England by 45 runs in Melbourne."
+    },
+    {
+      "id": "cx071",
+      "topic": "stadiums-and-history",
+      "q": "How many runs did Charles Bannerman score in the first-ever Test innings in 1877?",
+      "a": 165,
+      "fact": "Bannerman made 165 retired hurt in the inaugural Test."
+    },
+    {
+      "id": "cx072",
+      "topic": "stadiums-and-history",
+      "q": "How many runs did India score in the second innings of the 2001 Kolkata Test after following on?",
+      "a": 657,
+      "fact": "India declared on 657 for seven in the follow-on innings."
+    },
+    {
+      "id": "cx073",
+      "topic": "stadiums-and-history",
+      "q": "How many runs did India win the 2001 Kolkata Test by?",
+      "a": 171,
+      "fact": "India won by 171 runs after following on."
+    },
+    {
+      "id": "cx074",
+      "topic": "quirky-moments",
+      "q": "How many runs did Javed Miandad need off the last ball against India in the 1986 Austral-Asia Cup final?",
+      "a": 4,
+      "fact": "Pakistan needed four from the final delivery; Miandad hit a six."
+    },
+    {
+      "id": "cx075",
+      "topic": "quirky-moments",
+      "q": "How many runs did Javed Miandad score from the final ball to win the 1986 Austral-Asia Cup final?",
+      "a": 6,
+      "fact": "Miandad hit Chetan Sharma for a last-ball six in Sharjah."
+    },
+    {
+      "id": "cx076",
+      "topic": "quirky-moments",
+      "q": "How many runs did South Africa need from the final ball of the tied 1999 World Cup semifinal against Australia?",
+      "a": 1,
+      "fact": "A single would have won the match, but a run-out ended the chase."
+    },
+    {
+      "id": "cx077",
+      "topic": "quirky-moments",
+      "q": "How many runs did New Zealand win the 2023 Wellington Test against England by after following on?",
+      "a": 1,
+      "fact": "New Zealand won by one run, one of the narrowest Test victories ever."
+    },
+    {
+      "id": "cx078",
+      "topic": "quirky-moments",
+      "q": "How many runs did West Indies win the 1993 Adelaide Test against Australia by?",
+      "a": 1,
+      "fact": "West Indies won by one run in a famous nail-biter."
+    },
+    {
+      "id": "cx079",
+      "topic": "quirky-moments",
+      "q": "How many runs did England win the 2005 Edgbaston Ashes Test by?",
+      "a": 2,
+      "fact": "England won the classic Edgbaston Test by two runs."
+    },
+    {
+      "id": "cx080",
+      "topic": "quirky-moments",
+      "q": "How many wickets did England win the Headingley Ashes Test in 2019 by?",
+      "a": 1,
+      "fact": "Ben Stokes and Jack Leach added the last-wicket runs to win by one wicket."
+    },
+    {
+      "id": "cx081",
+      "topic": "quirky-moments",
+      "q": "How many runs did Ben Stokes score unbeaten in the 2019 Headingley Ashes chase?",
+      "a": 135,
+      "fact": "Stokes' unbeaten 135 secured a one-wicket win."
+    },
+    {
+      "id": "cx082",
+      "topic": "quirky-moments",
+      "q": "How many runs did Jack Leach score in his famous last-wicket partnership with Ben Stokes at Headingley in 2019?",
+      "a": 1,
+      "fact": "Leach made one run in the partnership."
+    },
+    {
+      "id": "cx083",
+      "topic": "quirky-moments",
+      "q": "How many runs did England need to win when the last wicket came together at Headingley in 2019?",
+      "a": 73,
+      "fact": "England needed 73 when Jack Leach joined Ben Stokes."
+    },
+    {
+      "id": "cx084",
+      "topic": "quirky-moments",
+      "q": "How many runs did Australia score in the first innings of the 2023 Ashes Test at Edgbaston?",
+      "a": 386,
+      "fact": "Australia made 386 in its first innings; England had declared at 393 for eight."
+    },
+    {
+      "id": "cx085",
+      "topic": "quirky-moments",
+      "q": "How many runs did India win the 2016 T20 World Cup match against Bangladesh by?",
+      "a": 1,
+      "fact": "Bangladesh lost three wickets off the last three balls as India won by one run."
     }
   ]
 }
