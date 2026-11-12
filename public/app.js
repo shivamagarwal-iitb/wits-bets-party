@@ -6,6 +6,7 @@ let state=null,auth=null,selected=null,betAmount=0,activeSlot=0,hostMeta=null;
 let joinedThisPage=false;
 let presentationMode=false;try{presentationMode=localStorage.getItem('wb_presenter')==='on'}catch{}
 let previousArrivalIds=new Set();
+let betDraftDirty=false,betSubmitting=false,lastBetWarningRound=null;
 let soundEnabled=localStorage.getItem('wits-sound')==='on';
 let audioCtx=null;
 function playCue(kind){if(!soundEnabled)return;try{audioCtx??=new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const now=audioCtx.currentTime;const notes=kind==='reveal'?[523,659,784]:kind==='bet'?[440,660]:[660];notes.forEach((freq,i)=>{const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type='sine';osc.frequency.value=freq;gain.gain.setValueAtTime(.0001,now+i*.12);gain.gain.exponentialRampToValueAtTime(.055,now+i*.12+.02);gain.gain.exponentialRampToValueAtTime(.0001,now+i*.12+.2);osc.connect(gain);gain.connect(audioCtx.destination);osc.start(now+i*.12);osc.stop(now+i*.12+.21);});}catch(e){}}
@@ -62,7 +63,7 @@ function resumeSession(a){
  if(a?.hostToken)send('resumeHost',a,()=>{save(a);cleanRecoveryUrl();const e=document.getElementById('network-banner');if(e)e.textContent='';});
  else if(a?.playerToken)send('join',a,r=>{save({code:a.code,playerToken:r.playerToken,name:r.name});cleanRecoveryUrl();const e=document.getElementById('network-banner');if(e)e.textContent='';});
 }
-socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const e=document.getElementById('network-banner');if(e)e.textContent='';const a=stored();if(a)resumeSession(a);else renderWelcome();});
+socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const e=document.getElementById('network-banner');if(e)e.textContent='✓ Connected — syncing your game…';const a=stored();if(a)resumeSession(a);else renderWelcome();});
 socket?.on('disconnect',()=>{document.getElementById('connection').textContent='○ Reconnecting…';const e=document.getElementById('network-banner');if(e)e.textContent='Connection lost — reconnecting. Unsaved changes must be resubmitted.';});
 // iOS pauses background tabs: explicitly rejoin and request current state when a tab becomes active.
 function refreshActiveTab(){
@@ -82,7 +83,7 @@ socket?.on('state',s=>{
  const liveOnly=!changed&&s.phase==='betting'&&state?.phase==='betting';
  const lobbyOnly=!changed&&s.phase==='lobby'&&state?.phase==='lobby';
  const guessingOnly=!changed&&s.phase==='guessing'&&state?.phase==='guessing';
- if(changed){selected=null;activeSlot=0;betAmount=0;guessDraft=null;previousArrivalIds=new Set();}
+ if(changed){selected=null;activeSlot=0;betAmount=0;guessDraft=null;betDraftDirty=false;betSubmitting=false;previousArrivalIds=new Set();}
  state=s;
  if(changed&&s.phase==='betting'&&selected===null)selected=s.ownBets?.find(b=>b.slot===activeSlot)?.optionId??null;
  if(changed&&s.phase==='guessing')previousArrivalIds=new Set(s.players.filter(p=>p.submitted).map(p=>p.id));
@@ -99,7 +100,7 @@ socket?.on('state',s=>{
   const guidance=document.getElementById('bet-guidance');if(guidance){const count=(s.ownBets||[]).length;guidance.textContent=count===2?'✓ Both permanent chips placed! Tap either chip to move it or adjust extras.':'Step '+(activeSlot+1)+' of 2: Tap a number on the board, then confirm your chip.';}
    const chips=document.getElementById('chips-available');
    if(chips)chips.textContent=fmt(myChips());
-   updateStickyBetBar();updateBetTimer();updatePauseControls();updateHostProgress();
+   updateStickyBetBar();updateBetTimer();updatePauseControls();updateHostProgress();updateBetReadiness();
  }else if(lobbyOnly){
    const count=document.getElementById('lobby-player-count');if(count)count.textContent=s.players.length+' / 30 players';
    const list=document.getElementById('lobby-player-list');if(list)list.innerHTML=s.players.map(p=>`<span class="pill player-pill">${avatar(p.name)} ${esc(p.name)}</span>`).join('');
@@ -143,6 +144,42 @@ function testPanel(){
  <p class="muted">Tip: Try replacing a question, reopening stages, or leaving one player without a guess to test edge cases. You can still use the regular host controls below.</p></section>`;
 }
 function updateHostProgress(){const e=document.getElementById('host-progress');if(!e||!state?.host)return;if(state.phase==='betting'){const bets=state.publicBets||[];const missing=state.players.map(p=>({name:p.name,count:bets.filter(b=>b.name===p.name).length})).filter(p=>p.count<2);e.innerHTML=`<strong>${state.players.length-missing.length}/${state.players.length} players placed both chips</strong><div class="progress-track"><div style="width:${state.players.length?(state.players.length-missing.length)/state.players.length*100:0}%"></div></div><small>${missing.length?'Still placing: '+esc(missing.map(p=>p.name+' ('+p.count+'/2)').join(', ')):'Everyone has placed both chips!'}</small>`;return;}const done=state.players.filter(p=>p.submitted);e.innerHTML=`<strong>${done.length} / ${state.players.length} guesses submitted</strong><div class="progress-track"><div style="width:${state.players.length?done.length/state.players.length*100:0}%"></div></div><small>Waiting for: ${esc(state.players.filter(p=>!p.submitted).map(p=>p.name).join(', ')||'Nobody — all ready!')}</small>`;}
+function betReadiness(){
+ if(!state||!['betting','locked-bets'].includes(state.phase))return '';
+ const bets=state.publicBets||[];
+ const ready=state.players.filter(p=>bets.filter(b=>b.name===p.name).length>=2).length;
+ return `<div class="bet-readiness"><div class="bet-readiness-title"><strong>🪙 Betting readiness</strong><span id="bet-readiness-count">${ready} of ${state.players.length} ready</span></div><div class="bet-readiness-players" id="bet-readiness-players">${state.players.map(p=>{const count=bets.filter(b=>b.name===p.name).length;return `<span class="bet-readiness-player ${count===2?'ready':''}" data-bet-player="${esc(p.name)}">${avatar(p.name)} <span>${esc(p.name)}</span> <strong>${count}/2 ${count===2?'✓':''}</strong></span>`}).join('')}</div></div>`;
+}
+function updateBetReadiness(){
+ const container=document.getElementById('bet-readiness-players');if(!container||!state)return;
+ const bets=state.publicBets||[];
+ const ready=state.players.filter(p=>bets.filter(b=>b.name===p.name).length>=2).length;
+ const counter=document.getElementById('bet-readiness-count');if(counter)counter.textContent=ready+' of '+state.players.length+' ready';
+ container.innerHTML=state.players.map(p=>{const count=bets.filter(b=>b.name===p.name).length;return `<span class="bet-readiness-player ${count===2?'ready':''}" data-bet-player="${esc(p.name)}">${avatar(p.name)} <span>${esc(p.name)}</span> <strong>${count}/2 ${count===2?'✓':''}</strong></span>`}).join('');
+}
+function markBetDirty(){
+ betDraftDirty=true;
+ const status=document.getElementById('bet-draft-status');
+ if(status){status.textContent='● Unsaved changes — tap Place / Update to confirm';status.classList.add('unsaved');}
+ updateStickyBetBar();
+}
+function resetBetDirty(){
+ betDraftDirty=false;betSubmitting=false;
+ const status=document.getElementById('bet-draft-status');
+ if(status){status.textContent='✓ All changes saved';status.classList.remove('unsaved');}
+ updateStickyBetBar();
+}
+function roundHighlights(){
+ const payouts=state.results?.payouts||[];
+ if(!payouts.length)return '';
+ const top=Math.max(...payouts.map(p=>p.payout||0));
+ const leaders=payouts.filter(p=>(p.payout||0)===top);
+ const bonus=payouts.filter(p=>(p.guessBonus||0)>0);
+ return `<div class="round-highlights"><div class="eyebrow">✨ ROUND ${state.round} HIGHLIGHTS</div><div class="round-highlights-grid"><div><span>🪙 Biggest round payout</span><strong>${leaders.map(p=>esc(p.name)).join(', ')}</strong><small>+${fmt(top)} earned chips</small></div><div><span>🎯 Best numerical guess</span><strong>${bonus.length?bonus.map(p=>esc(p.name)).join(', '):'No qualifying guess'}</strong><small>${bonus.length?'Bonus chips awarded':'All guesses were too high'}</small></div></div></div>`;
+}
+function finalShareText(){
+ return ['🏆 WITS & BETS · FINAL RESULTS','Room '+state.code,'Champion: '+(state.players[0]?.name||'—'),...state.players.map((p,i)=>(i+1)+'. '+p.name+' — '+fmt(p.chips)+' chips'),'Played '+(state.maxRounds||7)+' rounds · Virtual chips only'].join('\\n');
+}
 function renderGameHeader(){
  const steps=[{key:'guessing',label:'Guess'},{key:'betting',label:'Bet'},{key:'results',label:'Reveal'}];
  const phase=state.phase==='locked-bets'?'betting':state.phase==='finished'?'results':state.phase;
@@ -241,9 +278,10 @@ function betting(){
  ${reopenControls()}
  ${state.isPlayer&&editable?`<div class="bet-controls bet-journey"><div class="bet-step-heading"><strong>Your two betting chips</strong><span id="bet-summary" class="bet-count">${own.length} of 2 placed</span></div><div class="bet-chip-grid">${[0,1].map(slot=>{const b=own.find(x=>x.slot===slot);const o=b?state.guesses.find(x=>x.id===b.optionId):null;return `<button type="button" data-slot="${slot}" class="bet-chip-card ${activeSlot===slot?'bet-chip-active':''} ${b?'bet-chip-placed':''}" aria-pressed="${activeSlot===slot}"><span class="bet-chip-top">${b?'✓':'◉'} CHIP ${slot+1}</span><strong>${b?esc(optionLabel(o)):'Tap to place'}</strong><small>${b?'✓ Placed'+(b.extra?' · +'+fmt(b.extra)+' extra':''):'Not placed yet'}</small></button>`}).join('')}</div><div id="bet-guidance" class="bet-guidance">${own.length===2?'✓ Both permanent chips placed! Tap either chip to move it or adjust extras.':chosen?'Chip '+(activeSlot+1)+' selected. Tap a number to change it.':'Step '+(activeSlot+1)+' of 2: Tap a number on the board, then confirm your chip.'}</div><p class="muted">You can put both chips on the same number or different numbers. Everyone sees your bets live.</p></div>`:''}
  <div id="host-progress" class="host-progress"></div>
+ ${betReadiness()}
  ${playerLegend()}
  <div id="live-board">${board(false)}</div>
- ${state.isPlayer&&editable?`<div class="bet-controls bet-editor"><div class="bet-step-heading"><strong>Chip ${activeSlot+1} · ${chosen?'Edit your bet':'Place your bet'}</strong><span class="bet-balance">◈ <span id="chips-available">${fmt(myChips())}</span> available</span></div><div class="bet-selected-number">Selected number: <strong id="bet-target">${selected===null?'Tap a number above':esc(optionLabel(state.guesses.find(o=>o.id===selected)))}</strong></div><div class="bet-extra-panel"><div><strong>Extra earned chips (optional)</strong><p class="muted">Add more to increase your potential payout, or remove them before betting closes. Your two permanent chips are always free.</p></div><div class="bet-extra-stepper"><button type="button" class="secondary" id="extra-minus" aria-label="Remove one extra chip">−</button><input id="amount" aria-label="Extra earned chips" inputmode="numeric" type="number" min="0" max="${available}" step="1" value="${chosen?.extra??betAmount}"><button type="button" class="secondary" id="extra-plus" aria-label="Add one extra chip">+</button></div><div class="bet-extra-summary">Available to stake on this chip: <strong id="bet-extra-max">${fmt(available)}</strong> · Extra chips are returned if you reduce your bet.</div><button type="button" class="secondary bet-clear-extras" id="extra-clear">Remove all extras</button></div><button id="place" ${selected===null?'disabled':''}>${chosen?'Update Chip '+(activeSlot+1):'Place Chip '+(activeSlot+1)} →</button><div id="bet-saved" class="save-status">${chosen?'✓ Chip '+(activeSlot+1)+' saved on '+esc(chosenLabel):'Chip '+(activeSlot+1)+' not placed yet'}</div></div>`:(state.host&&editable?'<button id="advance">Close betting now →</button>':state.host?'<button id="advance">Reveal the correct answer →</button>':'<p class="muted">Waiting for the host.</p>')}
+ ${state.isPlayer&&editable?`<div class="bet-controls bet-editor"><div class="bet-step-heading"><strong>Chip ${activeSlot+1} · ${chosen?'Edit your bet':'Place your bet'}</strong><span class="bet-balance">◈ <span id="chips-available">${fmt(myChips())}</span> available</span></div><div class="bet-selected-number">Selected number: <strong id="bet-target">${selected===null?'Tap a number above':esc(optionLabel(state.guesses.find(o=>o.id===selected)))}</strong></div><div class="bet-extra-panel"><div><strong>Extra earned chips (optional)</strong><p class="muted">Add more to increase your potential payout, or remove them before betting closes. Your two permanent chips are always free.</p></div><div class="bet-extra-stepper"><button type="button" class="secondary" id="extra-minus" aria-label="Remove one extra chip">−</button><input id="amount" aria-label="Extra earned chips" inputmode="numeric" type="number" min="0" max="${available}" step="1" value="${chosen?.extra??betAmount}"><button type="button" class="secondary" id="extra-plus" aria-label="Add one extra chip">+</button></div><div class="bet-extra-summary">Available to stake on this chip: <strong id="bet-extra-max">${fmt(available)}</strong> · Extra chips are returned if you reduce your bet.</div><button type="button" class="secondary bet-clear-extras" id="extra-clear">Remove all extras</button></div><button id="place" ${selected===null?'disabled':''}>${chosen?'Update Chip '+(activeSlot+1):'Place Chip '+(activeSlot+1)} →</button><div id="bet-draft-status" class="bet-draft-status">✓ All changes saved</div><div id="bet-saved" class="save-status">${chosen?'✓ Chip '+(activeSlot+1)+' saved on '+esc(chosenLabel):'Chip '+(activeSlot+1)+' not placed yet'}</div></div>`:(state.host&&editable?'<button id="advance">Close betting now →</button>':state.host?'<button id="advance">Reveal the correct answer →</button>':'<p class="muted">Waiting for the host.</p>')}
  </div>`;
 }
 function results(){
@@ -254,11 +292,12 @@ function results(){
  ${playerLegend()}
  ${board(true)}
  <div class="reveal-highlights reveal-sequence-payout"><div><strong>🎯 Winning original guess</strong><p>${(state.guesses.find(o=>o.id===r.winningOptionId)?.guessers||[]).map(g=>`<span class="winner-person" style="--player-color:${g.color}">${esc(g.name)}</span>`).join(' ')||'No numerical guess qualified.'}</p></div><div><strong>🪙 Winning bets</strong><p>${(r.revealedBets||[]).filter(b=>b.optionId===r.winningOptionId).map(b=>`<span class="winner-person" style="--player-color:${playerColor(b.name)}">${esc(b.name)} · Chip ${b.slot+1}</span>`).join(' ')||'Nobody bet on the winning lane.'}</p></div></div>
+ ${roundHighlights()}
  <div class="answer-fact"><h2>💡 About the answer</h2><p>${esc(r.explanation||'This number describes the event in the question.')}</p></div>
  <h2 class="reveal-sequence-payout">💰 Round payouts</h2><div class="payout-grid">${r.payouts.map(p=>`<div class="payout-card"><strong>${esc(p.name)}</strong><span class="big">+${fmt(p.payout)}</span><small>Bet winnings: +${fmt(p.betWinnings)} · Best guess: +${fmt(p.guessBonus)}</small></div>`).join('')}</div>
  <p class="muted">Both permanent betting chips return next round; earned chips carry forward.</p>${state.host?`<button id="advance">${state.round>=state.maxRounds?'Finish game →':'Next round →'}</button>`:'<p>Waiting for host to start the next round…</p>'}</div>`;
 }
-function finished(){const history=state.roundHistory||[];const winner=state.players[0];return `<div class="panel stack"><div class="eyebrow">Final results</div><h1>🎉 Game over!</h1><div class="winner champion-reveal"><div class="muted">🏆 PARTY CHAMPION 🏆</div><div class="big">${esc(state.players[0]?.name||'No winner')}</div><p>${fmt(state.players[0]?.chips||0)} virtual chips</p></div><h2>Round-by-round results</h2><div class="history-scroll"><table class="leaderboard"><thead><tr><th>Round</th>${state.players.map(p=>`<th>${esc(p.name)}</th>`).join('')}</tr></thead><tbody>${history.map(h=>`<tr><td>${h.round}</td>${state.players.map(p=>{const score=h.payouts.find(x=>x.name===p.name);return `<td><strong>+${fmt(score?.payout||0)}</strong><small class="muted"> · ${fmt(score?.total||0)} total</small></td>`}).join('')}</tr>`).join('')}</tbody></table></div><p>Thanks for playing! To host another game, open a new private browser tab and create a fresh room.</p><button class="secondary" id="newGame">Create a new game</button></div>`}
+function finished(){const history=state.roundHistory||[];const winner=state.players[0];return `<div class="panel stack"><div class="eyebrow">Final results</div><h1>🎉 Game over!</h1><div class="winner champion-reveal"><div class="muted">🏆 PARTY CHAMPION 🏆</div><div class="big">${esc(state.players[0]?.name||'No winner')}</div><p>${fmt(state.players[0]?.chips||0)} virtual chips</p></div><div class="final-share"><h2>📸 Share your results</h2><p>Capture this scoreboard or copy a formatted summary to your group chat.</p><button id="share-results" type="button">Share results</button><button id="copy-results" type="button" class="secondary">Copy scoreboard</button></div><h2>Final standings</h2><div class="final-standings">${state.players.map((p,i)=>`<div class="final-standing"><strong>${i===0?"🥇":i===1?"🥈":i===2?"🥉":"#"+(i+1)} ${avatar(p.name)} ${esc(p.name)}</strong><span>${fmt(p.chips)} chips</span></div>`).join("")}</div><h2>Round-by-round results</h2><div class="history-scroll"><table class="leaderboard"><thead><tr><th>Round</th>${state.players.map(p=>`<th>${esc(p.name)}</th>`).join('')}</tr></thead><tbody>${history.map(h=>`<tr><td>${h.round}</td>${state.players.map(p=>{const score=h.payouts.find(x=>x.name===p.name);return `<td><strong>+${fmt(score?.payout||0)}</strong><small class="muted"> · ${fmt(score?.total||0)} total</small></td>`}).join('')}</tr>`).join('')}</tbody></table></div><p>Thanks for playing! To host another game, open a new private browser tab and create a fresh room.</p><button class="secondary" id="newGame">Create a new game</button></div>`}
 function wireBoardChoices(){
  document.querySelectorAll('[data-option]').forEach(el=>{const choose=()=>{selected=el.dataset.option;document.querySelectorAll('[data-option]').forEach(lane=>lane.classList.toggle('lane-selected',lane.dataset.option===selected));const place=document.getElementById('place');if(place)place.disabled=false;updateStickyBetBar();const target=document.getElementById('bet-target');if(target)target.textContent=optionLabel(state.guesses.find(o=>o.id===selected));};el.onclick=choose;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}}});
 }
