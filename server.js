@@ -69,6 +69,7 @@ function state(room, viewerId, host=false) {
     ownGuess:viewerId?room.players.get(viewerId)?.guess:null,
     ownBets:viewerId?room.players.get(viewerId)?.bets:[],
     bettingSeconds:room.bettingSeconds,bettingDeadline:room.bettingDeadline||null,
+    guessingSeconds:room.guessingSeconds,guessingDeadline:room.guessingDeadline||null,
     host, isPlayer:!!viewerId,
     recoveryPlayers:host?[...room.players.values()].map(p=>({name:p.name,playerToken:p.secret})):[],
     canAdvance:host && room.phase!=='finished'
@@ -88,6 +89,19 @@ function identify(socket,room,{host=false,player=null}) {
 }
 function hostRoom(socket) {const r=getRoom(socket.data.roomCode);return r && socket.data.isHost && r.hostToken===socket.data.hostToken?r:null;}
 function emitError(socket, message){socket.emit('notice',{error:message});}
+function stopGuessingClock(room){if(room.guessingTimer)clearTimeout(room.guessingTimer);room.guessingTimer=null;room.guessingDeadline=null;}
+function finishGuessing(room){
+ if(room.phase!=='guessing')return;
+ stopGuessingClock(room);
+ // If nobody submitted, keep the question open for the host to resolve.
+ if(![...room.players.values()].some(p=>p.guess!==null)){broadcast(room);return;}
+ revealGuesses(room);broadcast(room);
+}
+function startGuessingClock(room){
+ stopGuessingClock(room);
+ room.guessingDeadline=Date.now()+room.guessingSeconds*1000;
+ room.guessingTimer=setTimeout(()=>finishGuessing(room),room.guessingSeconds*1000);
+}
 function stopBettingClock(room){if(room.bettingTimer)clearTimeout(room.bettingTimer);room.bettingTimer=null;room.bettingDeadline=null;}
 function closeBetting(room){if(room.phase!=='betting')return;stopBettingClock(room);room.phase='locked-bets';broadcast(room);}
 function startBettingClock(room){
@@ -97,11 +111,12 @@ function startBettingClock(room){
 }
 function startRound(room) {
   if(room.round>=room.maxRounds){room.phase='finished';return;}
-  stopBettingClock(room);
+  stopBettingClock(room);stopGuessingClock(room);
   room.round++;
   room.current=room.questions[room.round-1];
   room.phase='guessing';room.options=[];room.results=null;
   for(const p of room.players.values()){p.guess=null;p.bets=[];}
+  startGuessingClock(room);
 }
 function revealGuesses(room){
   const values=[...new Set([...room.players.values()].map(p=>p.guess).filter(v=>v!==null))].sort((a,b)=>a-b);
@@ -137,7 +152,7 @@ io.on('connection',socket=>{
     const hostToken=token();
     const maxRounds=7;
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
-      questions:QUESTIONS.slice(0,maxRounds),players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null};
+      questions:QUESTIONS.slice(0,maxRounds),players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null};
     rooms.set(id,room);socket.data.hostToken=hostToken;identify(socket,room,{host:true});
     const base=(process.env.PUBLIC_URL||data?.origin||'').replace(/\/$/,'');
     const url=base?`${base}/?room=${id}&join=1`:`/?room=${id}&join=1`;
@@ -168,9 +183,17 @@ io.on('connection',socket=>{
   });
   socket.on('guess',(data,ack)=>{
     const room=getRoom(socket.data.roomCode);const p=room?.players.get(socket.data.playerId);
-    if(!p||room.phase!=='guessing')return err(ack,'Guessing is closed.');
+    if(!p||room.phase!=='guessing'||(room.guessingDeadline&&Date.now()>=room.guessingDeadline)){if(room?.phase==='guessing'&&room.guessingDeadline&&Date.now()>=room.guessingDeadline)finishGuessing(room);return err(ack,'Guessing is closed.');}
     if(typeof data?.value!=='number'||!integer(data.value)||data.value>1000000000)return err(ack,'Enter a whole number from 0 to 1,000,000,000.');
     p.guess=data.value;reply(ack,{ok:true});broadcast(room);
+  });
+  socket.on('setGuessingTimer',(data,ack)=>{
+    const room=hostRoom(socket);if(!room)return err(ack,'Only the host can set the timer.');
+    const seconds=data?.seconds;
+    if(!Number.isInteger(seconds)||seconds<15||seconds>1800)return err(ack,'Choose 15 seconds to 30 minutes.');
+    room.guessingSeconds=seconds;
+    if(room.phase==='guessing')startGuessingClock(room);
+    reply(ack,{ok:true});broadcast(room);
   });
   socket.on('setBettingTimer',(data,ack)=>{
     const room=hostRoom(socket);if(!room)return err(ack,'Only the host can set the timer.');
@@ -204,7 +227,7 @@ io.on('connection',socket=>{
       startRound(room);
     }else if(room.phase==='guessing'){
       if(![...room.players.values()].some(p=>p.guess!==null))return err(ack,'Wait for at least one guess.');
-      revealGuesses(room);
+      finishGuessing(room);
     }else if(room.phase==='betting')closeBetting(room);
     else if(room.phase==='locked-bets')settle(room);
     else if(room.phase==='results')startRound(room);
