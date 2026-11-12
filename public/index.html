@@ -298,8 +298,31 @@ button{touch-action:manipulation}
 .guess-arrival.arrived{background:#e8f8ee;color:#20754d;border-color:#b8e4c9}
 .guess-arrivals .muted{font-size:12px;margin:0}
 @media(prefers-reduced-motion:reduce){.guess-arrival{transition:none}}
+
+/* Correct horizontal/vertical layout: previous unscoped flex rule forced both views vertical. */
+.tabletop-scroll:not(.vertical-mode) .tabletop-board{min-width:max(100%,calc(var(--lane-count) * 142px));width:max-content}
+.tabletop-scroll:not(.vertical-mode) .tabletop-lanes{display:grid!important;grid-template-columns:repeat(var(--lane-count),minmax(142px,1fr))!important;gap:8px}
+.tabletop-scroll:not(.vertical-mode) .tabletop-lane{display:flex!important;flex-direction:column!important;min-height:235px;min-width:0;gap:8px;padding:10px 7px}
+.tabletop-scroll.vertical-mode .tabletop-board{min-width:0!important;width:100%!important}
+.tabletop-scroll.vertical-mode .tabletop-lanes{display:flex!important;flex-direction:column!important;gap:9px}
+.tabletop-scroll.vertical-mode .tabletop-lane{display:grid!important;grid-template-columns:minmax(110px,36%) minmax(0,1fr)!important;grid-template-areas:"card odds" "card chips" "status status";gap:6px 12px;min-height:0}
+.tabletop-scroll .lane-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:9px 6px;min-height:100px;width:100%;height:auto}
+.tabletop-scroll .lane-number{display:flex;align-items:center;justify-content:center;text-align:center;min-height:36px;font-size:clamp(18px,4vw,24px);font-weight:950}
+.tabletop-scroll .lane-number>span{font-size:inherit;overflow-wrap:anywhere}
+.tabletop-scroll .lane-guess-label{font-size:9px;letter-spacing:1.1px;color:#70829b;font-weight:850}
+.tabletop-scroll .lane-card .guess-owners{display:flex;flex-direction:row;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px;min-height:0;width:100%}
+.tabletop-scroll .lane-card .guess-owner{display:inline-flex;align-items:center;gap:4px;max-width:100%;background:#e8f0fa;color:#345474;border-radius:99px;padding:4px 6px;font-size:11px;font-weight:750}
+.tabletop-scroll .lane-card .guess-owner .avatar-ring{flex-shrink:0}
+.tabletop-scroll.vertical-mode .lane-card{grid-area:card;min-height:96px;max-width:none;align-self:stretch}
+.tabletop-scroll.vertical-mode .lane-odds{grid-area:odds}
+.tabletop-scroll.vertical-mode .lane-chips{grid-area:chips;min-height:0}
+.tabletop-scroll.vertical-mode .lane-winning-label,.tabletop-scroll.vertical-mode .lane-selected-label{grid-area:status}
+.tabletop-scroll:not(.vertical-mode) .lane-card{order:0}
+.tabletop-scroll:not(.vertical-mode) .lane-odds{order:1}
+.tabletop-scroll:not(.vertical-mode) .lane-chips{order:2}
+@media(max-width:420px){.tabletop-scroll.vertical-mode .tabletop-lane{grid-template-columns:minmax(104px,39%) minmax(0,1fr)!important;gap:5px 8px}.tabletop-scroll .lane-card .guess-owner{font-size:10px}}
 </style></head><body><main><header><div class="logo">🎬 STUDIO <span>WITS & BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven surprise questions. Pick Bollywood or cricket, guess together, and watch the bets unfold.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=guess-arrivals-31" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=board-layout-32" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
