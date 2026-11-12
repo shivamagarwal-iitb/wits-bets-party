@@ -278,8 +278,18 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 button{touch-action:manipulation}
 @media(max-width:600px){button{min-height:44px}.bet-controls button{min-height:48px}.tabletop-lane{scroll-margin:12px}}
 @media(prefers-reduced-motion:reduce){.table-chip,.progress-track>div{transition:none}}
+
+/* Game-night controls and celebration */
+.pause-indicator:not(:empty){display:inline-flex;align-items:center;background:#fff1d7;color:#865b0c;border:1px solid #f0d394;border-radius:12px;padding:10px 13px;font-size:13px;letter-spacing:.04em}
+.sound-toggle{font-size:12px!important;min-height:36px!important;padding:8px 12px!important;width:auto!important}
+.champion-reveal{position:relative;overflow:hidden;background:linear-gradient(135deg,#fef6d7,#f1e7ff,#e5f7fb);border:2px solid #eed58c;animation:champion-appear .7s ease both}
+.champion-reveal:before,.champion-reveal:after{content:'✦ ✧ ✦ ✧ ✦';position:absolute;color:#d8a52d;opacity:.7;letter-spacing:12px;font-size:22px;top:12px;left:10px}
+.champion-reveal:after{top:auto;left:auto;right:12px;bottom:12px}
+@keyframes champion-appear{from{transform:translateY(12px) scale(.97);opacity:.2}to{transform:none;opacity:1}}
+.history-scroll{max-width:100%;overflow-x:auto}
+@media(prefers-reduced-motion:reduce){.champion-reveal{animation:none}}
 </style></head><body><main><header><div class="logo">🎬 STUDIO <span>WITS & BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven surprise questions. Pick Bollywood or cricket, guess together, and watch the bets unfold.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=polish-29" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=game-night-30" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
