@@ -64,7 +64,7 @@ function state(room, viewerId, host=false) {
   return {
     code:room.code, phase:room.phase, round:room.round, maxRounds:room.maxRounds,
     category:room.category, categories:CATEGORIES, questionCount:QUESTION_BANK[room.category].length,
-    testMode:!!room.testMode,paused:!!room.paused,pausedRemaining:room.pausedRemaining||null,roundHistory:room.roundHistory||[],
+    testMode:!!room.testMode,testPlayers:host&&room.testMode?[...room.players.values()].filter(p=>p.bot).map(p=>({id:p.id,name:p.name,guess:p.guess,bets:p.bets,chips:p.chips})):[],paused:!!room.paused,pausedRemaining:room.pausedRemaining||null,roundHistory:room.roundHistory||[],
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
     chat:(room.chat||[]).slice(-60),reactions:(room.reactions||[]).filter(x=>x.at>Date.now()-4500),confidence:['betting','locked-bets','results'].includes(room.phase)?room.confidence:null,chatEnabled:room.chatEnabled!==false,chatMuted:host?[...(room.chatMuted||[])]:[],
     question:room.phase==='lobby'?null:room.current?.q,
@@ -245,8 +245,12 @@ io.on('connection',socket=>{
         if(!opts.some(o=>o.id===optionId))return err(ack,'Invalid betting lane.');
         const slot=action==='bet'?data?.slot:0;
         if(!Number.isInteger(slot)||slot<0||slot>1)return err(ack,'Invalid chip.');
+        const extra=action==='bet'?data?.extra:0;
+        if(!integer(extra)||extra>p.chips+(p.bets.find(b=>b.slot===slot)?.extra||0))return err(ack,'Not enough earned chips.');
+        p.chips+=p.bets.find(b=>b.slot===slot)?.extra||0;
+        p.chips-=extra;
         p.bets=p.bets.filter(b=>b.slot!==slot);
-        p.bets.push({slot,optionId,extra:0});
+        p.bets.push({slot,optionId,extra});
         if(action==='autoBet')p.bets.push({slot:1,optionId:opts[crypto.randomInt(opts.length)].id,extra:0});
       }
     }else if(action==='advance'){
