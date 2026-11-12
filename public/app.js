@@ -4,6 +4,10 @@ const socket=typeof io==='function'?io({transports:['polling','websocket'],timeo
 const params=new URLSearchParams(location.search);const initialRoom=(params.get('room')||'').toUpperCase();const forceJoin=params.get('join')==='1';const recoveryToken=params.get('resume');
 let state=null,auth=null,selected=null,betAmount=0,activeSlot=0,hostMeta=null;
 let joinedThisPage=false;
+let soundEnabled=localStorage.getItem('wits-sound')==='on';
+let audioCtx=null;
+function playCue(kind){if(!soundEnabled)return;try{audioCtx??=new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const now=audioCtx.currentTime;const notes=kind==='reveal'?[523,659,784]:kind==='bet'?[440,660]:[660];notes.forEach((freq,i)=>{const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type='sine';osc.frequency.value=freq;gain.gain.setValueAtTime(.0001,now+i*.12);gain.gain.exponentialRampToValueAtTime(.055,now+i*.12+.02);gain.gain.exponentialRampToValueAtTime(.0001,now+i*.12+.2);osc.connect(gain);gain.connect(audioCtx.destination);osc.start(now+i*.12);osc.stop(now+i*.12+.21);});}catch(e){}}
+function updateSoundToggle(){const b=document.getElementById('sound-toggle');if(b)b.textContent=soundEnabled?'🔊 Sounds on':'🔇 Sounds off';}
 let joinAvatar=null;
 async function resizeAvatar(file){
  if(!file.type.startsWith('image/'))throw Error('Choose an image file.');
@@ -72,6 +76,7 @@ window.addEventListener('focus',refreshActiveTab);
 
 socket?.on('state',s=>{
  const changed=state?.phase!==s.phase||state?.round!==s.round||state?.question!==s.question;
+ if(changed&&s.phase==='results')playCue('reveal');
  const liveOnly=!changed&&s.phase==='betting'&&state?.phase==='betting';
  const lobbyOnly=!changed&&s.phase==='lobby'&&state?.phase==='lobby';
  const guessingOnly=!changed&&s.phase==='guessing'&&state?.phase==='guessing';
@@ -89,7 +94,7 @@ socket?.on('state',s=>{
    if(summary)summary.textContent=(s.ownBets||[]).length+'/2 permanent chips placed';
    const chips=document.getElementById('chips-available');
    if(chips)chips.textContent=fmt(myChips());
-   updateBetTimer();updatePauseControls();
+   updateBetTimer();updatePauseControls();updateHostProgress();
  }else if(lobbyOnly){
    const count=document.getElementById('lobby-player-count');if(count)count.textContent=s.players.length+' / 30 players';
    const list=document.getElementById('lobby-player-list');if(list)list.innerHTML=s.players.map(p=>`<span class="pill player-pill">${avatar(p.name)} ${esc(p.name)}</span>`).join('');
@@ -130,8 +135,8 @@ function testPanel(){
  ${['guessing','betting'].includes(stage)?`<div class="test-grid">${players.map(p=>`<div class="test-person"><div class="row">${avatar(p.name)}<strong>${esc(p.name)}</strong></div>${stage==='guessing'?`<div class="muted" data-test-person-status="${esc(p.id)}">Guess: ${p.submitted?'✓ Submitted':'Not submitted'}</div><label class="field">Enter a test guess<input type="number" min="0" max="1000000000" value="" data-test-value="${esc(p.id)}" placeholder="Number"></label><button class="secondary" data-test-guess="${esc(p.id)}">Submit guess</button>`:`<div class="muted">Place a test chip</div><label class="field">Betting lane<select data-test-option="${esc(p.id)}">${(state.guesses||[]).map(o=>`<option value="${esc(o.id)}">${esc(optionLabel(o))}</option>`).join('')}</select></label><button class="secondary" data-test-bet="${esc(p.id)}">Place chip 1</button>`}</div>`).join('')}</div>`:''}
  <p class="muted">Tip: Try replacing a question, reopening stages, or leaving one player without a guess to test edge cases. You can still use the regular host controls below.</p></section>`;
 }
-function updateHostProgress(){const e=document.getElementById('host-progress');if(!e||!state?.host)return;const done=state.players.filter(p=>p.submitted);e.innerHTML=`<strong>${done.length} / ${state.players.length} guesses submitted</strong><div class="progress-track"><div style="width:${state.players.length?done.length/state.players.length*100:0}%"></div></div><small>Waiting for: ${esc(state.players.filter(p=>!p.submitted).map(p=>p.name).join(', ')||'Nobody — all ready!')}</small>`;}
-function renderGameHeader(){return `<div class="row between section"><span class="pill">ROOM ${esc(state.code)}</span><span class="pill">${state.phase==='lobby'?'Waiting for players':state.phase==='finished'?'Game complete':`Round ${state.round} / ${state.maxRounds}`}</span>${state.isPlayer?`<span class="pill">◈ ${fmt(myChips())} earned chips</span>`:''}</div>`}
+function updateHostProgress(){const e=document.getElementById('host-progress');if(!e||!state?.host)return;if(state.phase==='betting'){const bets=state.publicBets||[];const missing=state.players.map(p=>({name:p.name,count:bets.filter(b=>b.name===p.name).length})).filter(p=>p.count<2);e.innerHTML=`<strong>${state.players.length-missing.length}/${state.players.length} players placed both chips</strong><div class="progress-track"><div style="width:${state.players.length?(state.players.length-missing.length)/state.players.length*100:0}%"></div></div><small>${missing.length?'Still placing: '+esc(missing.map(p=>p.name+' ('+p.count+'/2)').join(', ')):'Everyone has placed both chips!'}</small>`;return;}const done=state.players.filter(p=>p.submitted);e.innerHTML=`<strong>${done.length} / ${state.players.length} guesses submitted</strong><div class="progress-track"><div style="width:${state.players.length?done.length/state.players.length*100:0}%"></div></div><small>Waiting for: ${esc(state.players.filter(p=>!p.submitted).map(p=>p.name).join(', ')||'Nobody — all ready!')}</small>`;}
+function renderGameHeader(){return `<div class="row between section"><span class="pill">ROOM ${esc(state.code)}</span><span class="pill">${state.phase==='lobby'?'Waiting for players':state.phase==='finished'?'Game complete':`Round ${state.round} / ${state.maxRounds}`}</span>${state.isPlayer?`<span class="pill">◈ ${fmt(myChips())} earned chips</span>`:''}<button id="sound-toggle" class="secondary sound-toggle">${soundEnabled?'🔊 Sounds on':'🔇 Sounds off'}</button></div>`}
 function recoveryPanel(){
  if(!state?.host||state.phase==='finished')return '';
  const players=state.recoveryPlayers||[];
@@ -205,6 +210,7 @@ function betting(){
  <div class="row">${pauseControls()}<strong id="pause-indicator" class="pause-indicator">${state.paused?'⏸ GAME PAUSED':''}</strong></div>
  ${reopenControls()}
  ${state.isPlayer&&editable?`<div class="bet-controls"><div class="muted">CHOOSE A PERMANENT CHIP</div><div class="row"><button class="${activeSlot===0?'':'secondary'}" data-slot="0">◉ Chip 1</button><button class="${activeSlot===1?'':'secondary'}" data-slot="1">◉ Chip 2</button></div><p class="muted">Select a card on the live board. You can change either chip until betting closes.</p></div>`:''}
+ <div id="host-progress" class="host-progress"></div>
  ${playerLegend()}
  <div id="live-board">${board(false)}</div>
  ${state.isPlayer&&editable?`<div class="bet-controls"><label class="field">Extra earned chips under chip ${activeSlot+1} (optional)<input id="amount" type="number" min="0" max="${available}" step="1" value="${chosen?.extra??betAmount}"></label><p class="muted">Earned chips available: <span id="chips-available">${fmt(myChips())}</span></p><button id="place" ${selected===null?'disabled':''}>Place / update chip ${activeSlot+1}</button><div id="bet-saved" class="save-status">${chosen?'✓ Chip '+(activeSlot+1)+' saved':'Chip not placed yet'}</div><p class="muted"><span id="bet-summary">${own.length}/2 permanent chips placed</span>. All bets are public and editable until the deadline.</p></div>`:(state.host&&editable?'<button id="advance">Close betting now →</button>':state.host?'<button id="advance">Reveal the correct answer →</button>':'<p class="muted">Waiting for the host.</p>')}
@@ -227,6 +233,7 @@ function wireBoardChoices(){
  document.querySelectorAll('[data-option]').forEach(el=>{const choose=()=>{selected=el.dataset.option;document.querySelectorAll('[data-option]').forEach(lane=>lane.classList.toggle('lane-selected',lane.dataset.option===selected));const place=document.getElementById('place');if(place)place.disabled=false;};el.onclick=choose;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}}});
 }
 function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML='<div id="network-banner" class="network-banner"></div>'+renderGameHeader()+testPanel()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+recoveryPanel();updateBetTimer();updateHostProgress();updatePauseControls();
+ document.getElementById('sound-toggle')?.addEventListener('click',()=>{soundEnabled=!soundEnabled;localStorage.setItem('wits-sound',soundEnabled?'on':'off');updateSoundToggle();if(soundEnabled)playCue('bet')});
  document.getElementById('pause-game')?.addEventListener('click',()=>send('togglePause',{},()=>notice(state.paused?'Game paused':'Timer updated')));
  document.querySelectorAll('[data-test]').forEach(el=>el.addEventListener('click',()=>send('testAction',{action:el.dataset.test},()=>notice('Test action completed'))));
  document.querySelectorAll('[data-test-guess]').forEach(el=>el.addEventListener('click',()=>{const id=el.dataset.testGuess;const input=[...document.querySelectorAll('[data-test-value]')].find(x=>x.dataset.testValue===id);if(!input?.value.trim())return notice('Enter a number first');send('testAction',{action:'guess',playerId:id,value:Number(input.value)},()=>notice('Bot guess saved'))}));
@@ -251,7 +258,7 @@ function render(){if(!state)return renderWelcome();const oldGuess=document.getEl
  });
  document.getElementById('reopen-betting')?.addEventListener('click',()=>send('reopenBetting',{},()=>notice('Betting reopened')));
  document.getElementById('advance')?.addEventListener('click',()=>send('advance',{}));
- document.getElementById('submitGuess')?.addEventListener('click',()=>{const input=document.getElementById('guess');if(!input.value.trim())return notice('Enter a number');send('guess',{value:Number(input.value)},()=>{guessDraft=null;const e=document.getElementById('guess-saved');if(e)e.textContent='✓ Saved answer: '+fmt(Number(input.value));notice('✓ Guess saved!')})});
+ document.getElementById('submitGuess')?.addEventListener('click',()=>{const input=document.getElementById('guess');if(!input.value.trim())return notice('Enter a number');send('guess',{value:Number(input.value)},()=>{guessDraft=null;const e=document.getElementById('guess-saved');if(e)e.textContent='✓ Saved answer: '+fmt(Number(input.value));playCue('guess');notice('✓ Guess saved!')})});
  document.querySelectorAll('[data-layout]').forEach(el=>el.addEventListener('click',()=>setBoardLayout(el.dataset.layout)));
  wireBoardChoices();
  document.querySelectorAll('[data-slot]').forEach(el=>el.onclick=()=>{activeSlot=Number(el.dataset.slot);selected=state.ownBets?.find(b=>b.slot===activeSlot)?.optionId??null;betAmount=0;render()});
@@ -264,7 +271,7 @@ function render(){if(!state)return renderWelcome();const oldGuess=document.getEl
   const seconds=Number(document.getElementById('timer-seconds').value);
   send('setBettingTimer',{seconds},()=>notice('Betting timer updated'));
  });
- document.getElementById('place')?.addEventListener('click',()=>{const amount=Number(document.getElementById('amount').value);send('bet',{slot:activeSlot,optionId:selected,extra:amount},()=>{const e=document.getElementById('bet-saved');if(e)e.textContent='✓ Chip '+(activeSlot+1)+' saved on '+optionLabel(state.guesses.find(o=>o.id===selected));notice('Chip '+(activeSlot+1)+' saved!');if(activeSlot===0&&!state.ownBets?.some(b=>b.slot===1)){activeSlot=1;selected=null;betAmount=0;render()}})});
+ document.getElementById('place')?.addEventListener('click',()=>{const amount=Number(document.getElementById('amount').value);send('bet',{slot:activeSlot,optionId:selected,extra:amount},()=>{const e=document.getElementById('bet-saved');if(e)e.textContent='✓ Chip '+(activeSlot+1)+' saved on '+optionLabel(state.guesses.find(o=>o.id===selected));playCue('bet');notice('Chip '+(activeSlot+1)+' saved!');if(activeSlot===0&&!state.ownBets?.some(b=>b.slot===1)){activeSlot=1;selected=null;betAmount=0;render()}})});
  document.getElementById('copy')?.addEventListener('click',async()=>{const url=`${location.origin}/?room=${state.code}&join=1`;try{await navigator.clipboard.writeText(url);notice('Invite link copied!')}catch{notice(url)}});
  document.getElementById('newGame')?.addEventListener('click',()=>{try{sessionStorage.removeItem('wb_auth');localStorage.removeItem('wb_auth_last');if(state?.code)localStorage.removeItem('wb_auth_'+state.code)}catch{}state=null;auth=null;history.replaceState({},'','/');renderWelcome()});
 }
