@@ -23,6 +23,18 @@ function questionTopic(q){
  if(/world cup|final|tournament/i.test(q.q))return 'tournament';
  return 'other';
 }
+function questionImage(q,category){
+ if(!q)return null;
+ if(category!=='cricket')return null;
+ const topic=questionTopic(q);
+ const text=q.q.toLowerCase();
+ const file=text.includes('lord')||text.includes('1983 world cup')?'The_pitch_at_Lord%27s_Cricket_Ground.jpg':
+ text.includes('edgbaston')||text.includes('ashes')?'Edgbaston.jpg':
+ topic==='stadiums-and-history'?'Morning_Cricket_Ground.jpg':
+ topic==='unusual-records'||topic==='captains-and-legends'?'Cricketball.jpg':
+ 'Cricket_ground_%281%29.jpg';
+ return {url:'https://commons.wikimedia.org/wiki/Special:FilePath/'+file,alt:'Cricket photography',credit:'Wikimedia Commons'};
+}
 function drawQuestion(room){
  const pool=QUESTION_BANK[room.category].filter(q=>!room.usedQuestionIds.has(q.id));
  if(!pool.length)return null;
@@ -55,6 +67,7 @@ function state(room, viewerId, host=false) {
     testMode:!!room.testMode,paused:!!room.paused,pausedRemaining:room.pausedRemaining||null,roundHistory:room.roundHistory||[],
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
     question:room.phase==='lobby'?null:room.current?.q,
+    questionImage:room.phase==='lobby'?null:questionImage(room.current,room.category),
     guesses:isRevealed?room.options:[],
     results:room.phase==='results'?room.results:null,
     publicBets:['betting','locked-bets','results'].includes(room.phase)?[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra}))):[],
