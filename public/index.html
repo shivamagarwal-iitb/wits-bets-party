@@ -413,8 +413,36 @@ body.presentation-mode #presentation-toggle{display:inline-flex!important}
 .final-standing span{font-weight:800;color:#3c629b}
 @media(max-width:480px){.round-highlights-grid{grid-template-columns:1fr}.final-share button{flex:1}}
 @media(prefers-reduced-motion:reduce){.round-highlights{animation:none}}
+
+/* Quiet pastel game-board theme — both layouts share the same live betting data. */
+:root{--wb-ink:#253449;--wb-slate:#62748c;--wb-lavender:#eae5f7;--wb-sage:#e0f1e9;--wb-peach:#f9e8dc;--wb-blue:#e2ecfa;--wb-cream:#fff8ed}
+body{background:radial-gradient(ellipse at 12% 0%,#dce7f8 0,transparent 45%),radial-gradient(ellipse at 92% 85%,#f3e5ed 0,transparent 48%),#f3f5fa;color:var(--wb-ink)}
+.panel{background:#ffffffed;border-color:#e2e7f0;box-shadow:0 10px 34px #56667d13;color:var(--wb-ink)}
+.panel p,.muted{color:var(--wb-slate)}
+.board-layout-switch{padding:6px;background:#f1f3f9;border:1px solid #e1e5ef;border-radius:14px;gap:4px}
+.board-layout-switch span{color:#53657c;padding-left:7px}
+.board-layout-switch button{background:#fff;color:#405370;border:1px solid #dce3ef;box-shadow:0 2px 7px #55627a10;transition:background .15s,border-color .15s}
+.board-layout-switch button.secondary{background:transparent;color:#697991;border-color:transparent;box-shadow:none}
+.board-layout-switch button:focus-visible{outline:3px solid #9c9bd4;outline-offset:2px}
+.tabletop-scroll{border:1px solid #d4ddeb;background:#f4f6fb;box-shadow:0 8px 28px #67778e14}
+.tabletop-board{background:linear-gradient(150deg,#edf1f9,#f7f5fb 60%,#eef5f1);color:#34435b}
+.tabletop-banner{color:#50617e;text-shadow:none;letter-spacing:1.2px}
+.tabletop-banner span{color:#75839a}
+.tabletop-lane{background:linear-gradient(155deg,#ffffff,#f1f4fb);border-color:#dbe3ee;color:#34435b;box-shadow:0 3px 12px #6878900f}
+.tabletop-lane:nth-child(4n+2){background:linear-gradient(155deg,#fff,#f0edf9)}
+.tabletop-lane:nth-child(4n+3){background:linear-gradient(155deg,#fff,#eaf5f0)}
+.tabletop-lane:nth-child(4n+4){background:linear-gradient(155deg,#fff,#fff1e9)}
+.bet-journey,.bet-editor{background:linear-gradient(150deg,#fbfcff,#f5f3fb);border-color:#e0e4f0}
+button.bet-chip-card{border-color:#dce3ee;background:#fff;box-shadow:0 3px 12px #65758a12}
+button.bet-chip-card.bet-chip-placed{background:#ecf8f2;border-color:#b8dcc9}
+.bet-count,.bet-balance{background:#eae9f7;color:#58638b}
+.game-progress{background:#ffffffed;border-color:#e3e7f1}
+.round-progress-track>div{background:linear-gradient(90deg,#b5a8df,#93c7b5)}
+.stage-step{background:#f4f5f9;color:#6f7e93}
+.stage-step.stage-current{background:#eae5f7;color:#554c83;border-color:#cfc4e8}
+@media(max-width:640px){.board-layout-switch{position:relative}.board-layout-switch button{flex:1;min-width:94px}.tabletop-scroll{border-radius:16px}.vertical-mode .tabletop-lanes{gap:8px}}
 </style></head><body><main><header><div class="logo">🎬 STUDIO <span>WITS & BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven surprise questions. Pick Bollywood or cricket, guess together, and watch the bets unfold.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=bet-safety-35" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=pastel-board-36" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
