@@ -178,7 +178,7 @@ function roundHighlights(){
  return `<div class="round-highlights"><div class="eyebrow">✨ ROUND ${state.round} HIGHLIGHTS</div><div class="round-highlights-grid"><div><span>🪙 Biggest round payout</span><strong>${leaders.map(p=>esc(p.name)).join(', ')}</strong><small>+${fmt(top)} earned chips</small></div><div><span>🎯 Best numerical guess</span><strong>${bonus.length?bonus.map(p=>esc(p.name)).join(', '):'No qualifying guess'}</strong><small>${bonus.length?'Bonus chips awarded':'All guesses were too high'}</small></div></div></div>`;
 }
 function finalShareText(){
- return ['🏆 WITS & BETS · FINAL RESULTS','Room '+state.code,'Champion: '+(state.players[0]?.name||'—'),...state.players.map((p,i)=>(i+1)+'. '+p.name+' — '+fmt(p.chips)+' chips'),'Played '+(state.maxRounds||7)+' rounds · Virtual chips only'].join('\\n');
+ return ['🏆 WITS & BETS · FINAL RESULTS','Room '+state.code,'Champion: '+(state.players[0]?.name||'—'),...state.players.map((p,i)=>(i+1)+'. '+p.name+' — '+fmt(p.chips)+' chips'),'Played '+(state.maxRounds||7)+' rounds · Virtual chips only'].join('\n');
 }
 function renderGameHeader(){
  const steps=[{key:'guessing',label:'Guess'},{key:'betting',label:'Bet'},{key:'results',label:'Reveal'}];
