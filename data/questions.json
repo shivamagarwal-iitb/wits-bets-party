@@ -1,700 +1,242 @@
 {
   "bollywood": [
     {
-      "id": "b001",
-      "q": "In which year was the Hindi film \"Kaho Naa... Pyaar Hai\" first released?",
-      "a": 2000,
-      "fact": "\"Kaho Naa... Pyaar Hai\" was released in 2000. Source reference: film release listings (verify against official film records)."
+      "id": "bv001",
+      "q": "How many friends form the main group in Zindagi Na Milegi Dobara?",
+      "a": 3,
+      "fact": "The road trip follows Arjun, Kabir and Imran.",
+      "topic": "characters"
     },
     {
-      "id": "b002",
-      "q": "In which year was the Hindi film \"Mohabbatein\" first released?",
-      "a": 2000,
-      "fact": "\"Mohabbatein\" was released in 2000. Source reference: film release listings (verify against official film records)."
+      "id": "bv002",
+      "q": "How many friends are at the heart of Dil Chahta Hai?",
+      "a": 3,
+      "fact": "Akash, Sameer and Sid are the three central friends.",
+      "topic": "characters"
     },
     {
-      "id": "b003",
-      "q": "In which year was the Hindi film \"Lagaan\" first released?",
-      "a": 2001,
-      "fact": "\"Lagaan\" was released in 2001. Source reference: film release listings (verify against official film records)."
+      "id": "bv003",
+      "q": "How many brothers are central to the story of Amar Akbar Anthony?",
+      "a": 3,
+      "fact": "The three separated brothers are Amar, Akbar and Anthony.",
+      "topic": "characters"
     },
     {
-      "id": "b004",
-      "q": "In which year was the Hindi film \"Dil Chahta Hai\" first released?",
-      "a": 2001,
-      "fact": "\"Dil Chahta Hai\" was released in 2001. Source reference: film release listings (verify against official film records)."
+      "id": "bv004",
+      "q": "How many daughters does Mahavir Phogat have in Dangal?",
+      "a": 4,
+      "fact": "The film depicts Geeta, Babita, Ritu and Sangita.",
+      "topic": "characters"
     },
     {
-      "id": "b005",
-      "q": "In which year was the Hindi film \"Kabhi Khushi Kabhie Gham\" first released?",
-      "a": 2001,
-      "fact": "\"Kabhi Khushi Kabhie Gham\" was released in 2001. Source reference: film release listings (verify against official film records)."
+      "id": "bv005",
+      "q": "How many thieves form the central team in Happy New Year?",
+      "a": 6,
+      "fact": "The dance-and-heist team has six principal members.",
+      "topic": "characters"
     },
     {
-      "id": "b006",
-      "q": "In which year was the Hindi film \"Gadar: Ek Prem Katha\" first released?",
-      "a": 2001,
-      "fact": "\"Gadar: Ek Prem Katha\" was released in 2001. Source reference: film release listings (verify against official film records)."
+      "id": "bv006",
+      "q": "How many lead characters make up the titular trio in 3 Idiots?",
+      "a": 3,
+      "fact": "Rancho, Farhan and Raju are the three college friends.",
+      "topic": "characters"
     },
     {
-      "id": "b007",
-      "q": "In which year was the Hindi film \"Devdas\" first released?",
-      "a": 2002,
-      "fact": "\"Devdas\" was released in 2002. Source reference: film release listings (verify against official film records)."
+      "id": "bv007",
+      "q": "How many siblings are there in the central family of Kapoor & Sons?",
+      "a": 2,
+      "fact": "The story focuses on brothers Rahul and Arjun.",
+      "topic": "characters"
     },
     {
-      "id": "b008",
-      "q": "In which year was the Hindi film \"Raaz\" first released?",
-      "a": 2002,
-      "fact": "\"Raaz\" was released in 2002. Source reference: film release listings (verify against official film records)."
+      "id": "bv008",
+      "q": "How many children does the father have in Kabhi Khushi Kabhie Gham?",
+      "a": 2,
+      "fact": "Yash and Nandini have two sons, Rahul and Rohan.",
+      "topic": "characters"
     },
     {
-      "id": "b009",
-      "q": "In which year was the Hindi film \"Saathiya\" first released?",
-      "a": 2002,
-      "fact": "\"Saathiya\" was released in 2002. Source reference: film release listings (verify against official film records)."
+      "id": "bv009",
+      "q": "How many members of the Indian women's hockey team are shown in the central squad of Chak De! India?",
+      "a": 16,
+      "fact": "The story follows a 16-player women's national hockey squad.",
+      "topic": "sports"
     },
     {
-      "id": "b010",
-      "q": "In which year was the Hindi film \"Kal Ho Naa Ho\" first released?",
-      "a": 2003,
-      "fact": "\"Kal Ho Naa Ho\" was released in 2003. Source reference: film release listings (verify against official film records)."
+      "id": "bv010",
+      "q": "How many brothers compete for the family inheritance in the film Race (2008)?",
+      "a": 2,
+      "fact": "The story centers on rival brothers Ranvir and Rajiv.",
+      "topic": "characters"
     },
     {
-      "id": "b011",
-      "q": "In which year was the Hindi film \"Koi... Mil Gaya\" first released?",
-      "a": 2003,
-      "fact": "\"Koi... Mil Gaya\" was released in 2003. Source reference: film release listings (verify against official film records)."
+      "id": "bv011",
+      "q": "How many characters does Shah Rukh Khan play in the 2007 film Om Shanti Om?",
+      "a": 2,
+      "fact": "He portrays Om Prakash Makhija and Om Kapoor.",
+      "topic": "double-role"
     },
     {
-      "id": "b012",
-      "q": "In which year was the Hindi film \"Munna Bhai M.B.B.S.\" first released?",
-      "a": 2003,
-      "fact": "\"Munna Bhai M.B.B.S.\" was released in 2003. Source reference: film release listings (verify against official film records)."
+      "id": "bv012",
+      "q": "How many characters does Shah Rukh Khan play in Fan (2016)?",
+      "a": 2,
+      "fact": "He plays movie star Aryan Khanna and fan Gaurav Chandna.",
+      "topic": "double-role"
     },
     {
-      "id": "b013",
-      "q": "In which year was the Hindi film \"Baghban\" first released?",
-      "a": 2003,
-      "fact": "\"Baghban\" was released in 2003. Source reference: film release listings (verify against official film records)."
+      "id": "bv013",
+      "q": "How many characters does Shah Rukh Khan play in Duplicate (1998)?",
+      "a": 2,
+      "fact": "He plays Bablu Chaudhary and Manu Dada.",
+      "topic": "double-role"
     },
     {
-      "id": "b014",
-      "q": "In which year was the Hindi film \"Main Hoon Na\" first released?",
-      "a": 2004,
-      "fact": "\"Main Hoon Na\" was released in 2004. Source reference: film release listings (verify against official film records)."
+      "id": "bv014",
+      "q": "How many characters does Salman Khan play in Judwaa (1997)?",
+      "a": 2,
+      "fact": "He plays separated twins Raja and Prem.",
+      "topic": "double-role"
     },
     {
-      "id": "b015",
-      "q": "In which year was the Hindi film \"Veer-Zaara\" first released?",
-      "a": 2004,
-      "fact": "\"Veer-Zaara\" was released in 2004. Source reference: film release listings (verify against official film records)."
+      "id": "bv015",
+      "q": "How many characters does Varun Dhawan play in Judwaa 2?",
+      "a": 2,
+      "fact": "He plays twins Raja and Prem.",
+      "topic": "double-role"
     },
     {
-      "id": "b016",
-      "q": "In which year was the Hindi film \"Dhoom\" first released?",
-      "a": 2004,
-      "fact": "\"Dhoom\" was released in 2004. Source reference: film release listings (verify against official film records)."
+      "id": "bv016",
+      "q": "How many characters does Amitabh Bachchan play in the 1978 film Don?",
+      "a": 2,
+      "fact": "He portrays Don and his lookalike Vijay.",
+      "topic": "double-role"
     },
     {
-      "id": "b017",
-      "q": "In which year was the Hindi film \"Swades\" first released?",
-      "a": 2004,
-      "fact": "\"Swades\" was released in 2004. Source reference: film release listings (verify against official film records)."
+      "id": "bv017",
+      "q": "How many characters does Shah Rukh Khan play in the 2011 film Ra.One?",
+      "a": 2,
+      "fact": "He plays Shekhar Subramanium and the game hero G.One.",
+      "topic": "double-role"
     },
     {
-      "id": "b018",
-      "q": "In which year was the Hindi film \"Hum Tum\" first released?",
-      "a": 2004,
-      "fact": "\"Hum Tum\" was released in 2004. Source reference: film release listings (verify against official film records)."
+      "id": "bv018",
+      "q": "How many Filmfare Awards did the original 2001 film Lagaan win at the 2002 ceremony?",
+      "a": 8,
+      "fact": "Lagaan won eight Filmfare Awards including Best Film and Best Director.",
+      "topic": "awards"
     },
     {
-      "id": "b019",
-      "q": "In which year was the Hindi film \"Black\" first released?",
-      "a": 2005,
-      "fact": "\"Black\" was released in 2005. Source reference: film release listings (verify against official film records)."
+      "id": "bv019",
+      "q": "How many Academy Award nominations did Lagaan receive?",
+      "a": 1,
+      "fact": "Lagaan was nominated for Best Foreign Language Film at the 74th Academy Awards.",
+      "topic": "awards"
     },
     {
-      "id": "b020",
-      "q": "In which year was the Hindi film \"Bunty Aur Babli\" first released?",
-      "a": 2005,
-      "fact": "\"Bunty Aur Babli\" was released in 2005. Source reference: film release listings (verify against official film records)."
+      "id": "bv020",
+      "q": "How many Academy Awards did Slumdog Millionaire win?",
+      "a": 8,
+      "fact": "The film won eight Oscars at the 81st Academy Awards.",
+      "topic": "awards"
     },
     {
-      "id": "b021",
-      "q": "In which year was the Hindi film \"Salaam Namaste\" first released?",
-      "a": 2005,
-      "fact": "\"Salaam Namaste\" was released in 2005. Source reference: film release listings (verify against official film records)."
+      "id": "bv021",
+      "q": "How many Academy Awards did the song Naatu Naatu win?",
+      "a": 1,
+      "fact": "The RRR song won the Oscar for Best Original Song.",
+      "topic": "awards"
     },
     {
-      "id": "b022",
-      "q": "In which year was the Hindi film \"No Entry\" first released?",
-      "a": 2005,
-      "fact": "\"No Entry\" was released in 2005. Source reference: film release listings (verify against official film records)."
+      "id": "bv022",
+      "q": "How many Oscars did the film RRR win?",
+      "a": 1,
+      "fact": "RRR won Best Original Song for Naatu Naatu.",
+      "topic": "awards"
     },
     {
-      "id": "b023",
-      "q": "In which year was the Hindi film \"Rang De Basanti\" first released?",
-      "a": 2006,
-      "fact": "\"Rang De Basanti\" was released in 2006. Source reference: film release listings (verify against official film records)."
+      "id": "bv023",
+      "q": "How many Oscars did the film The Elephant Whisperers win?",
+      "a": 1,
+      "fact": "The documentary short won Best Documentary Short Film.",
+      "topic": "awards"
     },
     {
-      "id": "b024",
-      "q": "In which year was the Hindi film \"Lage Raho Munna Bhai\" first released?",
-      "a": 2006,
-      "fact": "\"Lage Raho Munna Bhai\" was released in 2006. Source reference: film release listings (verify against official film records)."
+      "id": "bv024",
+      "q": "How many films are in the original Dhoom trilogy?",
+      "a": 3,
+      "fact": "The first three installments are Dhoom, Dhoom 2 and Dhoom 3.",
+      "topic": "franchise"
     },
     {
-      "id": "b025",
-      "q": "In which year was the Hindi film \"Dhoom 2\" first released?",
-      "a": 2006,
-      "fact": "\"Dhoom 2\" was released in 2006. Source reference: film release listings (verify against official film records)."
+      "id": "bv025",
+      "q": "How many films are in the original Krrish franchise through Krrish 3?",
+      "a": 3,
+      "fact": "Koi... Mil Gaya, Krrish and Krrish 3 form the first three films.",
+      "topic": "franchise"
     },
     {
-      "id": "b026",
-      "q": "In which year was the Hindi film \"Don\" first released?",
-      "a": 2006,
-      "fact": "\"Don\" was released in 2006. Source reference: film release listings (verify against official film records)."
+      "id": "bv026",
+      "q": "How many films are in the original Housefull series through Housefull 4?",
+      "a": 4,
+      "fact": "The first four Housefull films were released from 2010 to 2019.",
+      "topic": "franchise"
     },
     {
-      "id": "b027",
-      "q": "In which year was the Hindi film \"Kabhi Alvida Naa Kehna\" first released?",
-      "a": 2006,
-      "fact": "\"Kabhi Alvida Naa Kehna\" was released in 2006. Source reference: film release listings (verify against official film records)."
+      "id": "bv027",
+      "q": "How many films are in the original Golmaal series through Golmaal Again?",
+      "a": 4,
+      "fact": "Golmaal: Fun Unlimited, Golmaal Returns, Golmaal 3 and Golmaal Again.",
+      "topic": "franchise"
     },
     {
-      "id": "b028",
-      "q": "In which year was the Hindi film \"Chak De! India\" first released?",
-      "a": 2007,
-      "fact": "\"Chak De! India\" was released in 2007. Source reference: film release listings (verify against official film records)."
+      "id": "bv028",
+      "q": "How many lead actresses play the three friends in the 2018 film Veere Di Wedding?",
+      "a": 4,
+      "fact": "The main friends are played by Kareena Kapoor, Sonam Kapoor, Swara Bhasker and Shikha Talsania.",
+      "topic": "characters"
     },
     {
-      "id": "b029",
-      "q": "In which year was the Hindi film \"Om Shanti Om\" first released?",
-      "a": 2007,
-      "fact": "\"Om Shanti Om\" was released in 2007. Source reference: film release listings (verify against official film records)."
+      "id": "bv029",
+      "q": "How many primary protagonists take the road trip in Queen (2013)?",
+      "a": 1,
+      "fact": "Rani takes her honeymoon trip alone.",
+      "topic": "plot"
     },
     {
-      "id": "b030",
-      "q": "In which year was the Hindi film \"Jab We Met\" first released?",
-      "a": 2007,
-      "fact": "\"Jab We Met\" was released in 2007. Source reference: film release listings (verify against official film records)."
+      "id": "bv030",
+      "q": "How many films did the original Baahubali story span?",
+      "a": 2,
+      "fact": "Baahubali: The Beginning and Baahubali 2: The Conclusion.",
+      "topic": "franchise"
     },
     {
-      "id": "b031",
-      "q": "In which year was the Hindi film \"Taare Zameen Par\" first released?",
-      "a": 2007,
-      "fact": "\"Taare Zameen Par\" was released in 2007. Source reference: film release listings (verify against official film records)."
+      "id": "bv031",
+      "q": "How many brothers are the main focus of the 2015 film Brothers?",
+      "a": 2,
+      "fact": "The story follows brothers David and Monty.",
+      "topic": "characters"
     },
     {
-      "id": "b032",
-      "q": "In which year was the Hindi film \"Welcome\" first released?",
-      "a": 2007,
-      "fact": "\"Welcome\" was released in 2007. Source reference: film release listings (verify against official film records)."
+      "id": "bv032",
+      "q": "How many brothers are the main focus of the film Karan Arjun?",
+      "a": 2,
+      "fact": "Karan and Arjun are reincarnated brothers.",
+      "topic": "characters"
     },
     {
-      "id": "b033",
-      "q": "In which year was the Hindi film \"Singh Is Kinng\" first released?",
-      "a": 2008,
-      "fact": "\"Singh Is Kinng\" was released in 2008. Source reference: film release listings (verify against official film records)."
+      "id": "bv033",
+      "q": "How many people make up the titular team in the 2023 film Crew?",
+      "a": 3,
+      "fact": "The three flight attendants are played by Tabu, Kareena Kapoor Khan and Kriti Sanon.",
+      "topic": "characters"
     },
     {
-      "id": "b034",
-      "q": "In which year was the Hindi film \"Ghajini\" first released?",
-      "a": 2008,
-      "fact": "\"Ghajini\" was released in 2008. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b035",
-      "q": "In which year was the Hindi film \"Rab Ne Bana Di Jodi\" first released?",
-      "a": 2008,
-      "fact": "\"Rab Ne Bana Di Jodi\" was released in 2008. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b036",
-      "q": "In which year was the Hindi film \"Jodhaa Akbar\" first released?",
-      "a": 2008,
-      "fact": "\"Jodhaa Akbar\" was released in 2008. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b037",
-      "q": "In which year was the Hindi film \"Rock On!!\" first released?",
-      "a": 2008,
-      "fact": "\"Rock On!!\" was released in 2008. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b038",
-      "q": "In which year was the Hindi film \"3 Idiots\" first released?",
-      "a": 2009,
-      "fact": "\"3 Idiots\" was released in 2009. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b039",
-      "q": "In which year was the Hindi film \"Wake Up Sid\" first released?",
-      "a": 2009,
-      "fact": "\"Wake Up Sid\" was released in 2009. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b040",
-      "q": "In which year was the Hindi film \"Love Aaj Kal\" first released?",
-      "a": 2009,
-      "fact": "\"Love Aaj Kal\" was released in 2009. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b041",
-      "q": "In which year was the Hindi film \"Wanted\" first released?",
-      "a": 2009,
-      "fact": "\"Wanted\" was released in 2009. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b042",
-      "q": "In which year was the Hindi film \"My Name Is Khan\" first released?",
-      "a": 2010,
-      "fact": "\"My Name Is Khan\" was released in 2010. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b043",
-      "q": "In which year was the Hindi film \"Dabangg\" first released?",
-      "a": 2010,
-      "fact": "\"Dabangg\" was released in 2010. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b044",
-      "q": "In which year was the Hindi film \"Golmaal 3\" first released?",
-      "a": 2010,
-      "fact": "\"Golmaal 3\" was released in 2010. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b045",
-      "q": "In which year was the Hindi film \"Housefull\" first released?",
-      "a": 2010,
-      "fact": "\"Housefull\" was released in 2010. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b046",
-      "q": "In which year was the Hindi film \"Band Baaja Baaraat\" first released?",
-      "a": 2010,
-      "fact": "\"Band Baaja Baaraat\" was released in 2010. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b047",
-      "q": "In which year was the Hindi film \"Zindagi Na Milegi Dobara\" first released?",
-      "a": 2011,
-      "fact": "\"Zindagi Na Milegi Dobara\" was released in 2011. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b048",
-      "q": "In which year was the Hindi film \"Rockstar\" first released?",
-      "a": 2011,
-      "fact": "\"Rockstar\" was released in 2011. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b049",
-      "q": "In which year was the Hindi film \"Bodyguard\" first released?",
-      "a": 2011,
-      "fact": "\"Bodyguard\" was released in 2011. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b050",
-      "q": "In which year was the Hindi film \"Singham\" first released?",
-      "a": 2011,
-      "fact": "\"Singham\" was released in 2011. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b051",
-      "q": "In which year was the Hindi film \"Delhi Belly\" first released?",
-      "a": 2011,
-      "fact": "\"Delhi Belly\" was released in 2011. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b052",
-      "q": "In which year was the Hindi film \"Barfi!\" first released?",
-      "a": 2012,
-      "fact": "\"Barfi!\" was released in 2012. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b053",
-      "q": "In which year was the Hindi film \"Ek Tha Tiger\" first released?",
-      "a": 2012,
-      "fact": "\"Ek Tha Tiger\" was released in 2012. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b054",
-      "q": "In which year was the Hindi film \"Agneepath\" first released?",
-      "a": 2012,
-      "fact": "\"Agneepath\" was released in 2012. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b055",
-      "q": "In which year was the Hindi film \"English Vinglish\" first released?",
-      "a": 2012,
-      "fact": "\"English Vinglish\" was released in 2012. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b056",
-      "q": "In which year was the Hindi film \"Kahaani\" first released?",
-      "a": 2012,
-      "fact": "\"Kahaani\" was released in 2012. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b057",
-      "q": "In which year was the Hindi film \"Student of the Year\" first released?",
-      "a": 2012,
-      "fact": "\"Student of the Year\" was released in 2012. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b058",
-      "q": "In which year was the Hindi film \"Yeh Jawaani Hai Deewani\" first released?",
-      "a": 2013,
-      "fact": "\"Yeh Jawaani Hai Deewani\" was released in 2013. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b059",
-      "q": "In which year was the Hindi film \"Chennai Express\" first released?",
-      "a": 2013,
-      "fact": "\"Chennai Express\" was released in 2013. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b060",
-      "q": "In which year was the Hindi film \"Dhoom 3\" first released?",
-      "a": 2013,
-      "fact": "\"Dhoom 3\" was released in 2013. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b061",
-      "q": "In which year was the Hindi film \"Bhaag Milkha Bhaag\" first released?",
-      "a": 2013,
-      "fact": "\"Bhaag Milkha Bhaag\" was released in 2013. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b062",
-      "q": "In which year was the Hindi film \"Aashiqui 2\" first released?",
-      "a": 2013,
-      "fact": "\"Aashiqui 2\" was released in 2013. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b063",
-      "q": "In which year was the Hindi film \"Queen\" first released?",
-      "a": 2014,
-      "fact": "\"Queen\" was released in 2014. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b064",
-      "q": "In which year was the Hindi film \"PK\" first released?",
-      "a": 2014,
-      "fact": "\"PK\" was released in 2014. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b065",
-      "q": "In which year was the Hindi film \"Happy New Year\" first released?",
-      "a": 2014,
-      "fact": "\"Happy New Year\" was released in 2014. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b066",
-      "q": "In which year was the Hindi film \"2 States\" first released?",
-      "a": 2014,
-      "fact": "\"2 States\" was released in 2014. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b067",
-      "q": "In which year was the Hindi film \"Haider\" first released?",
-      "a": 2014,
-      "fact": "\"Haider\" was released in 2014. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b068",
-      "q": "In which year was the Hindi film \"Bajrangi Bhaijaan\" first released?",
-      "a": 2015,
-      "fact": "\"Bajrangi Bhaijaan\" was released in 2015. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b069",
-      "q": "In which year was the Hindi film \"Bajirao Mastani\" first released?",
-      "a": 2015,
-      "fact": "\"Bajirao Mastani\" was released in 2015. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b070",
-      "q": "In which year was the Hindi film \"Dilwale\" first released?",
-      "a": 2015,
-      "fact": "\"Dilwale\" was released in 2015. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b071",
-      "q": "In which year was the Hindi film \"Piku\" first released?",
-      "a": 2015,
-      "fact": "\"Piku\" was released in 2015. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b072",
-      "q": "In which year was the Hindi film \"Tanu Weds Manu Returns\" first released?",
-      "a": 2015,
-      "fact": "\"Tanu Weds Manu Returns\" was released in 2015. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b073",
-      "q": "In which year was the Hindi film \"Dangal\" first released?",
-      "a": 2016,
-      "fact": "\"Dangal\" was released in 2016. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b074",
-      "q": "In which year was the Hindi film \"Sultan\" first released?",
-      "a": 2016,
-      "fact": "\"Sultan\" was released in 2016. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b075",
-      "q": "In which year was the Hindi film \"Ae Dil Hai Mushkil\" first released?",
-      "a": 2016,
-      "fact": "\"Ae Dil Hai Mushkil\" was released in 2016. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b076",
-      "q": "In which year was the Hindi film \"Dear Zindagi\" first released?",
-      "a": 2016,
-      "fact": "\"Dear Zindagi\" was released in 2016. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b077",
-      "q": "In which year was the Hindi film \"Pink\" first released?",
-      "a": 2016,
-      "fact": "\"Pink\" was released in 2016. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b078",
-      "q": "In which year was the Hindi film \"Raees\" first released?",
-      "a": 2017,
-      "fact": "\"Raees\" was released in 2017. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b079",
-      "q": "In which year was the Hindi film \"Tiger Zinda Hai\" first released?",
-      "a": 2017,
-      "fact": "\"Tiger Zinda Hai\" was released in 2017. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b080",
-      "q": "In which year was the Hindi film \"Hindi Medium\" first released?",
-      "a": 2017,
-      "fact": "\"Hindi Medium\" was released in 2017. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b081",
-      "q": "In which year was the Hindi film \"Secret Superstar\" first released?",
-      "a": 2017,
-      "fact": "\"Secret Superstar\" was released in 2017. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b082",
-      "q": "In which year was the Hindi film \"Bareilly Ki Barfi\" first released?",
-      "a": 2017,
-      "fact": "\"Bareilly Ki Barfi\" was released in 2017. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b083",
-      "q": "In which year was the Hindi film \"Padmaavat\" first released?",
-      "a": 2018,
-      "fact": "\"Padmaavat\" was released in 2018. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b084",
-      "q": "In which year was the Hindi film \"Sanju\" first released?",
-      "a": 2018,
-      "fact": "\"Sanju\" was released in 2018. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b085",
-      "q": "In which year was the Hindi film \"Andhadhun\" first released?",
-      "a": 2018,
-      "fact": "\"Andhadhun\" was released in 2018. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b086",
-      "q": "In which year was the Hindi film \"Stree\" first released?",
-      "a": 2018,
-      "fact": "\"Stree\" was released in 2018. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b087",
-      "q": "In which year was the Hindi film \"Badhaai Ho\" first released?",
-      "a": 2018,
-      "fact": "\"Badhaai Ho\" was released in 2018. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b088",
-      "q": "In which year was the Hindi film \"Gully Boy\" first released?",
-      "a": 2019,
-      "fact": "\"Gully Boy\" was released in 2019. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b089",
-      "q": "In which year was the Hindi film \"War\" first released?",
-      "a": 2019,
-      "fact": "\"War\" was released in 2019. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b090",
-      "q": "In which year was the Hindi film \"Kabir Singh\" first released?",
-      "a": 2019,
-      "fact": "\"Kabir Singh\" was released in 2019. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b091",
-      "q": "In which year was the Hindi film \"Chhichhore\" first released?",
-      "a": 2019,
-      "fact": "\"Chhichhore\" was released in 2019. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b092",
-      "q": "In which year was the Hindi film \"Uri: The Surgical Strike\" first released?",
-      "a": 2019,
-      "fact": "\"Uri: The Surgical Strike\" was released in 2019. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b093",
-      "q": "In which year was the Hindi film \"Tanhaji\" first released?",
-      "a": 2020,
-      "fact": "\"Tanhaji\" was released in 2020. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b094",
-      "q": "In which year was the Hindi film \"Thappad\" first released?",
-      "a": 2020,
-      "fact": "\"Thappad\" was released in 2020. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b095",
-      "q": "In which year was the Hindi film \"Shubh Mangal Zyada Saavdhan\" first released?",
-      "a": 2020,
-      "fact": "\"Shubh Mangal Zyada Saavdhan\" was released in 2020. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b096",
-      "q": "In which year was the Hindi film \"Ludo\" first released?",
-      "a": 2020,
-      "fact": "\"Ludo\" was released in 2020. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b097",
-      "q": "In which year was the Hindi film \"Shershaah\" first released?",
-      "a": 2021,
-      "fact": "\"Shershaah\" was released in 2021. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b098",
-      "q": "In which year was the Hindi film \"Sardar Udham\" first released?",
-      "a": 2021,
-      "fact": "\"Sardar Udham\" was released in 2021. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b099",
-      "q": "In which year was the Hindi film \"Mimi\" first released?",
-      "a": 2021,
-      "fact": "\"Mimi\" was released in 2021. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b100",
-      "q": "In which year was the Hindi film \"83\" first released?",
-      "a": 2021,
-      "fact": "\"83\" was released in 2021. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b101",
-      "q": "In which year was the Hindi film \"Gangubai Kathiawadi\" first released?",
-      "a": 2022,
-      "fact": "\"Gangubai Kathiawadi\" was released in 2022. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b102",
-      "q": "In which year was the Hindi film \"Brahmastra: Part One – Shiva\" first released?",
-      "a": 2022,
-      "fact": "\"Brahmastra: Part One – Shiva\" was released in 2022. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b103",
-      "q": "In which year was the Hindi film \"Drishyam 2\" first released?",
-      "a": 2022,
-      "fact": "\"Drishyam 2\" was released in 2022. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b104",
-      "q": "In which year was the Hindi film \"Bhool Bhulaiyaa 2\" first released?",
-      "a": 2022,
-      "fact": "\"Bhool Bhulaiyaa 2\" was released in 2022. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b105",
-      "q": "In which year was the Hindi film \"Pathaan\" first released?",
-      "a": 2023,
-      "fact": "\"Pathaan\" was released in 2023. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b106",
-      "q": "In which year was the Hindi film \"Jawan\" first released?",
-      "a": 2023,
-      "fact": "\"Jawan\" was released in 2023. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b107",
-      "q": "In which year was the Hindi film \"Animal\" first released?",
-      "a": 2023,
-      "fact": "\"Animal\" was released in 2023. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b108",
-      "q": "In which year was the Hindi film \"12th Fail\" first released?",
-      "a": 2023,
-      "fact": "\"12th Fail\" was released in 2023. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b109",
-      "q": "In which year was the Hindi film \"Rocky Aur Rani Kii Prem Kahaani\" first released?",
-      "a": 2023,
-      "fact": "\"Rocky Aur Rani Kii Prem Kahaani\" was released in 2023. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b110",
-      "q": "In which year was the Hindi film \"Laapataa Ladies\" first released?",
-      "a": 2024,
-      "fact": "\"Laapataa Ladies\" was released in 2024. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b111",
-      "q": "In which year was the Hindi film \"Stree 2\" first released?",
-      "a": 2024,
-      "fact": "\"Stree 2\" was released in 2024. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b112",
-      "q": "In which year was the Hindi film \"Crew\" first released?",
-      "a": 2024,
-      "fact": "\"Crew\" was released in 2024. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b113",
-      "q": "In which year was the Hindi film \"Fighter\" first released?",
-      "a": 2024,
-      "fact": "\"Fighter\" was released in 2024. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b114",
-      "q": "In which year was the Hindi film \"Chandu Champion\" first released?",
-      "a": 2024,
-      "fact": "\"Chandu Champion\" was released in 2024. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b115",
-      "q": "In which year was the Hindi film \"Sitaare Zameen Par\" first released?",
-      "a": 2025,
-      "fact": "\"Sitaare Zameen Par\" was released in 2025. Source reference: film release listings (verify against official film records)."
-    },
-    {
-      "id": "b116",
-      "q": "In which year was the Hindi film \"Chhaava\" first released?",
-      "a": 2025,
-      "fact": "\"Chhaava\" was released in 2025. Source reference: film release listings (verify against official film records)."
+      "id": "bv034",
+      "q": "How many friends are in the core group in Fukrey?",
+      "a": 4,
+      "fact": "Hunny, Choocha, Lali and Zafar are the four main friends.",
+      "topic": "characters"
     }
   ],
   "cricket": [
