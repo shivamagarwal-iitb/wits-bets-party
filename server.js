@@ -65,7 +65,7 @@ function state(room, viewerId, host=false) {
     question:room.phase==='lobby'?null:room.current?.q,
     guesses:isRevealed?room.options:[],
     results:room.phase==='results'?room.results:null,
-    publicBets:['open-bets','locked-bets','results'].includes(room.phase)?[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra}))):[],
+    publicBets:['betting','locked-bets','results'].includes(room.phase)?[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra}))):[],
     ownGuess:viewerId?room.players.get(viewerId)?.guess:null,
     ownBets:viewerId?room.players.get(viewerId)?.bets:[],
     bettingSeconds:room.bettingSeconds,bettingDeadline:room.bettingDeadline||null,
