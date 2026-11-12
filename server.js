@@ -68,6 +68,7 @@ function state(room, viewerId, host=false) {
     publicBets:['open-bets','locked-bets','results'].includes(room.phase)?[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra}))):[],
     ownGuess:viewerId?room.players.get(viewerId)?.guess:null,
     ownBets:viewerId?room.players.get(viewerId)?.bets:[],
+    bettingSeconds:room.bettingSeconds,bettingDeadline:room.bettingDeadline||null,
     host, isPlayer:!!viewerId,
     recoveryPlayers:host?[...room.players.values()].map(p=>({name:p.name,playerToken:p.secret})):[],
     canAdvance:host && room.phase!=='finished'
@@ -87,8 +88,16 @@ function identify(socket,room,{host=false,player=null}) {
 }
 function hostRoom(socket) {const r=getRoom(socket.data.roomCode);return r && socket.data.isHost && r.hostToken===socket.data.hostToken?r:null;}
 function emitError(socket, message){socket.emit('notice',{error:message});}
+function stopBettingClock(room){if(room.bettingTimer)clearTimeout(room.bettingTimer);room.bettingTimer=null;room.bettingDeadline=null;}
+function closeBetting(room){if(room.phase!=='betting')return;stopBettingClock(room);room.phase='locked-bets';broadcast(room);}
+function startBettingClock(room){
+ stopBettingClock(room);
+ room.bettingDeadline=Date.now()+room.bettingSeconds*1000;
+ room.bettingTimer=setTimeout(()=>closeBetting(room),room.bettingSeconds*1000);
+}
 function startRound(room) {
   if(room.round>=room.maxRounds){room.phase='finished';return;}
+  stopBettingClock(room);
   room.round++;
   room.current=room.questions[room.round-1];
   room.phase='guessing';room.options=[];room.results=null;
@@ -97,7 +106,7 @@ function startRound(room) {
 function revealGuesses(room){
   const values=[...new Set([...room.players.values()].map(p=>p.guess).filter(v=>v!==null))].sort((a,b)=>a-b);
   room.options=[{id:'all-high',value:null,odds:6,guessers:[]},...values.map((value,i)=>({id:String(i),value,guessers:[...room.players.values()].filter(p=>p.guess===value).map(p=>({name:p.name,color:p.color})),odds:values.length<=1?2:Math.max(2,Math.min(6,Math.round(2+Math.abs(i-(values.length-1)/2))))}))];
-  room.phase='betting';
+  room.phase='betting';startBettingClock(room);
 }
 function settle(room){
   const answer=room.current.a;
@@ -128,7 +137,7 @@ io.on('connection',socket=>{
     const hostToken=token();
     const maxRounds=7;
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
-      questions:QUESTIONS.slice(0,maxRounds),players:new Map(),current:null,options:[],results:null};
+      questions:QUESTIONS.slice(0,maxRounds),players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null};
     rooms.set(id,room);socket.data.hostToken=hostToken;identify(socket,room,{host:true});
     const base=(process.env.PUBLIC_URL||data?.origin||'').replace(/\/$/,'');
     const url=base?`${base}/?room=${id}&join=1`:`/?room=${id}&join=1`;
@@ -163,9 +172,17 @@ io.on('connection',socket=>{
     if(typeof data?.value!=='number'||!integer(data.value)||data.value>1000000000)return err(ack,'Enter a whole number from 0 to 1,000,000,000.');
     p.guess=data.value;reply(ack,{ok:true});broadcast(room);
   });
+  socket.on('setBettingTimer',(data,ack)=>{
+    const room=hostRoom(socket);if(!room)return err(ack,'Only the host can set the timer.');
+    const seconds=data?.seconds;
+    if(!Number.isInteger(seconds)||seconds<15||seconds>1800)return err(ack,'Choose 15 seconds to 30 minutes.');
+    room.bettingSeconds=seconds;
+    if(room.phase==='betting')startBettingClock(room);
+    reply(ack,{ok:true});broadcast(room);
+  });
   socket.on('bet',(data,ack)=>{
     const room=getRoom(socket.data.roomCode);const p=room?.players.get(socket.data.playerId);
-    if(!p||!['betting','final-betting'].includes(room.phase))return err(ack,'Betting is locked.');
+    if(!p||room.phase!=='betting'||!room.bettingDeadline||Date.now()>=room.bettingDeadline){if(room?.phase==='betting'&&Date.now()>=room.bettingDeadline)closeBetting(room);return err(ack,'Betting is locked.');}
     const slot=data?.slot,extra=data?.extra;
     if(!Number.isInteger(slot)||slot<0||slot>1)return err(ack,'Choose betting chip 1 or 2.');
     if(!room.options.some(o=>o.id===data?.optionId))return err(ack,'Choose a valid answer.');
@@ -188,9 +205,7 @@ io.on('connection',socket=>{
     }else if(room.phase==='guessing'){
       if(![...room.players.values()].some(p=>p.guess!==null))return err(ack,'Wait for at least one guess.');
       revealGuesses(room);
-    }else if(room.phase==='betting')room.phase='open-bets';
-    else if(room.phase==='open-bets')room.phase='final-betting';
-    else if(room.phase==='final-betting')room.phase='locked-bets';
+    }else if(room.phase==='betting')closeBetting(room);
     else if(room.phase==='locked-bets')settle(room);
     else if(room.phase==='results')startRound(room);
     else return err(ack,'The game has ended.');
