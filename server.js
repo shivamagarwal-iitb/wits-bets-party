@@ -3,6 +3,7 @@ import http from 'node:http';
 import crypto from 'node:crypto';
 import { Server } from 'socket.io';
 import QRCode from 'qrcode';
+import { readFileSync } from 'node:fs';
 
 const app = express();
 const server = http.createServer(app);
@@ -12,43 +13,15 @@ app.use(express.static('public'));
 const rooms = new Map();
 const PLAYER_COLORS=['#ff7878','#68c8ff','#ffcf65','#a8e27a','#d5a0ff','#ff9bce','#6be2c6','#ffa66b','#a2b8ff','#e6e778','#f48e9a','#85d5df'];
 const STARTING_CHIPS = 0; // Earned chips; two permanent betting tokens are separate.
-const QUESTIONS = [
-  {
-    "q": "How many awards had the 2000 film Kaho Naa... Pyaar Hai reportedly won when its makers sought a Guinness World Records entry?",
-    "a": 92,
-    "fact": "A July 2001 report said Kaho Naa... Pyaar Hai had collected 92 awards across the cast, music and crew. The Hrithik Roshan debut became famous for its extraordinary award haul. Source: Rediff, July 2, 2001."
-  },
-  {
-    "q": "How many Bollywood stars made cameo appearances in the song Deewangi Deewangi from Om Shanti Om (2007)?",
-    "a": 31,
-    "fact": "The star-studded song featured 31 celebrity cameos. Director Farah Khan later recalled that Amitabh Bachchan could not participate because of Abhishek Bachchan and Aishwarya Rai's wedding that week. Source: The Indian Express, May 2024."
-  },
-  {
-    "q": "How many metric tonnes of tomatoes were flown in from Portugal for the La Tomatina sequence in Zindagi Na Milegi Dobara (2011)?",
-    "a": 16,
-    "fact": "The production imported about 16 tonnes of tomatoes from Portugal because the local tomatoes were not ripe enough. Producer Ritesh Sidhwani described the scene as an enormous logistical challenge. Source: Bollywood Hungama, March 2011."
-  },
-  {
-    "q": "Approximately how many mirrors were used to create the Aaina Mahal set for Deewani Mastani in Bajirao Mastani (2015)?",
-    "a": 20000,
-    "fact": "Contemporary reporting described over 20,000 mirrors brought from Jaipur for the grand Aaina Mahal set. The question uses the rounded reported figure. Source: The Indian Express, September 2015."
-  },
-  {
-    "q": "Across how many locations in Spain was Zindagi Na Milegi Dobara (2011) reportedly filmed?",
-    "a": 107,
-    "fact": "A behind-the-scenes retrospective reported that the film was shot at 107 locations across Spain, including the celebrated Tomatina sequence. Source: The Indian Express, July 2023."
-  },
-  {
-    "q": "According to Bollywood Hungama's box-office records, how many days did 3 Idiots (2009) take to reach ₹200 crore in Indian net box-office collections?",
-    "a": 70,
-    "fact": "3 Idiots was the first Hindi film to join the ₹200-crore domestic net club. Bollywood Hungama's milestone table lists 70 days to cross it. Box-office tracking methods can vary between publications. Source: Bollywood Hungama, ₹200 Crore Club feature."
-  },
-  {
-    "q": "According to Bollywood Hungama, how many days did Sultan (2016) take to cross ₹200 crore in Indian net box-office collections?",
-    "a": 6,
-    "fact": "Salman Khan's Sultan crossed ₹200 crore in six days, one of the quickest milestones at the time. Source: Bollywood Hungama, ₹200 Crore Club feature."
-  }
-];
+const QUESTION_BANK = JSON.parse(readFileSync(new URL('./data/questions.json',import.meta.url),'utf8'));
+const CATEGORIES = Object.keys(QUESTION_BANK);
+function drawQuestion(room){
+ const pool=QUESTION_BANK[room.category].filter(q=>!room.usedQuestionIds.has(q.id));
+ if(!pool.length)return null;
+ const chosen=pool[crypto.randomInt(pool.length)];
+ room.usedQuestionIds.add(chosen.id);
+ return chosen;
+}
 const code = () => crypto.randomBytes(3).toString('hex').toUpperCase();
 const token = () => crypto.randomBytes(24).toString('hex');
 const safeName = x => String(x ?? '').trim().replace(/[<>]/g,'').slice(0,24);
@@ -61,6 +34,7 @@ function state(room, viewerId, host=false) {
   const isRevealed = ['betting','open-bets','final-betting','locked-bets','results'].includes(room.phase);
   return {
     code:room.code, phase:room.phase, round:room.round, maxRounds:room.maxRounds,
+    category:room.category, categories:CATEGORIES, questionCount:QUESTION_BANK[room.category].length,
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
     question:room.phase==='lobby'?null:room.current?.q,
     guesses:isRevealed?room.options:[],
@@ -127,7 +101,8 @@ function startRound(room) {
   if(room.round>=room.maxRounds){room.phase='finished';return;}
   stopBettingClock(room);stopGuessingClock(room);
   room.round++;
-  room.current=room.questions[room.round-1];
+  room.current=drawQuestion(room);
+  if(!room.current){room.phase='finished';return;}
   room.phase='guessing';room.options=[];room.results=null;
   for(const p of room.players.values()){p.guess=null;p.bets=[];}
   startGuessingClock(room);
@@ -165,13 +140,25 @@ io.on('connection',socket=>{
     let id;do{id=code()}while(rooms.has(id));
     const hostToken=token();
     const maxRounds=7;
+    const category=CATEGORIES.includes(data?.category)?data.category:'bollywood';
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
-      questions:QUESTIONS.slice(0,maxRounds),players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null};
+      category,usedQuestionIds:new Set(),players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null};
     rooms.set(id,room);socket.data.hostToken=hostToken;identify(socket,room,{host:true});
     const base=(process.env.PUBLIC_URL||data?.origin||'').replace(/\/$/,'');
     const url=base?`${base}/?room=${id}&join=1`:`/?room=${id}&join=1`;
     let qr='';try{qr=await QRCode.toDataURL(url,{margin:1,width:280});}catch{}
     reply(ack,{ok:true,code:id,hostToken,joinUrl:url,qr});broadcast(room);
+  });
+  socket.on('replaceQuestion',(data,ack)=>{
+    const room=hostRoom(socket);if(!room)return err(ack,'Only the host can replace a question.');
+    if(room.phase!=='guessing')return err(ack,'Questions can only be replaced during guessing, before betting begins.');
+    const replacement=drawQuestion(room);
+    if(!replacement)return err(ack,'No unused questions remain in this category.');
+    stopGuessingClock(room);
+    room.current=replacement;room.options=[];room.results=null;
+    for(const p of room.players.values())p.guess=null;
+    startGuessingClock(room);
+    reply(ack,{ok:true});broadcast(room);
   });
   socket.on('resumeHost',(data,ack)=>{
     const room=getRoom(data?.code);
