@@ -288,8 +288,18 @@ button{touch-action:manipulation}
 @keyframes champion-appear{from{transform:translateY(12px) scale(.97);opacity:.2}to{transform:none;opacity:1}}
 .history-scroll{max-width:100%;overflow-x:auto}
 @media(prefers-reduced-motion:reduce){.champion-reveal{animation:none}}
+
+.guess-arrivals{padding:15px;border-radius:16px;background:linear-gradient(135deg,#f5f7ff,#f9fbff);border:1px solid #dfe5f6;display:grid;gap:11px}
+.guess-arrivals-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.guess-arrivals-heading span{font-weight:700;color:#54679c;font-size:13px}
+.guess-arrivals-list{display:flex;gap:9px;flex-wrap:wrap}
+.guess-arrival{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:6px 11px;border:1px solid #d9dfed;font-size:13px;font-weight:650;transition:background .2s,border-color .2s}
+.guess-arrival.waiting{background:#fff;color:#79849b}
+.guess-arrival.arrived{background:#e8f8ee;color:#20754d;border-color:#b8e4c9}
+.guess-arrivals .muted{font-size:12px;margin:0}
+@media(prefers-reduced-motion:reduce){.guess-arrival{transition:none}}
 </style></head><body><main><header><div class="logo">🎬 STUDIO <span>WITS & BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven surprise questions. Pick Bollywood or cricket, guess together, and watch the bets unfold.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=game-night-30" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=guess-arrivals-31" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
