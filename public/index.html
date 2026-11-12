@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b1426"><title>Bollywood Wits & Bets Party</title><style>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4f7fd"><title>Wits & Bets Studio — Bollywood & Cricket</title><style>
 :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;color:#f4f5ff;background:#0d1226}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#293266 0,transparent 50%),radial-gradient(ellipse at 100% 100%,#283454 0,transparent 45%),#0d1226}main{max-width:1000px;margin:auto;padding:28px 18px 70px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:34px}.logo{font-size:21px;font-weight:900;letter-spacing:-.7px}.logo span{color:#f7bd5d}.tag{font-size:12px;color:#bac3df;border:1px solid #505b83;padding:7px 10px;border-radius:99px}.hero{text-align:center;margin:52px auto 32px;max-width:680px}.eyebrow{color:#f6c572;text-transform:uppercase;font-size:12px;letter-spacing:3px;font-weight:800}h1{font-size:clamp(36px,7vw,64px);line-height:1.04;margin:16px 0;letter-spacing:-2px}h2{font-size:24px;letter-spacing:-.5px;margin:0 0 12px}p{color:#b6bfdc;line-height:1.55}.panel{background:rgba(28,36,70,.9);border:1px solid #3b456e;border-radius:22px;padding:24px;box-shadow:0 15px 45px #0003}.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}.stack{display:grid;gap:14px}.field{display:grid;gap:7px;color:#d3d9f2;font-size:13px;font-weight:650}input,select{background:#121a35;border:1px solid #515e8c;border-radius:12px;padding:14px 15px;color:white;font-size:16px;width:100%;outline:none}input:focus,select:focus{border-color:#e8b45d}button{background:#f5bf65;color:#17203d;font-size:15px;font-weight:850;border:0;border-radius:12px;padding:14px 20px;cursor:pointer;min-height:48px}button:hover{filter:brightness(1.07)}button:disabled{opacity:.5;cursor:not-allowed}button.secondary{background:#303c67;color:#f4f5ff}button.outline{background:transparent;color:#f5bf65;border:1px solid #8a6d4d}.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}.muted{color:#aeb8d5;font-size:13px}.big{font-size:clamp(28px,5vw,46px);font-weight:900}.code{font-size:40px;font-weight:950;letter-spacing:7px;color:#f5bf65}.pill{background:#273257;border-radius:99px;padding:7px 12px;font-size:12px;color:#e1e7fa}.section{margin:22px 0}.question{font-size:clamp(26px,5vw,44px);font-weight:900;line-height:1.2;margin:10px 0 22px}.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px}.option{display:grid;gap:8px;text-align:left;background:#202b52;border:2px solid #3b4771;color:#fff;padding:16px;border-radius:14px}.option.active{border-color:#f7c36a;background:#3a3858}.option strong{font-size:24px}.option small{color:#c1cae5}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}.stat{padding:17px;background:#141d3b;border:1px solid #3b456e;border-radius:14px}.stat strong{display:block;font-size:24px;margin-top:6px}.leaderboard{width:100%;border-collapse:collapse}.leaderboard td,.leaderboard th{padding:12px 8px;border-bottom:1px solid #394365;text-align:left}.leaderboard td:last-child,.leaderboard th:last-child{text-align:right}.winner{background:#254c49;border:1px solid #4da48c;border-radius:16px;padding:20px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:13px 18px;background:#672d43;color:white;border-radius:12px;box-shadow:0 12px 40px #0008;z-index:5;max-width:90vw}.hidden{display:none!important}#qr{width:170px;height:170px;background:white;padding:8px;border-radius:12px}.hostjoin{display:flex;gap:22px;align-items:center;flex-wrap:wrap}.small{font-size:12px}.footer{margin-top:36px;text-align:center;color:#818eaf;font-size:12px}@media(max-width:650px){.split{grid-template-columns:1fr}.panel{padding:19px}.hero{margin-top:35px}.code{font-size:31px}}
 
 /* Two-chip Wits & Wagers board */
@@ -162,8 +162,81 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 #qr{border-radius:15px}
 @media(max-width:650px){main{padding:12px 12px 64px}header{padding:12px;margin-bottom:16px}.panel{padding:18px;border-radius:18px}.hero{margin:36px auto 30px}.hero h1{letter-spacing:-2px}.tabletop-board{padding:10px}.vertical-mode .tabletop-lane{border-radius:12px}}
 @media(prefers-reduced-motion:reduce){button,.tabletop-lane,input{transition:none!important}}
-</style></head><body><main><header><div class="logo">🎬 STUDIO <span>WITS & BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven rounds of Bollywood trivia, live bets, and big reveals.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
+
+/* Daylight Studio — airy, polished, accessible across phone and host displays. */
+:root{color-scheme:light;color:#23334b;background:#f4f7fd}
+body{background:radial-gradient(ellipse 65% 45% at 6% 0%,#e5e8ff 0%,transparent 78%),radial-gradient(ellipse 45% 40% at 95% 8%,#dcf5f3 0%,transparent 85%),#f5f7fc;background-attachment:fixed}
+main{max-width:1180px}
+header{background:#ffffffdc;border:1px solid #e2e8f3;box-shadow:0 10px 32px #42577912}
+.logo{color:#22334e}.logo span{color:#536dd4}
+.tag{background:#e7f6ef;border:1px solid #b7e5d1;color:#23745d}
+.hero h1{background:linear-gradient(110deg,#263f69,#606fd4 58%,#4f9b9d);-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{color:#6376c6}
+h1,h2,h3{color:#23334b}
+p,.muted{color:#687990}
+.panel{background:#ffffffed;border:1px solid #e0e7f2;box-shadow:0 16px 48px #42577912,0 2px 7px #42577908}
+.field{color:#394b67}
+input,select{background:#f9fbff;color:#243650;border:1px solid #cdd8e9}
+input::placeholder{color:#91a0b4}
+input:focus,select:focus{border-color:#7689e8;box-shadow:0 0 0 4px #8298e926}
+button{background:linear-gradient(135deg,#6578df,#536bd1);color:white;box-shadow:0 7px 20px #526cd12e}
+button:hover:not(:disabled){box-shadow:0 10px 25px #526cd145}
+button.secondary{background:#eef2fc;color:#415a95;border:1px solid #dbe4f5}
+button.outline{background:white;color:#526bd1;border:1px solid #b7c6ec}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #6679dd;outline-offset:2px}
+.pill{background:#edf2fa;border:1px solid #dce5f2;color:#3e5274}
+.code{color:#536bd1}
+.question{color:#253650}
+.bet-controls{background:#f3f6ff;border:1px solid #d8e2f5}
+.player-legend{background:#f5f8fe;border:1px solid #dce6f3;color:#314967}
+.player-legend>strong{color:#415b9e}
+.legend-person{background:#fff;border-color:#dce6f3;color:#354965}
+.board-layout-switch span{color:#556e91}
+.tabletop-scroll{background:#e7eff8;border:1px solid #cad8e9;box-shadow:inset 0 1px #fff}
+.tabletop-board{background:linear-gradient(145deg,#e5eff9,#eaf6f5 60%,#e6ecfb);color:#2b4560}
+.tabletop-banner{color:#385b82;text-shadow:none}
+.tabletop-banner span{color:#708aa5}
+.tabletop-lane{background:linear-gradient(180deg,#ffffff,#f1f6fd);border:1px solid #c9d7e9;box-shadow:0 3px 12px #48658b0d}
+.tabletop-lane[data-option]:hover{border-color:#8b9ce0;background:#f0f4ff}
+.tabletop-lane.lane-selected{background:linear-gradient(160deg,#e9edff,#dfeaff);border:2px solid #6d81df;box-shadow:0 0 0 3px #758be329}
+.tabletop-lane.lane-winner{background:linear-gradient(145deg,#e4f8ed,#d9f2e8);border:2px solid #49a68c;box-shadow:0 0 0 3px #58b49a20}
+.tabletop-lane.lane-all-high{background:linear-gradient(180deg,#eef1fc,#e6edfb)}
+.lane-odds{color:#536fc4}
+.lane-card{background:#fff;color:#273d5b;border:2px solid #c9d8eb;box-shadow:0 4px 11px #47618a13}
+.lane-winning-label{color:#217b66}
+.lane-selected-label{color:#496bd2}
+.lane-empty{color:#9bacc1}
+.table-chip{background:#fff;color:#263a58;border:1px solid #d0dcee;box-shadow:0 3px 8px #526b901a}
+.table-chip small{color:#637996}
+.tabletop-footer{color:#617f99}
+.guess-owner{background:#e8f0fa;color:#3b5778}
+.winner,.reveal-hero{background:linear-gradient(145deg,#e4f8ef,#e9f7f7);border:1px solid #a7dfc7;box-shadow:0 12px 30px #5ca88e14;color:#285e51}
+.reveal-hero .big{color:#227b67}
+.winning-chip,.winning-guesser{background:#d7f3e5;color:#246c57;border-color:#8ad2b4}
+.reveal-highlights>div{background:#f0faf7;border-color:#b9dfd3;color:#315f57}
+.answer-fact{background:#edf7fa;border-color:#bddfe9;color:#385f74}
+.answer-fact h2{color:#326b82}
+.payout-card{background:#f8faff;border:1px solid #d9e3f2;color:#2b3f5c}
+.payout-card .big{color:#25806c}
+.payout-card small{color:#657994}
+.stat{background:#f4f7fe;border-color:#d9e4f4;color:#2d4465}
+.option{background:#f5f8fe;border-color:#d5e0f1;color:#2d4161}
+.option small{color:#627795}
+.option.active{background:#e8edff;border-color:#7488dd}
+.leaderboard th{color:#60779a}
+.leaderboard td,.leaderboard th{border-bottom-color:#e3e9f2;color:#344761}
+.toast{background:#304d7b;border:1px solid #819cce;color:#fff}
+.footer{color:#71839b}
+.board-tile{background:#f5f8fe;border-color:#cbd9ec;color:#2a3f5d}
+.board-answer{color:#283f61}.board-subtitle,.board-empty{color:#6e8099}
+.board-odds{background:#e4eaff;color:#425fbd}
+.chip-stack{background:#fff;border-color:#d6e0ef;color:#304b70}
+.chip-extra{color:#526caa}
+.board-selected{border-color:#7285df;box-shadow:0 0 0 3px #758be326}
+.board-winner{background:#e1f6ec;border-color:#57b397}
+@media(max-width:650px){.panel{box-shadow:0 7px 23px #4257790d}.tabletop-board{padding:10px 8px}}
+</style></head><body><main><header><div class="logo">🎬 STUDIO <span>WITS & BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven surprise questions. Pick Bollywood or cricket, guess together, and watch the bets unfold.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=category-bank-24" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=daylight-studio-25" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
