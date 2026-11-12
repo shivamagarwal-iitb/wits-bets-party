@@ -72,11 +72,11 @@ socket?.on('state',s=>{
 });
 socket?.on('notice',x=>notice(x.error||x.message));
 socket?.on('connect_error',e=>{document.getElementById('connection').textContent='○ Reconnecting…';console.warn('Connection issue',e.message)});
-function renderWelcome(){if(state)return;root.innerHTML=`<div class="hero"><div class="eyebrow">A Bollywood trivia party game</div><h1>Shine bright.<br>Bet smarter.</h1><p>Play seven surprising Bollywood number questions, place two reusable betting chips on the closest guess, and climb the leaderboard.</p></div><div class="split"><section class="panel stack"><h2>🎬 Host a Bollywood party</h2><p>Put the host screen on your TV. Guests join with a code or QR scan.</p><div class="pill">🎬 Exactly 7 Bollywood rounds</div><button id="create">Create game room</button></section><section class="panel stack"><h2>📱 Join a game</h2><p>Enter the room code from your host's screen. Each browser tab can join as a different player.</p><label class="field">Room code<input id="room" placeholder="ABC123" maxlength="6" value="${esc(initialRoom)}" autocapitalize="characters"></label><label class="field">Your name<input id="name" placeholder="e.g. Alex" maxlength="24"></label><button id="join">Join party</button></section></div>`;
+function renderWelcome(){if(state)return;root.innerHTML=`<div class="hero"><div class="eyebrow">THE BOLLYWOOD EDITION</div><h1>Guess big.<br>Bet bold.</h1><p>Play seven surprising Bollywood number questions, place two reusable betting chips on the closest guess, and climb the leaderboard.</p></div><div class="split"><section class="panel stack"><h2>🎬 Host a Bollywood party</h2><p>Put the host screen on your TV. Guests join with a code or QR scan.</p><div class="pill">🎬 Exactly 7 Bollywood rounds</div><button id="create">Create game room</button></section><section class="panel stack"><h2>📱 Join a game</h2><p>Enter the room code from your host's screen. Each browser tab can join as a different player.</p><label class="field">Room code<input id="room" placeholder="ABC123" maxlength="6" value="${esc(initialRoom)}" autocapitalize="characters"></label><label class="field">Your name<input id="name" placeholder="e.g. Alex" maxlength="24"></label><button id="join">Join party</button></section></div>`;
  document.getElementById('create').onclick=()=>send('create',{rounds:7,origin:location.origin},r=>{hostMeta=r;save({code:r.code,hostToken:r.hostToken});render();history.replaceState({},'',`/?room=${r.code}`)});
  document.getElementById('join').onclick=()=>{const code=document.getElementById('room').value.trim().toUpperCase(),name=document.getElementById('name').value.trim();send('join',{code,name},r=>{save({code,playerToken:r.playerToken,name:r.name});history.replaceState({},'',`/?room=${code}`)})};
 }
-function renderGameHeader(){return `<div class="row between section"><span class="pill">ROOM ${esc(state.code)}</span><span class="pill">${state.phase==='lobby'?'Waiting for players':state.phase==='finished'?'Game complete':`Round ${state.round} / ${state.maxRounds}`}</span>${state.isPlayer?`<span class="pill">🪙 ${fmt(myChips())} earned chips</span>`:''}</div>`}
+function renderGameHeader(){return `<div class="row between section"><span class="pill">ROOM ${esc(state.code)}</span><span class="pill">${state.phase==='lobby'?'Waiting for players':state.phase==='finished'?'Game complete':`Round ${state.round} / ${state.maxRounds}`}</span>${state.isPlayer?`<span class="pill">◈ ${fmt(myChips())} earned chips</span>`:''}</div>`}
 function recoveryPanel(){
  if(!state?.host||state.phase==='finished')return '';
  const players=state.recoveryPlayers||[];
@@ -103,7 +103,7 @@ function board(reveal=false){
  const layout=boardLayout();
  const controls=`<div class="board-layout-switch" aria-label="Board layout"><span>Board view</span><button type="button" class="${layout==='vertical'?'':'secondary'}" data-layout="vertical" aria-pressed="${layout==='vertical'}">☷ Vertical</button><button type="button" class="${layout==='horizontal'?'':'secondary'}" data-layout="horizontal" aria-pressed="${layout==='horizontal'}">▥ Horizontal</button></div>`;
  return controls+`<div class="tabletop-scroll ${layout==='vertical'?'vertical-mode':''}"><div class="tabletop-board" style="--lane-count:${options.length}">
- <div class="tabletop-banner">✦ WITS & BETS ✦ <span>${reveal?'THE BIG REVEAL':state.phase==='locked-bets'?'BETS LOCKED':'LIVE PUBLIC BETTING'}</span></div>
+ <div class="tabletop-banner">STUDIO · WITS & BETS <span>${reveal?'THE BIG REVEAL':state.phase==='locked-bets'?'BETS LOCKED':'LIVE PUBLIC BETTING'}</span></div>
  <div class="tabletop-lanes">${options.map((o,i)=>{
  const winner=reveal&&state.results?.winningOptionId===o.id;
  const placed=bets.filter(b=>b.optionId===o.id);
@@ -116,7 +116,7 @@ function board(reveal=false){
  <div class="guess-owners">${(o.guessers||[]).map(g=>`<span class="guess-owner ${winner?'winning-guesser':''}" style="--player-color:${g.color}"><i></i>${esc(g.name)}</span>`).join('')}</div>
  ${winner?'<div class="lane-winning-label">🏆 WINNER</div>':chosen?'<div class="lane-selected-label">✓ SELECTED</div>':''}
  </div>`}).join('')}</div>
- <div class="tabletop-footer">🎬 ${publicPhase?'Everyone’s chips are visible':'Only your chips are visible'} ${layout==='horizontal'?'· Swipe board sideways if needed':''} 🎬</div>
+ <div class="tabletop-footer">🎬 ${publicPhase?'Everyone’s chips are visible':'Only your chips are visible'} ${layout==='horizontal'?'· Swipe board sideways if needed':''} ✦</div>
  </div></div>`;
 }
 function formatTimer(ms){const sec=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');}
@@ -146,7 +146,7 @@ function betting(){
  <div class="row"><span class="pill">⏱ <strong id="bet-timer">${formatTimer((state.bettingDeadline||0)-Date.now())}</strong></span><span class="pill">${editable?'Betting open · changes allowed':'Bets locked'}</span></div>
  ${timerSettings()}
  ${reopenControls()}
- ${state.isPlayer&&editable?`<div class="bet-controls"><div class="muted">CHOOSE A PERMANENT CHIP</div><div class="row"><button class="${activeSlot===0?'':'secondary'}" data-slot="0">🟡 Chip 1</button><button class="${activeSlot===1?'':'secondary'}" data-slot="1">🟡 Chip 2</button></div><p class="muted">Select a card on the live board. You can change either chip until betting closes.</p></div>`:''}
+ ${state.isPlayer&&editable?`<div class="bet-controls"><div class="muted">CHOOSE A PERMANENT CHIP</div><div class="row"><button class="${activeSlot===0?'':'secondary'}" data-slot="0">◉ Chip 1</button><button class="${activeSlot===1?'':'secondary'}" data-slot="1">◉ Chip 2</button></div><p class="muted">Select a card on the live board. You can change either chip until betting closes.</p></div>`:''}
  ${playerLegend()}
  <div id="live-board">${board(false)}</div>
  ${state.isPlayer&&editable?`<div class="bet-controls"><label class="field">Extra earned chips under chip ${activeSlot+1} (optional)<input id="amount" type="number" min="0" max="${available}" step="1" value="${chosen?.extra??betAmount}"></label><p class="muted">Earned chips available: <span id="chips-available">${fmt(myChips())}</span></p><button id="place" ${selected===null?'disabled':''}>Place / update chip ${activeSlot+1}</button><p class="muted"><span id="bet-summary">${own.length}/2 permanent chips placed</span>. All bets are public and editable until the deadline.</p></div>`:(state.host&&editable?'<button id="advance">Close betting now →</button>':state.host?'<button id="advance">Reveal the correct answer →</button>':'<p class="muted">Waiting for the host.</p>')}
