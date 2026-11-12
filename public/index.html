@@ -262,8 +262,24 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .test-person input,.test-person select{padding:10px}
 .test-person button{padding:10px;font-size:13px;min-height:40px}
 @media(max-width:650px){.test-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.test-person{padding:10px}.test-panel .row button{flex:1}}
+
+/* Game night interaction polish */
+.save-status{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:9px 13px;border:1px solid #b7dec9;background:#eaf9f0;color:#176b47;border-radius:12px;font-weight:700;font-size:13px}
+.host-progress{padding:12px 14px;background:#f0f4ff;border:1px solid #d6dff5;border-radius:14px;display:grid;gap:7px}
+.host-progress:empty{display:none}
+.host-progress small{color:#52617c}
+.progress-track{height:8px;background:#dce5f6;border-radius:99px;overflow:hidden}
+.progress-track>div{height:100%;background:#667de2;border-radius:99px;transition:width .3s ease}
+.network-banner:not(:empty){background:#fff0d9;border:1px solid #edc47b;color:#775011;padding:12px;border-radius:12px;margin-bottom:12px;font-weight:650}
+.table-chip{transition:transform .2s ease,box-shadow .2s ease}
+.table-chip.winning-chip{box-shadow:0 0 0 2px #65c795,0 6px 18px #399d6540}
+.tabletop-lane.lane-selected{outline:3px solid #687de3;outline-offset:-3px}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #8098f0;outline-offset:3px}
+button{touch-action:manipulation}
+@media(max-width:600px){button{min-height:44px}.bet-controls button{min-height:48px}.tabletop-lane{scroll-margin:12px}}
+@media(prefers-reduced-motion:reduce){.table-chip,.progress-track>div{transition:none}}
 </style></head><body><main><header><div class="logo">🎬 STUDIO <span>WITS & BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven surprise questions. Pick Bollywood or cricket, guess together, and watch the bets unfold.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=stable-live-inputs-28" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=polish-29" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
