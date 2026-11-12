@@ -12,7 +12,8 @@ app.disable('x-powered-by');
 app.use(express.static('public'));
 const rooms = new Map();
 const PLAYER_COLORS=['#ff7878','#68c8ff','#ffcf65','#a8e27a','#d5a0ff','#ff9bce','#6be2c6','#ffa66b','#a2b8ff','#e6e778','#f48e9a','#85d5df'];
-const validAvatar = x => typeof x==='string' && x.length<=110000 && /^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(x);
+const PRESET_AVATARS=['panda','fox','lion','owl','unicorn','dragon','robot','astronaut','wizard','alien','cat','penguin'];
+const validAvatar = x => typeof x==='string' && ((x.length<=110000 && /^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(x)) || PRESET_AVATARS.some(id=>x==='preset:'+id));
 const STARTING_CHIPS = 0; // Earned chips; two permanent betting tokens are separate.
 const QUESTION_BANK = JSON.parse(readFileSync(new URL('./data/questions.json',import.meta.url),'utf8'));
 const CATEGORIES = Object.keys(QUESTION_BANK);
