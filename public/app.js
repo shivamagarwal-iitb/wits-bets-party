@@ -89,7 +89,7 @@ socket?.on('state',s=>{
    if(summary)summary.textContent=(s.ownBets||[]).length+'/2 permanent chips placed';
    const chips=document.getElementById('chips-available');
    if(chips)chips.textContent=fmt(myChips());
-   updateBetTimer();
+   updateBetTimer();updatePauseControls();
  }else if(lobbyOnly){
    const count=document.getElementById('lobby-player-count');if(count)count.textContent=s.players.length+' / 30 players';
    const list=document.getElementById('lobby-player-list');if(list)list.innerHTML=s.players.map(p=>`<span class="pill player-pill">${avatar(p.name)} ${esc(p.name)}</span>`).join('');
@@ -106,7 +106,7 @@ socket?.on('state',s=>{
      const p=s.players.find(p=>p.id===el.dataset.testPersonStatus);
      if(p)el.textContent=p.submitted?'✓ Guess submitted':'Not submitted';
    });
-   updateBetTimer();
+   updateBetTimer();updatePauseControls();
    updateHostProgress();
  }else render();
 });
@@ -147,7 +147,7 @@ function reopenControls(){
  if(state.phase==='locked-bets')return '<div class="row"><button class="secondary" id="reopen-betting">Reopen betting</button><button class="secondary" id="reopen-guessing">Reopen guessing (reset bets)</button></div>';
  return '';
 }
-function guessing(){return `<div class="panel stack"><div class="eyebrow">${esc(state.category||'bollywood')} · Round ${state.round} · Secret guesses</div><div class="question">${esc(state.question)}</div><div id="host-progress" class="host-progress"></div><div class="row"><span class="pill">⏱ Guessing: <strong id="guess-timer">${formatTimer((state.guessingDeadline||0)-Date.now())}</strong></span></div>${state.isPlayer?`<p>Enter your best numerical guess. Other players won't see it until the host reveals all guesses.</p><label class="field">Your numerical answer<input id="guess" type="number" min="0" max="1000000000" step="1" placeholder="Enter a whole number" value="${esc(guessDraft??state.ownGuess??'')}"></label><button id="submitGuess">${state.ownGuess===null?'Submit guess':'Update guess'}</button><div id="guess-saved" class="save-status">${state.ownGuess!==null?'✓ Saved answer: '+fmt(state.ownGuess):'Not submitted yet'}</div>`:`<p id="live-guess-status">${state.players.filter(p=>p.submitted).length} of ${state.players.length} guesses submitted</p><div class="row">${state.players.map(p=>`<span class="pill player-pill">${avatar(p.name)} <span data-guess-status="${esc(p.id)}">${p.submitted?'✓':'…'} ${esc(p.name)}</span></span>`).join('')}</div>${guessingTimerSettings()}${timerSettings()}${reopenControls()}<button class="secondary" id="replace-question">↻ Replace this question</button><p class="muted">Already seen this question? Replace it with an unused random question. Existing guesses for this question will be cleared.</p><button id="advance">End guessing early →</button>`}</div>`}
+function guessing(){return `<div class="panel stack"><div class="eyebrow">${esc(state.category||'bollywood')} · Round ${state.round} · Secret guesses</div><div class="question">${esc(state.question)}</div><div id="host-progress" class="host-progress"></div><div class="row">${pauseControls()}<strong id="pause-indicator" class="pause-indicator">${state.paused?'⏸ GAME PAUSED':''}</strong><span class="pill">⏱ Guessing: <strong id="guess-timer">${formatTimer((state.guessingDeadline||0)-Date.now())}</strong></span></div>${state.isPlayer?`<p>Enter your best numerical guess. Other players won't see it until the host reveals all guesses.</p><label class="field">Your numerical answer<input id="guess" type="number" min="0" max="1000000000" step="1" placeholder="Enter a whole number" value="${esc(guessDraft??state.ownGuess??'')}"></label><button id="submitGuess">${state.ownGuess===null?'Submit guess':'Update guess'}</button><div id="guess-saved" class="save-status">${state.ownGuess!==null?'✓ Saved answer: '+fmt(state.ownGuess):'Not submitted yet'}</div>`:`<p id="live-guess-status">${state.players.filter(p=>p.submitted).length} of ${state.players.length} guesses submitted</p><div class="row">${state.players.map(p=>`<span class="pill player-pill">${avatar(p.name)} <span data-guess-status="${esc(p.id)}">${p.submitted?'✓':'…'} ${esc(p.name)}</span></span>`).join('')}</div>${guessingTimerSettings()}${timerSettings()}${reopenControls()}<button class="secondary" id="replace-question">↻ Replace this question</button><p class="muted">Already seen this question? Replace it with an unused random question. Existing guesses for this question will be cleared.</p><button id="advance">End guessing early →</button>`}</div>`}
 function optionLabel(o){return o?.id==='all-high'?'ALL TOO HIGH':o?.value===null?'ALL TOO HIGH':fmt(o?.value)}
 function playerColor(name){return state.players.find(p=>p.name===name)?.color||'#ffd166'}
 function playerLegend(){return `<div class="player-legend"><strong>PLAYER COLORS</strong><div class="legend-items">${state.players.map(p=>`<span class="legend-person">${avatar(p.name)}${esc(p.name)}</span>`).join('')}</div></div>`}
@@ -175,13 +175,15 @@ function board(reveal=false){
  </div></div>`;
 }
 function formatTimer(ms){const sec=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');}
+function pauseControls(){return state?.host&&['guessing','betting'].includes(state.phase)?`<button id="pause-game" class="secondary">${state.paused?'▶ Resume game':'⏸ Pause game'}</button>`:'';}
+function updatePauseControls(){const b=document.getElementById('pause-game');if(b)b.textContent=state.paused?'▶ Resume game':'⏸ Pause game';const p=document.getElementById('pause-indicator');if(p)p.textContent=state.paused?'⏸ GAME PAUSED':'';}
 function updateBetTimer(){
  const el=document.getElementById('bet-timer');
  if(!state)return;
  const remaining=(state.bettingDeadline||0)-Date.now();
- if(el)el.textContent=state.phase==='betting'?formatTimer(remaining):'00:00';
+ if(el)el.textContent=state.phase==='betting'?formatTimer(state.paused?state.pausedRemaining:remaining):'00:00';
  const guessing=document.getElementById('guess-timer');
- if(guessing)guessing.textContent=state.phase==='guessing'?(state.guessingDeadline?formatTimer(state.guessingDeadline-Date.now()):'Time up'):'00:00';
+ if(guessing)guessing.textContent=state.phase==='guessing'?(state.guessingDeadline?formatTimer(state.paused?state.pausedRemaining:state.guessingDeadline-Date.now()):'Time up'):'00:00';
 }
 function guessingTimerSettings(){
  if(!state.host)return '';
@@ -200,6 +202,7 @@ function betting(){
  <p>Bet on the closest guess <strong>without going over</strong>, or choose <strong>All Answers Too High</strong>. Everyone can see chip placements and changes live. Your two permanent chips return each round.</p>
  <div class="row"><span class="pill">⏱ <strong id="bet-timer">${formatTimer((state.bettingDeadline||0)-Date.now())}</strong></span><span class="pill">${editable?'Betting open · changes allowed':'Bets locked'}</span></div>
  ${timerSettings()}
+ <div class="row">${pauseControls()}<strong id="pause-indicator" class="pause-indicator">${state.paused?'⏸ GAME PAUSED':''}</strong></div>
  ${reopenControls()}
  ${state.isPlayer&&editable?`<div class="bet-controls"><div class="muted">CHOOSE A PERMANENT CHIP</div><div class="row"><button class="${activeSlot===0?'':'secondary'}" data-slot="0">◉ Chip 1</button><button class="${activeSlot===1?'':'secondary'}" data-slot="1">◉ Chip 2</button></div><p class="muted">Select a card on the live board. You can change either chip until betting closes.</p></div>`:''}
  ${playerLegend()}
@@ -219,11 +222,12 @@ function results(){
  <h2>💰 Round payouts</h2><div class="payout-grid">${r.payouts.map(p=>`<div class="payout-card"><strong>${esc(p.name)}</strong><span class="big">+${fmt(p.payout)}</span><small>Bet winnings: +${fmt(p.betWinnings)} · Best guess: +${fmt(p.guessBonus)}</small></div>`).join('')}</div>
  <p class="muted">Both permanent betting chips return next round; earned chips carry forward.</p>${state.host?`<button id="advance">${state.round>=state.maxRounds?'Finish game →':'Next round →'}</button>`:'<p>Waiting for host to start the next round…</p>'}</div>`;
 }
-function finished(){return `<div class="panel stack"><div class="eyebrow">Final results</div><h1>🎉 Game over!</h1><div class="winner"><div class="muted">PARTY CHAMPION</div><div class="big">${esc(state.players[0]?.name||'No winner')}</div><p>${fmt(state.players[0]?.chips||0)} virtual chips</p></div><p>Thanks for playing! To host another game, open a new private browser tab and create a fresh room.</p><button class="secondary" id="newGame">Create a new game</button></div>`}
+function finished(){const history=state.roundHistory||[];const winner=state.players[0];return `<div class="panel stack"><div class="eyebrow">Final results</div><h1>🎉 Game over!</h1><div class="winner champion-reveal"><div class="muted">🏆 PARTY CHAMPION 🏆</div><div class="big">${esc(state.players[0]?.name||'No winner')}</div><p>${fmt(state.players[0]?.chips||0)} virtual chips</p></div><h2>Round-by-round results</h2><div class="history-scroll"><table class="leaderboard"><thead><tr><th>Round</th><th>Top scoring players</th><th>Chips won</th></tr></thead><tbody>${history.map(h=>`<tr><td>${h.round}</td><td>${esc(h.payouts.filter(p=>p.payout===Math.max(...h.payouts.map(x=>x.payout))).map(p=>p.name).join(', '))}</td><td>+${fmt(Math.max(0,...h.payouts.map(p=>p.payout)))}</td></tr>`).join('')}</tbody></table></div><p>Thanks for playing! To host another game, open a new private browser tab and create a fresh room.</p><button class="secondary" id="newGame">Create a new game</button></div>`}
 function wireBoardChoices(){
  document.querySelectorAll('[data-option]').forEach(el=>{const choose=()=>{selected=el.dataset.option;document.querySelectorAll('[data-option]').forEach(lane=>lane.classList.toggle('lane-selected',lane.dataset.option===selected));const place=document.getElementById('place');if(place)place.disabled=false;};el.onclick=choose;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}}});
 }
-function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML='<div id="network-banner" class="network-banner"></div>'+renderGameHeader()+testPanel()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+recoveryPanel();updateBetTimer();updateHostProgress();
+function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML='<div id="network-banner" class="network-banner"></div>'+renderGameHeader()+testPanel()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+recoveryPanel();updateBetTimer();updateHostProgress();updatePauseControls();
+ document.getElementById('pause-game')?.addEventListener('click',()=>send('togglePause',{},()=>notice(state.paused?'Game paused':'Timer updated')));
  document.querySelectorAll('[data-test]').forEach(el=>el.addEventListener('click',()=>send('testAction',{action:el.dataset.test},()=>notice('Test action completed'))));
  document.querySelectorAll('[data-test-guess]').forEach(el=>el.addEventListener('click',()=>{const id=el.dataset.testGuess;const input=[...document.querySelectorAll('[data-test-value]')].find(x=>x.dataset.testValue===id);if(!input?.value.trim())return notice('Enter a number first');send('testAction',{action:'guess',playerId:id,value:Number(input.value)},()=>notice('Bot guess saved'))}));
  document.querySelectorAll('[data-test-bet]').forEach(el=>el.addEventListener('click',()=>{const id=el.dataset.testBet;const select=[...document.querySelectorAll('[data-test-option]')].find(x=>x.dataset.testOption===id);send('testAction',{action:'bet',playerId:id,optionId:select?.value,slot:0},()=>notice('Bot bet placed'))}));
