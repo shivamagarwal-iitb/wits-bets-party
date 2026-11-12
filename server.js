@@ -16,11 +16,27 @@ const validAvatar = x => typeof x==='string' && x.length<=110000 && /^data:image
 const STARTING_CHIPS = 0; // Earned chips; two permanent betting tokens are separate.
 const QUESTION_BANK = JSON.parse(readFileSync(new URL('./data/questions.json',import.meta.url),'utf8'));
 const CATEGORIES = Object.keys(QUESTION_BANK);
+function questionTopic(q){
+ if(q.topic)return q.topic;
+ if(/in which year|what year|which year/i.test(q.q))return 'year';
+ if(/centur|runs|wickets|score|matches|average/i.test(q.q))return 'career-records';
+ if(/world cup|final|tournament/i.test(q.q))return 'tournament';
+ return 'other';
+}
 function drawQuestion(room){
  const pool=QUESTION_BANK[room.category].filter(q=>!room.usedQuestionIds.has(q.id));
  if(!pool.length)return null;
- const chosen=pool[crypto.randomInt(pool.length)];
+ const history=room.questionTopics||[];
+ const last=history[history.length-1];
+ // Avoid repeating the previous theme; prefer themes used least often in this game.
+ const candidates=pool.filter(q=>questionTopic(q)!==last);
+ const choices=candidates.length?candidates:pool;
+ const counts=new Map(history.map(t=>[t,history.filter(x=>x===t).length]));
+ const min=Math.min(...choices.map(q=>counts.get(questionTopic(q))||0));
+ const diverse=choices.filter(q=>(counts.get(questionTopic(q))||0)===min);
+ const chosen=diverse[crypto.randomInt(diverse.length)];
  room.usedQuestionIds.add(chosen.id);
+ room.questionTopics=history.concat(questionTopic(chosen));
  return chosen;
 }
 const code = () => crypto.randomBytes(3).toString('hex').toUpperCase();
@@ -147,7 +163,7 @@ io.on('connection',socket=>{
     const category=CATEGORIES.includes(data?.category)?data.category:'bollywood';
     const testMode=data?.testMode===true;
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
-      category,testMode,paused:false,pausedRemaining:null,roundHistory:[],usedQuestionIds:new Set(),players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null};
+      category,testMode,paused:false,pausedRemaining:null,roundHistory:[],usedQuestionIds:new Set(),questionTopics:[],players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null};
     if(testMode){
       for(let i=0;i<4;i++){
         const name=['Alice','Bob','Charlie','Dana'][i];
