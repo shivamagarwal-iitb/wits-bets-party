@@ -441,8 +441,54 @@ button.bet-chip-card.bet-chip-placed{background:#ecf8f2;border-color:#b8dcc9}
 .stage-step{background:#f4f5f9;color:#6f7e93}
 .stage-step.stage-current{background:#eae5f7;color:#554c83;border-color:#cfc4e8}
 @media(max-width:640px){.board-layout-switch{position:relative}.board-layout-switch button{flex:1;min-width:94px}.tabletop-scroll{border-radius:16px}.vertical-mode .tabletop-lanes{gap:8px}}
-</style></head><body><main><header><div class="logo">🎬 STUDIO <span>WITS & BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven surprise questions. Pick Bollywood or cricket, guess together, and watch the bets unfold.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
+
+/* Studio Edition: restrained, contemporary interface; no candy colors or faux felt. */
+:root{--wb-ink:#202c38;--wb-slate:#65717e;--wb-lavender:#e9e9ee;--wb-sage:#e8eeea;--wb-peach:#f0ebe6;--wb-blue:#e8edf1;--wb-cream:#f7f6f3}
+body{background:#f5f6f5;color:#202c38}
+main{max-width:1120px}
+header{margin-bottom:22px}
+.logo{font-size:17px;font-weight:750;letter-spacing:-.45px;color:#263340}
+.logo span{color:#445e66}
+.tag{color:#596c78;border-color:#dce2e2;background:#fff}
+h1,h2{color:#202c38;letter-spacing:-.6px}
+h2{font-weight:750}
+.eyebrow{color:#657b80;letter-spacing:1.3px}
+.panel{background:#fff;border:1px solid #e3e7e6;border-radius:17px;box-shadow:0 5px 22px #1e343a09;color:#202c38}
+.panel p,.muted{color:#64717c}
+button{background:#435e64;color:#fff;font-weight:700;border-radius:11px;box-shadow:none}
+button:hover{filter:brightness(.96)}
+button.secondary{background:#eef1f1;color:#354b53}
+button.outline{border-color:#b7c7c7;color:#405e63}
+input,select{background:#fff;color:#24343e;border-color:#d7dfe1}
+input:focus,select:focus{border-color:#66888d}
+.pill{background:#edf0f0;color:#4a5d68}
+.board-layout-switch{background:#f2f4f3;border:1px solid #e4e8e7;border-radius:12px}
+.board-layout-switch span{color:#63727a}
+.board-layout-switch button{background:#fff;color:#334b54;border:1px solid #dbe3e2;border-radius:9px}
+.board-layout-switch button.secondary{background:transparent;color:#65747c}
+.board-layout-switch button:focus-visible,.tabletop-lane[data-option]:focus-visible{outline:3px solid #7d9a9d;outline-offset:2px}
+.tabletop-scroll{border:1px solid #dce3e3;background:#f8f9f8;border-radius:14px;box-shadow:none}
+.tabletop-board{background:#f7f8f7;color:#283943}
+.tabletop-banner{color:#536a70;text-shadow:none;font-weight:800;letter-spacing:.7px}
+.tabletop-banner span{color:#718088}
+.tabletop-lanes{gap:7px}
+.tabletop-lane,.tabletop-lane:nth-child(4n+2),.tabletop-lane:nth-child(4n+3),.tabletop-lane:nth-child(4n+4){background:#fff;border:1px solid #e0e6e5;border-radius:11px;box-shadow:none;color:#2a3b44}
+.tabletop-lane:nth-child(4n+2){background:#f5f6f8}
+.tabletop-lane:nth-child(4n+3){background:#f4f7f5}
+.tabletop-lane:nth-child(4n+4){background:#f8f6f4}
+.bet-journey,.bet-editor{background:#fafbfa;border:1px solid #e2e7e5;border-radius:14px}
+button.bet-chip-card{background:#fff;border:1px solid #dce3e2;box-shadow:none;border-radius:12px;color:#2b4148}
+button.bet-chip-card.bet-chip-placed{background:#eef4f0;border-color:#9eb8aa}
+.bet-count,.bet-balance{background:#edf0ef;color:#53676d}
+.game-progress{background:#fff;border-color:#e3e8e6;border-radius:14px;box-shadow:none}
+.progress-top>strong{color:#334b52}
+.round-progress-track{background:#e6ebea}
+.round-progress-track>div{background:#789b96}
+.stage-step{background:#f4f6f5;color:#77848b;border-color:#e7ebea}
+.stage-step.stage-current{background:#e7efed;color:#355d58;border-color:#cbded9}
+@media(max-width:640px){main{padding:17px 12px 64px}.panel{padding:16px}.vertical-mode .tabletop-lanes{gap:7px}}
+</style></head><body><main><header><div class="logo">WITS <span>& BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven surprise questions. Pick Bollywood or cricket, guess together, and watch the bets unfold.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=pastel-board-36" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=studio-edition-37" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
