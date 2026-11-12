@@ -73,9 +73,10 @@ window.addEventListener('focus',refreshActiveTab);
 socket?.on('state',s=>{
  const changed=state?.phase!==s.phase||state?.round!==s.round||state?.question!==s.question;
  const liveOnly=!changed&&s.phase==='betting'&&state?.phase==='betting';
+ const guessingOnly=!changed&&s.phase==='guessing'&&state?.phase==='guessing';
  if(changed){selected=null;activeSlot=0;betAmount=0;guessDraft=null;}
  state=s;
- if(s.phase==='betting'&&selected===null)selected=s.ownBets?.find(b=>b.slot===activeSlot)?.optionId??null;
+ if(changed&&s.phase==='betting'&&selected===null)selected=s.ownBets?.find(b=>b.slot===activeSlot)?.optionId??null;
  if(liveOnly&&document.getElementById('live-board')){
    // Update only the public board, not the betting controls/input being used.
    const el=document.getElementById('live-board');
@@ -85,6 +86,19 @@ socket?.on('state',s=>{
    if(summary)summary.textContent=(s.ownBets||[]).length+'/2 permanent chips placed';
    const chips=document.getElementById('chips-available');
    if(chips)chips.textContent=fmt(myChips());
+   updateBetTimer();
+ }else if(guessingOnly){
+   // Do not rebuild forms when a peer submits a guess.
+   const counter=document.getElementById('live-guess-status');
+   if(counter)counter.textContent=s.players.filter(p=>p.submitted).length+' of '+s.players.length+' guesses submitted';
+   document.querySelectorAll('[data-guess-status]').forEach(el=>{
+     const p=s.players.find(p=>p.id===el.dataset.guessStatus);
+     if(p)el.textContent=(p.submitted?'✓':'…')+' '+p.name;
+   });
+   document.querySelectorAll('[data-test-person-status]').forEach(el=>{
+     const p=s.players.find(p=>p.id===el.dataset.testPersonStatus);
+     if(p)el.textContent=p.submitted?'✓ Guess submitted':'Not submitted';
+   });
    updateBetTimer();
  }else render();
 });
@@ -105,7 +119,7 @@ function testPanel(){
  <div class="row"><button class="secondary" data-test="advance">${stage==='lobby'?'▶ Start test game':stage==='guessing'?'▶ End guessing':stage==='betting'?'▶ Lock bets':stage==='locked-bets'?'▶ Reveal answer':stage==='results'?'▶ Next round':'Game complete'}</button>
  ${stage==='guessing'?'<button data-test="autoGuess">🎲 Auto-fill missing guesses</button><button class="secondary" data-test="resetGuesses">Clear bot guesses</button>':''}
  ${stage==='betting'?'<button data-test="autoBet">🎲 Auto-place all bets</button><button class="secondary" data-test="resetBets">Clear bot bets</button>':''}</div>
- ${['guessing','betting'].includes(stage)?`<div class="test-grid">${players.map(p=>`<div class="test-person"><div class="row">${avatar(p.name)}<strong>${esc(p.name)}</strong></div>${stage==='guessing'?`<div class="muted">Guess: ${p.submitted?'✓ Submitted':'Not submitted'}</div><label class="field">Enter a test guess<input type="number" min="0" max="1000000000" value="" data-test-value="${esc(p.id)}" placeholder="Number"></label><button class="secondary" data-test-guess="${esc(p.id)}">Submit guess</button>`:`<div class="muted">Place a test chip</div><label class="field">Betting lane<select data-test-option="${esc(p.id)}">${(state.guesses||[]).map(o=>`<option value="${esc(o.id)}">${esc(optionLabel(o))}</option>`).join('')}</select></label><button class="secondary" data-test-bet="${esc(p.id)}">Place chip 1</button>`}</div>`).join('')}</div>`:''}
+ ${['guessing','betting'].includes(stage)?`<div class="test-grid">${players.map(p=>`<div class="test-person"><div class="row">${avatar(p.name)}<strong>${esc(p.name)}</strong></div>${stage==='guessing'?`<div class="muted" data-test-person-status="${esc(p.id)}">Guess: ${p.submitted?'✓ Submitted':'Not submitted'}</div><label class="field">Enter a test guess<input type="number" min="0" max="1000000000" value="" data-test-value="${esc(p.id)}" placeholder="Number"></label><button class="secondary" data-test-guess="${esc(p.id)}">Submit guess</button>`:`<div class="muted">Place a test chip</div><label class="field">Betting lane<select data-test-option="${esc(p.id)}">${(state.guesses||[]).map(o=>`<option value="${esc(o.id)}">${esc(optionLabel(o))}</option>`).join('')}</select></label><button class="secondary" data-test-bet="${esc(p.id)}">Place chip 1</button>`}</div>`).join('')}</div>`:''}
  <p class="muted">Tip: Try replacing a question, reopening stages, or leaving one player without a guess to test edge cases. You can still use the regular host controls below.</p></section>`;
 }
 function renderGameHeader(){return `<div class="row between section"><span class="pill">ROOM ${esc(state.code)}</span><span class="pill">${state.phase==='lobby'?'Waiting for players':state.phase==='finished'?'Game complete':`Round ${state.round} / ${state.maxRounds}`}</span>${state.isPlayer?`<span class="pill">◈ ${fmt(myChips())} earned chips</span>`:''}</div>`}
@@ -124,7 +138,7 @@ function reopenControls(){
  if(state.phase==='locked-bets')return '<div class="row"><button class="secondary" id="reopen-betting">Reopen betting</button><button class="secondary" id="reopen-guessing">Reopen guessing (reset bets)</button></div>';
  return '';
 }
-function guessing(){return `<div class="panel stack"><div class="eyebrow">${esc(state.category||'bollywood')} · Round ${state.round} · Secret guesses</div><div class="question">${esc(state.question)}</div><div class="row"><span class="pill">⏱ Guessing: <strong id="guess-timer">${formatTimer((state.guessingDeadline||0)-Date.now())}</strong></span></div>${state.isPlayer?`<p>Enter your best numerical guess. Other players won't see it until the host reveals all guesses.</p><label class="field">Your numerical answer<input id="guess" type="number" min="0" max="1000000000" step="1" placeholder="Enter a whole number" value="${esc(guessDraft??state.ownGuess??'')}"></label><button id="submitGuess">${state.ownGuess===null?'Submit guess':'Update guess'}</button>${state.ownGuess!==null?'<span class="pill">✓ Guess submitted</span>':''}`:`<p>${state.players.filter(p=>p.submitted).length} of ${state.players.length} guesses submitted</p><div class="row">${state.players.map(p=>`<span class="pill player-pill">${avatar(p.name)} ${p.submitted?'✓':'…'} ${esc(p.name)}</span>`).join('')}</div>${guessingTimerSettings()}${timerSettings()}${reopenControls()}<button class="secondary" id="replace-question">↻ Replace this question</button><p class="muted">Already seen this question? Replace it with an unused random question. Existing guesses for this question will be cleared.</p><button id="advance">End guessing early →</button>`}</div>`}
+function guessing(){return `<div class="panel stack"><div class="eyebrow">${esc(state.category||'bollywood')} · Round ${state.round} · Secret guesses</div><div class="question">${esc(state.question)}</div><div class="row"><span class="pill">⏱ Guessing: <strong id="guess-timer">${formatTimer((state.guessingDeadline||0)-Date.now())}</strong></span></div>${state.isPlayer?`<p>Enter your best numerical guess. Other players won't see it until the host reveals all guesses.</p><label class="field">Your numerical answer<input id="guess" type="number" min="0" max="1000000000" step="1" placeholder="Enter a whole number" value="${esc(guessDraft??state.ownGuess??'')}"></label><button id="submitGuess">${state.ownGuess===null?'Submit guess':'Update guess'}</button>${state.ownGuess!==null?'<span class="pill">✓ Guess submitted</span>':''}`:`<p id="live-guess-status">${state.players.filter(p=>p.submitted).length} of ${state.players.length} guesses submitted</p><div class="row">${state.players.map(p=>`<span class="pill player-pill">${avatar(p.name)} <span data-guess-status="${esc(p.id)}">${p.submitted?'✓':'…'} ${esc(p.name)}</span></span>`).join('')}</div>${guessingTimerSettings()}${timerSettings()}${reopenControls()}<button class="secondary" id="replace-question">↻ Replace this question</button><p class="muted">Already seen this question? Replace it with an unused random question. Existing guesses for this question will be cleared.</p><button id="advance">End guessing early →</button>`}</div>`}
 function optionLabel(o){return o?.id==='all-high'?'ALL TOO HIGH':o?.value===null?'ALL TOO HIGH':fmt(o?.value)}
 function playerColor(name){return state.players.find(p=>p.name===name)?.color||'#ffd166'}
 function playerLegend(){return `<div class="player-legend"><strong>PLAYER COLORS</strong><div class="legend-items">${state.players.map(p=>`<span class="legend-person">${avatar(p.name)}${esc(p.name)}</span>`).join('')}</div></div>`}
