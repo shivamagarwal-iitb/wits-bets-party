@@ -1,0 +1,1368 @@
+{
+  "bollywood": [
+    {
+      "id": "b001",
+      "q": "In which year was the Hindi film \"Kaho Naa... Pyaar Hai\" first released?",
+      "a": 2000,
+      "fact": "\"Kaho Naa... Pyaar Hai\" was released in 2000. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b002",
+      "q": "In which year was the Hindi film \"Mohabbatein\" first released?",
+      "a": 2000,
+      "fact": "\"Mohabbatein\" was released in 2000. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b003",
+      "q": "In which year was the Hindi film \"Lagaan\" first released?",
+      "a": 2001,
+      "fact": "\"Lagaan\" was released in 2001. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b004",
+      "q": "In which year was the Hindi film \"Dil Chahta Hai\" first released?",
+      "a": 2001,
+      "fact": "\"Dil Chahta Hai\" was released in 2001. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b005",
+      "q": "In which year was the Hindi film \"Kabhi Khushi Kabhie Gham\" first released?",
+      "a": 2001,
+      "fact": "\"Kabhi Khushi Kabhie Gham\" was released in 2001. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b006",
+      "q": "In which year was the Hindi film \"Gadar: Ek Prem Katha\" first released?",
+      "a": 2001,
+      "fact": "\"Gadar: Ek Prem Katha\" was released in 2001. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b007",
+      "q": "In which year was the Hindi film \"Devdas\" first released?",
+      "a": 2002,
+      "fact": "\"Devdas\" was released in 2002. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b008",
+      "q": "In which year was the Hindi film \"Raaz\" first released?",
+      "a": 2002,
+      "fact": "\"Raaz\" was released in 2002. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b009",
+      "q": "In which year was the Hindi film \"Saathiya\" first released?",
+      "a": 2002,
+      "fact": "\"Saathiya\" was released in 2002. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b010",
+      "q": "In which year was the Hindi film \"Kal Ho Naa Ho\" first released?",
+      "a": 2003,
+      "fact": "\"Kal Ho Naa Ho\" was released in 2003. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b011",
+      "q": "In which year was the Hindi film \"Koi... Mil Gaya\" first released?",
+      "a": 2003,
+      "fact": "\"Koi... Mil Gaya\" was released in 2003. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b012",
+      "q": "In which year was the Hindi film \"Munna Bhai M.B.B.S.\" first released?",
+      "a": 2003,
+      "fact": "\"Munna Bhai M.B.B.S.\" was released in 2003. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b013",
+      "q": "In which year was the Hindi film \"Baghban\" first released?",
+      "a": 2003,
+      "fact": "\"Baghban\" was released in 2003. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b014",
+      "q": "In which year was the Hindi film \"Main Hoon Na\" first released?",
+      "a": 2004,
+      "fact": "\"Main Hoon Na\" was released in 2004. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b015",
+      "q": "In which year was the Hindi film \"Veer-Zaara\" first released?",
+      "a": 2004,
+      "fact": "\"Veer-Zaara\" was released in 2004. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b016",
+      "q": "In which year was the Hindi film \"Dhoom\" first released?",
+      "a": 2004,
+      "fact": "\"Dhoom\" was released in 2004. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b017",
+      "q": "In which year was the Hindi film \"Swades\" first released?",
+      "a": 2004,
+      "fact": "\"Swades\" was released in 2004. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b018",
+      "q": "In which year was the Hindi film \"Hum Tum\" first released?",
+      "a": 2004,
+      "fact": "\"Hum Tum\" was released in 2004. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b019",
+      "q": "In which year was the Hindi film \"Black\" first released?",
+      "a": 2005,
+      "fact": "\"Black\" was released in 2005. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b020",
+      "q": "In which year was the Hindi film \"Bunty Aur Babli\" first released?",
+      "a": 2005,
+      "fact": "\"Bunty Aur Babli\" was released in 2005. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b021",
+      "q": "In which year was the Hindi film \"Salaam Namaste\" first released?",
+      "a": 2005,
+      "fact": "\"Salaam Namaste\" was released in 2005. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b022",
+      "q": "In which year was the Hindi film \"No Entry\" first released?",
+      "a": 2005,
+      "fact": "\"No Entry\" was released in 2005. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b023",
+      "q": "In which year was the Hindi film \"Rang De Basanti\" first released?",
+      "a": 2006,
+      "fact": "\"Rang De Basanti\" was released in 2006. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b024",
+      "q": "In which year was the Hindi film \"Lage Raho Munna Bhai\" first released?",
+      "a": 2006,
+      "fact": "\"Lage Raho Munna Bhai\" was released in 2006. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b025",
+      "q": "In which year was the Hindi film \"Dhoom 2\" first released?",
+      "a": 2006,
+      "fact": "\"Dhoom 2\" was released in 2006. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b026",
+      "q": "In which year was the Hindi film \"Don\" first released?",
+      "a": 2006,
+      "fact": "\"Don\" was released in 2006. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b027",
+      "q": "In which year was the Hindi film \"Kabhi Alvida Naa Kehna\" first released?",
+      "a": 2006,
+      "fact": "\"Kabhi Alvida Naa Kehna\" was released in 2006. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b028",
+      "q": "In which year was the Hindi film \"Chak De! India\" first released?",
+      "a": 2007,
+      "fact": "\"Chak De! India\" was released in 2007. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b029",
+      "q": "In which year was the Hindi film \"Om Shanti Om\" first released?",
+      "a": 2007,
+      "fact": "\"Om Shanti Om\" was released in 2007. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b030",
+      "q": "In which year was the Hindi film \"Jab We Met\" first released?",
+      "a": 2007,
+      "fact": "\"Jab We Met\" was released in 2007. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b031",
+      "q": "In which year was the Hindi film \"Taare Zameen Par\" first released?",
+      "a": 2007,
+      "fact": "\"Taare Zameen Par\" was released in 2007. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b032",
+      "q": "In which year was the Hindi film \"Welcome\" first released?",
+      "a": 2007,
+      "fact": "\"Welcome\" was released in 2007. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b033",
+      "q": "In which year was the Hindi film \"Singh Is Kinng\" first released?",
+      "a": 2008,
+      "fact": "\"Singh Is Kinng\" was released in 2008. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b034",
+      "q": "In which year was the Hindi film \"Ghajini\" first released?",
+      "a": 2008,
+      "fact": "\"Ghajini\" was released in 2008. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b035",
+      "q": "In which year was the Hindi film \"Rab Ne Bana Di Jodi\" first released?",
+      "a": 2008,
+      "fact": "\"Rab Ne Bana Di Jodi\" was released in 2008. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b036",
+      "q": "In which year was the Hindi film \"Jodhaa Akbar\" first released?",
+      "a": 2008,
+      "fact": "\"Jodhaa Akbar\" was released in 2008. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b037",
+      "q": "In which year was the Hindi film \"Rock On!!\" first released?",
+      "a": 2008,
+      "fact": "\"Rock On!!\" was released in 2008. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b038",
+      "q": "In which year was the Hindi film \"3 Idiots\" first released?",
+      "a": 2009,
+      "fact": "\"3 Idiots\" was released in 2009. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b039",
+      "q": "In which year was the Hindi film \"Wake Up Sid\" first released?",
+      "a": 2009,
+      "fact": "\"Wake Up Sid\" was released in 2009. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b040",
+      "q": "In which year was the Hindi film \"Love Aaj Kal\" first released?",
+      "a": 2009,
+      "fact": "\"Love Aaj Kal\" was released in 2009. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b041",
+      "q": "In which year was the Hindi film \"Wanted\" first released?",
+      "a": 2009,
+      "fact": "\"Wanted\" was released in 2009. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b042",
+      "q": "In which year was the Hindi film \"My Name Is Khan\" first released?",
+      "a": 2010,
+      "fact": "\"My Name Is Khan\" was released in 2010. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b043",
+      "q": "In which year was the Hindi film \"Dabangg\" first released?",
+      "a": 2010,
+      "fact": "\"Dabangg\" was released in 2010. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b044",
+      "q": "In which year was the Hindi film \"Golmaal 3\" first released?",
+      "a": 2010,
+      "fact": "\"Golmaal 3\" was released in 2010. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b045",
+      "q": "In which year was the Hindi film \"Housefull\" first released?",
+      "a": 2010,
+      "fact": "\"Housefull\" was released in 2010. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b046",
+      "q": "In which year was the Hindi film \"Band Baaja Baaraat\" first released?",
+      "a": 2010,
+      "fact": "\"Band Baaja Baaraat\" was released in 2010. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b047",
+      "q": "In which year was the Hindi film \"Zindagi Na Milegi Dobara\" first released?",
+      "a": 2011,
+      "fact": "\"Zindagi Na Milegi Dobara\" was released in 2011. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b048",
+      "q": "In which year was the Hindi film \"Rockstar\" first released?",
+      "a": 2011,
+      "fact": "\"Rockstar\" was released in 2011. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b049",
+      "q": "In which year was the Hindi film \"Bodyguard\" first released?",
+      "a": 2011,
+      "fact": "\"Bodyguard\" was released in 2011. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b050",
+      "q": "In which year was the Hindi film \"Singham\" first released?",
+      "a": 2011,
+      "fact": "\"Singham\" was released in 2011. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b051",
+      "q": "In which year was the Hindi film \"Delhi Belly\" first released?",
+      "a": 2011,
+      "fact": "\"Delhi Belly\" was released in 2011. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b052",
+      "q": "In which year was the Hindi film \"Barfi!\" first released?",
+      "a": 2012,
+      "fact": "\"Barfi!\" was released in 2012. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b053",
+      "q": "In which year was the Hindi film \"Ek Tha Tiger\" first released?",
+      "a": 2012,
+      "fact": "\"Ek Tha Tiger\" was released in 2012. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b054",
+      "q": "In which year was the Hindi film \"Agneepath\" first released?",
+      "a": 2012,
+      "fact": "\"Agneepath\" was released in 2012. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b055",
+      "q": "In which year was the Hindi film \"English Vinglish\" first released?",
+      "a": 2012,
+      "fact": "\"English Vinglish\" was released in 2012. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b056",
+      "q": "In which year was the Hindi film \"Kahaani\" first released?",
+      "a": 2012,
+      "fact": "\"Kahaani\" was released in 2012. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b057",
+      "q": "In which year was the Hindi film \"Student of the Year\" first released?",
+      "a": 2012,
+      "fact": "\"Student of the Year\" was released in 2012. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b058",
+      "q": "In which year was the Hindi film \"Yeh Jawaani Hai Deewani\" first released?",
+      "a": 2013,
+      "fact": "\"Yeh Jawaani Hai Deewani\" was released in 2013. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b059",
+      "q": "In which year was the Hindi film \"Chennai Express\" first released?",
+      "a": 2013,
+      "fact": "\"Chennai Express\" was released in 2013. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b060",
+      "q": "In which year was the Hindi film \"Dhoom 3\" first released?",
+      "a": 2013,
+      "fact": "\"Dhoom 3\" was released in 2013. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b061",
+      "q": "In which year was the Hindi film \"Bhaag Milkha Bhaag\" first released?",
+      "a": 2013,
+      "fact": "\"Bhaag Milkha Bhaag\" was released in 2013. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b062",
+      "q": "In which year was the Hindi film \"Aashiqui 2\" first released?",
+      "a": 2013,
+      "fact": "\"Aashiqui 2\" was released in 2013. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b063",
+      "q": "In which year was the Hindi film \"Queen\" first released?",
+      "a": 2014,
+      "fact": "\"Queen\" was released in 2014. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b064",
+      "q": "In which year was the Hindi film \"PK\" first released?",
+      "a": 2014,
+      "fact": "\"PK\" was released in 2014. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b065",
+      "q": "In which year was the Hindi film \"Happy New Year\" first released?",
+      "a": 2014,
+      "fact": "\"Happy New Year\" was released in 2014. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b066",
+      "q": "In which year was the Hindi film \"2 States\" first released?",
+      "a": 2014,
+      "fact": "\"2 States\" was released in 2014. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b067",
+      "q": "In which year was the Hindi film \"Haider\" first released?",
+      "a": 2014,
+      "fact": "\"Haider\" was released in 2014. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b068",
+      "q": "In which year was the Hindi film \"Bajrangi Bhaijaan\" first released?",
+      "a": 2015,
+      "fact": "\"Bajrangi Bhaijaan\" was released in 2015. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b069",
+      "q": "In which year was the Hindi film \"Bajirao Mastani\" first released?",
+      "a": 2015,
+      "fact": "\"Bajirao Mastani\" was released in 2015. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b070",
+      "q": "In which year was the Hindi film \"Dilwale\" first released?",
+      "a": 2015,
+      "fact": "\"Dilwale\" was released in 2015. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b071",
+      "q": "In which year was the Hindi film \"Piku\" first released?",
+      "a": 2015,
+      "fact": "\"Piku\" was released in 2015. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b072",
+      "q": "In which year was the Hindi film \"Tanu Weds Manu Returns\" first released?",
+      "a": 2015,
+      "fact": "\"Tanu Weds Manu Returns\" was released in 2015. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b073",
+      "q": "In which year was the Hindi film \"Dangal\" first released?",
+      "a": 2016,
+      "fact": "\"Dangal\" was released in 2016. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b074",
+      "q": "In which year was the Hindi film \"Sultan\" first released?",
+      "a": 2016,
+      "fact": "\"Sultan\" was released in 2016. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b075",
+      "q": "In which year was the Hindi film \"Ae Dil Hai Mushkil\" first released?",
+      "a": 2016,
+      "fact": "\"Ae Dil Hai Mushkil\" was released in 2016. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b076",
+      "q": "In which year was the Hindi film \"Dear Zindagi\" first released?",
+      "a": 2016,
+      "fact": "\"Dear Zindagi\" was released in 2016. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b077",
+      "q": "In which year was the Hindi film \"Pink\" first released?",
+      "a": 2016,
+      "fact": "\"Pink\" was released in 2016. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b078",
+      "q": "In which year was the Hindi film \"Raees\" first released?",
+      "a": 2017,
+      "fact": "\"Raees\" was released in 2017. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b079",
+      "q": "In which year was the Hindi film \"Tiger Zinda Hai\" first released?",
+      "a": 2017,
+      "fact": "\"Tiger Zinda Hai\" was released in 2017. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b080",
+      "q": "In which year was the Hindi film \"Hindi Medium\" first released?",
+      "a": 2017,
+      "fact": "\"Hindi Medium\" was released in 2017. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b081",
+      "q": "In which year was the Hindi film \"Secret Superstar\" first released?",
+      "a": 2017,
+      "fact": "\"Secret Superstar\" was released in 2017. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b082",
+      "q": "In which year was the Hindi film \"Bareilly Ki Barfi\" first released?",
+      "a": 2017,
+      "fact": "\"Bareilly Ki Barfi\" was released in 2017. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b083",
+      "q": "In which year was the Hindi film \"Padmaavat\" first released?",
+      "a": 2018,
+      "fact": "\"Padmaavat\" was released in 2018. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b084",
+      "q": "In which year was the Hindi film \"Sanju\" first released?",
+      "a": 2018,
+      "fact": "\"Sanju\" was released in 2018. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b085",
+      "q": "In which year was the Hindi film \"Andhadhun\" first released?",
+      "a": 2018,
+      "fact": "\"Andhadhun\" was released in 2018. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b086",
+      "q": "In which year was the Hindi film \"Stree\" first released?",
+      "a": 2018,
+      "fact": "\"Stree\" was released in 2018. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b087",
+      "q": "In which year was the Hindi film \"Badhaai Ho\" first released?",
+      "a": 2018,
+      "fact": "\"Badhaai Ho\" was released in 2018. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b088",
+      "q": "In which year was the Hindi film \"Gully Boy\" first released?",
+      "a": 2019,
+      "fact": "\"Gully Boy\" was released in 2019. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b089",
+      "q": "In which year was the Hindi film \"War\" first released?",
+      "a": 2019,
+      "fact": "\"War\" was released in 2019. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b090",
+      "q": "In which year was the Hindi film \"Kabir Singh\" first released?",
+      "a": 2019,
+      "fact": "\"Kabir Singh\" was released in 2019. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b091",
+      "q": "In which year was the Hindi film \"Chhichhore\" first released?",
+      "a": 2019,
+      "fact": "\"Chhichhore\" was released in 2019. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b092",
+      "q": "In which year was the Hindi film \"Uri: The Surgical Strike\" first released?",
+      "a": 2019,
+      "fact": "\"Uri: The Surgical Strike\" was released in 2019. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b093",
+      "q": "In which year was the Hindi film \"Tanhaji\" first released?",
+      "a": 2020,
+      "fact": "\"Tanhaji\" was released in 2020. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b094",
+      "q": "In which year was the Hindi film \"Thappad\" first released?",
+      "a": 2020,
+      "fact": "\"Thappad\" was released in 2020. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b095",
+      "q": "In which year was the Hindi film \"Shubh Mangal Zyada Saavdhan\" first released?",
+      "a": 2020,
+      "fact": "\"Shubh Mangal Zyada Saavdhan\" was released in 2020. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b096",
+      "q": "In which year was the Hindi film \"Ludo\" first released?",
+      "a": 2020,
+      "fact": "\"Ludo\" was released in 2020. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b097",
+      "q": "In which year was the Hindi film \"Shershaah\" first released?",
+      "a": 2021,
+      "fact": "\"Shershaah\" was released in 2021. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b098",
+      "q": "In which year was the Hindi film \"Sardar Udham\" first released?",
+      "a": 2021,
+      "fact": "\"Sardar Udham\" was released in 2021. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b099",
+      "q": "In which year was the Hindi film \"Mimi\" first released?",
+      "a": 2021,
+      "fact": "\"Mimi\" was released in 2021. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b100",
+      "q": "In which year was the Hindi film \"83\" first released?",
+      "a": 2021,
+      "fact": "\"83\" was released in 2021. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b101",
+      "q": "In which year was the Hindi film \"Gangubai Kathiawadi\" first released?",
+      "a": 2022,
+      "fact": "\"Gangubai Kathiawadi\" was released in 2022. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b102",
+      "q": "In which year was the Hindi film \"Brahmastra: Part One – Shiva\" first released?",
+      "a": 2022,
+      "fact": "\"Brahmastra: Part One – Shiva\" was released in 2022. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b103",
+      "q": "In which year was the Hindi film \"Drishyam 2\" first released?",
+      "a": 2022,
+      "fact": "\"Drishyam 2\" was released in 2022. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b104",
+      "q": "In which year was the Hindi film \"Bhool Bhulaiyaa 2\" first released?",
+      "a": 2022,
+      "fact": "\"Bhool Bhulaiyaa 2\" was released in 2022. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b105",
+      "q": "In which year was the Hindi film \"Pathaan\" first released?",
+      "a": 2023,
+      "fact": "\"Pathaan\" was released in 2023. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b106",
+      "q": "In which year was the Hindi film \"Jawan\" first released?",
+      "a": 2023,
+      "fact": "\"Jawan\" was released in 2023. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b107",
+      "q": "In which year was the Hindi film \"Animal\" first released?",
+      "a": 2023,
+      "fact": "\"Animal\" was released in 2023. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b108",
+      "q": "In which year was the Hindi film \"12th Fail\" first released?",
+      "a": 2023,
+      "fact": "\"12th Fail\" was released in 2023. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b109",
+      "q": "In which year was the Hindi film \"Rocky Aur Rani Kii Prem Kahaani\" first released?",
+      "a": 2023,
+      "fact": "\"Rocky Aur Rani Kii Prem Kahaani\" was released in 2023. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b110",
+      "q": "In which year was the Hindi film \"Laapataa Ladies\" first released?",
+      "a": 2024,
+      "fact": "\"Laapataa Ladies\" was released in 2024. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b111",
+      "q": "In which year was the Hindi film \"Stree 2\" first released?",
+      "a": 2024,
+      "fact": "\"Stree 2\" was released in 2024. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b112",
+      "q": "In which year was the Hindi film \"Crew\" first released?",
+      "a": 2024,
+      "fact": "\"Crew\" was released in 2024. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b113",
+      "q": "In which year was the Hindi film \"Fighter\" first released?",
+      "a": 2024,
+      "fact": "\"Fighter\" was released in 2024. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b114",
+      "q": "In which year was the Hindi film \"Chandu Champion\" first released?",
+      "a": 2024,
+      "fact": "\"Chandu Champion\" was released in 2024. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b115",
+      "q": "In which year was the Hindi film \"Sitaare Zameen Par\" first released?",
+      "a": 2025,
+      "fact": "\"Sitaare Zameen Par\" was released in 2025. Source reference: film release listings (verify against official film records)."
+    },
+    {
+      "id": "b116",
+      "q": "In which year was the Hindi film \"Chhaava\" first released?",
+      "a": 2025,
+      "fact": "\"Chhaava\" was released in 2025. Source reference: film release listings (verify against official film records)."
+    }
+  ],
+  "cricket": [
+    {
+      "id": "ci1",
+      "q": "In what year did Rajasthan Royals win their first Indian Premier League title?",
+      "a": 2008,
+      "fact": "Rajasthan Royals won the Indian Premier League in 2008. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci2",
+      "q": "In what year did Deccan Chargers win their first Indian Premier League title?",
+      "a": 2009,
+      "fact": "Deccan Chargers won the Indian Premier League in 2009. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci3",
+      "q": "In what year did Chennai Super Kings win their first Indian Premier League title?",
+      "a": 2010,
+      "fact": "Chennai Super Kings won the Indian Premier League in 2010. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci4",
+      "q": "In what year did Chennai Super Kings win their second Indian Premier League title?",
+      "a": 2011,
+      "fact": "Chennai Super Kings won the Indian Premier League in 2011. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci5",
+      "q": "In what year did Kolkata Knight Riders win their first Indian Premier League title?",
+      "a": 2012,
+      "fact": "Kolkata Knight Riders won the Indian Premier League in 2012. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci6",
+      "q": "In what year did Mumbai Indians win their first Indian Premier League title?",
+      "a": 2013,
+      "fact": "Mumbai Indians won the Indian Premier League in 2013. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci7",
+      "q": "In what year did Kolkata Knight Riders win their second Indian Premier League title?",
+      "a": 2014,
+      "fact": "Kolkata Knight Riders won the Indian Premier League in 2014. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci8",
+      "q": "In what year did Mumbai Indians win their second Indian Premier League title?",
+      "a": 2015,
+      "fact": "Mumbai Indians won the Indian Premier League in 2015. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci9",
+      "q": "In what year did Sunrisers Hyderabad win their first Indian Premier League title?",
+      "a": 2016,
+      "fact": "Sunrisers Hyderabad won the Indian Premier League in 2016. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci10",
+      "q": "In what year did Mumbai Indians win their third Indian Premier League title?",
+      "a": 2017,
+      "fact": "Mumbai Indians won the Indian Premier League in 2017. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci11",
+      "q": "In what year did Chennai Super Kings win their third Indian Premier League title?",
+      "a": 2018,
+      "fact": "Chennai Super Kings won the Indian Premier League in 2018. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci12",
+      "q": "In what year did Mumbai Indians win their 4th Indian Premier League title?",
+      "a": 2019,
+      "fact": "Mumbai Indians won the Indian Premier League in 2019. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci13",
+      "q": "In what year did Mumbai Indians win their 5th Indian Premier League title?",
+      "a": 2020,
+      "fact": "Mumbai Indians won the Indian Premier League in 2020. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci14",
+      "q": "In what year did Chennai Super Kings win their 4th Indian Premier League title?",
+      "a": 2021,
+      "fact": "Chennai Super Kings won the Indian Premier League in 2021. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci15",
+      "q": "In what year did Gujarat Titans win their first Indian Premier League title?",
+      "a": 2022,
+      "fact": "Gujarat Titans won the Indian Premier League in 2022. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci16",
+      "q": "In what year did Chennai Super Kings win their 5th Indian Premier League title?",
+      "a": 2023,
+      "fact": "Chennai Super Kings won the Indian Premier League in 2023. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci17",
+      "q": "In what year did Kolkata Knight Riders win their third Indian Premier League title?",
+      "a": 2024,
+      "fact": "Kolkata Knight Riders won the Indian Premier League in 2024. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "ci18",
+      "q": "In what year did Royal Challengers Bengaluru win their first Indian Premier League title?",
+      "a": 2025,
+      "fact": "Royal Challengers Bengaluru won the Indian Premier League in 2025. Source: historical Indian Premier League champions."
+    },
+    {
+      "id": "cw1",
+      "q": "In what year did West Indies win their first men's ODI Cricket World Cup title?",
+      "a": 1975,
+      "fact": "West Indies won the men's ODI Cricket World Cup in 1975. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "cw2",
+      "q": "In what year did West Indies win their second men's ODI Cricket World Cup title?",
+      "a": 1979,
+      "fact": "West Indies won the men's ODI Cricket World Cup in 1979. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "cw3",
+      "q": "In what year did India win their first men's ODI Cricket World Cup title?",
+      "a": 1983,
+      "fact": "India won the men's ODI Cricket World Cup in 1983. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "cw4",
+      "q": "In what year did Australia win their first men's ODI Cricket World Cup title?",
+      "a": 1987,
+      "fact": "Australia won the men's ODI Cricket World Cup in 1987. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "cw5",
+      "q": "In what year did Pakistan win their first men's ODI Cricket World Cup title?",
+      "a": 1992,
+      "fact": "Pakistan won the men's ODI Cricket World Cup in 1992. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "cw6",
+      "q": "In what year did Sri Lanka win their first men's ODI Cricket World Cup title?",
+      "a": 1996,
+      "fact": "Sri Lanka won the men's ODI Cricket World Cup in 1996. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "cw7",
+      "q": "In what year did Australia win their second men's ODI Cricket World Cup title?",
+      "a": 1999,
+      "fact": "Australia won the men's ODI Cricket World Cup in 1999. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "cw8",
+      "q": "In what year did Australia win their third men's ODI Cricket World Cup title?",
+      "a": 2003,
+      "fact": "Australia won the men's ODI Cricket World Cup in 2003. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "cw9",
+      "q": "In what year did Australia win their 4th men's ODI Cricket World Cup title?",
+      "a": 2007,
+      "fact": "Australia won the men's ODI Cricket World Cup in 2007. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "cw10",
+      "q": "In what year did India win their second men's ODI Cricket World Cup title?",
+      "a": 2011,
+      "fact": "India won the men's ODI Cricket World Cup in 2011. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "cw11",
+      "q": "In what year did Australia win their 5th men's ODI Cricket World Cup title?",
+      "a": 2015,
+      "fact": "Australia won the men's ODI Cricket World Cup in 2015. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "cw12",
+      "q": "In what year did England win their first men's ODI Cricket World Cup title?",
+      "a": 2019,
+      "fact": "England won the men's ODI Cricket World Cup in 2019. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "cw13",
+      "q": "In what year did Australia win their 6th men's ODI Cricket World Cup title?",
+      "a": 2023,
+      "fact": "Australia won the men's ODI Cricket World Cup in 2023. Source: historical men's ODI Cricket World Cup champions."
+    },
+    {
+      "id": "ct1",
+      "q": "In what year did India win their first men's T20 World Cup title?",
+      "a": 2007,
+      "fact": "India won the men's T20 World Cup in 2007. Source: historical men's T20 World Cup champions."
+    },
+    {
+      "id": "ct2",
+      "q": "In what year did Pakistan win their first men's T20 World Cup title?",
+      "a": 2009,
+      "fact": "Pakistan won the men's T20 World Cup in 2009. Source: historical men's T20 World Cup champions."
+    },
+    {
+      "id": "ct3",
+      "q": "In what year did England win their first men's T20 World Cup title?",
+      "a": 2010,
+      "fact": "England won the men's T20 World Cup in 2010. Source: historical men's T20 World Cup champions."
+    },
+    {
+      "id": "ct4",
+      "q": "In what year did West Indies win their first men's T20 World Cup title?",
+      "a": 2012,
+      "fact": "West Indies won the men's T20 World Cup in 2012. Source: historical men's T20 World Cup champions."
+    },
+    {
+      "id": "ct5",
+      "q": "In what year did Sri Lanka win their first men's T20 World Cup title?",
+      "a": 2014,
+      "fact": "Sri Lanka won the men's T20 World Cup in 2014. Source: historical men's T20 World Cup champions."
+    },
+    {
+      "id": "ct6",
+      "q": "In what year did West Indies win their second men's T20 World Cup title?",
+      "a": 2016,
+      "fact": "West Indies won the men's T20 World Cup in 2016. Source: historical men's T20 World Cup champions."
+    },
+    {
+      "id": "ct7",
+      "q": "In what year did Australia win their first men's T20 World Cup title?",
+      "a": 2021,
+      "fact": "Australia won the men's T20 World Cup in 2021. Source: historical men's T20 World Cup champions."
+    },
+    {
+      "id": "ct8",
+      "q": "In what year did England win their second men's T20 World Cup title?",
+      "a": 2022,
+      "fact": "England won the men's T20 World Cup in 2022. Source: historical men's T20 World Cup champions."
+    },
+    {
+      "id": "ct9",
+      "q": "In what year did India win their second men's T20 World Cup title?",
+      "a": 2024,
+      "fact": "India won the men's T20 World Cup in 2024. Source: historical men's T20 World Cup champions."
+    },
+    {
+      "id": "cr1",
+      "q": "How many ODI career centuries did Sachin Tendulkar record?",
+      "a": 49,
+      "fact": "Sachin Tendulkar: ODI career centuries — 49. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr2",
+      "q": "How many international career centuries did Sachin Tendulkar record?",
+      "a": 100,
+      "fact": "Sachin Tendulkar: international career centuries — 100. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr3",
+      "q": "How many ODI centuries at the end of the 2023 World Cup did Virat Kohli record?",
+      "a": 50,
+      "fact": "Virat Kohli: ODI centuries at the end of the 2023 World Cup — 50. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr4",
+      "q": "How many ODI double centuries through 2025 did Rohit Sharma record?",
+      "a": 3,
+      "fact": "Rohit Sharma: ODI double centuries through 2025 — 3. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr5",
+      "q": "How many individual ODI best score did Rohit Sharma record?",
+      "a": 264,
+      "fact": "Rohit Sharma: individual ODI best score — 264. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr6",
+      "q": "How many Test career runs did Sachin Tendulkar record?",
+      "a": 15921,
+      "fact": "Sachin Tendulkar: Test career runs — 15921. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr7",
+      "q": "How many ODI career runs did Sachin Tendulkar record?",
+      "a": 18426,
+      "fact": "Sachin Tendulkar: ODI career runs — 18426. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr8",
+      "q": "How many Test career centuries did Sachin Tendulkar record?",
+      "a": 51,
+      "fact": "Sachin Tendulkar: Test career centuries — 51. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr9",
+      "q": "How many Test career matches did Sachin Tendulkar record?",
+      "a": 200,
+      "fact": "Sachin Tendulkar: Test career matches — 200. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr10",
+      "q": "How many Test career wickets did Muttiah Muralitharan record?",
+      "a": 800,
+      "fact": "Muttiah Muralitharan: Test career wickets — 800. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr11",
+      "q": "How many Test career wickets did Shane Warne record?",
+      "a": 708,
+      "fact": "Shane Warne: Test career wickets — 708. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr12",
+      "q": "How many Test career wickets did James Anderson record?",
+      "a": 704,
+      "fact": "James Anderson: Test career wickets — 704. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr13",
+      "q": "How many Test career wickets did Anil Kumble record?",
+      "a": 619,
+      "fact": "Anil Kumble: Test career wickets — 619. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr14",
+      "q": "How many Test career wickets did Ravichandran Ashwin record?",
+      "a": 537,
+      "fact": "Ravichandran Ashwin: Test career wickets — 537. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr15",
+      "q": "How many Test career wickets did Glenn McGrath record?",
+      "a": 563,
+      "fact": "Glenn McGrath: Test career wickets — 563. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr16",
+      "q": "How many Test career wickets did Stuart Broad record?",
+      "a": 604,
+      "fact": "Stuart Broad: Test career wickets — 604. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr17",
+      "q": "How many Test career wickets did Kapil Dev record?",
+      "a": 434,
+      "fact": "Kapil Dev: Test career wickets — 434. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr18",
+      "q": "How many Test career wickets did Richard Hadlee record?",
+      "a": 431,
+      "fact": "Richard Hadlee: Test career wickets — 431. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr19",
+      "q": "How many Test career wickets did Courtney Walsh record?",
+      "a": 519,
+      "fact": "Courtney Walsh: Test career wickets — 519. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr20",
+      "q": "How many highest individual Test innings did Brian Lara record?",
+      "a": 400,
+      "fact": "Brian Lara: highest individual Test innings — 400. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr21",
+      "q": "How many highest individual first-class innings did Brian Lara record?",
+      "a": 501,
+      "fact": "Brian Lara: highest individual first-class innings — 501. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr22",
+      "q": "How many highest individual Test innings did Virender Sehwag record?",
+      "a": 319,
+      "fact": "Virender Sehwag: highest individual Test innings — 319. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr23",
+      "q": "How many highest individual Test innings did Karun Nair record?",
+      "a": 303,
+      "fact": "Karun Nair: highest individual Test innings — 303. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr24",
+      "q": "How many sixes in one over against Stuart Broad at the 2007 T20 World Cup did Yuvraj Singh record?",
+      "a": 6,
+      "fact": "Yuvraj Singh: sixes in one over against Stuart Broad at the 2007 T20 World Cup — 6. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr25",
+      "q": "How many balls to reach fifty against England in the 2007 T20 World Cup did Yuvraj Singh record?",
+      "a": 12,
+      "fact": "Yuvraj Singh: balls to reach fifty against England in the 2007 T20 World Cup — 12. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr26",
+      "q": "How many balls to reach his fastest ODI fifty in 2015 did AB de Villiers record?",
+      "a": 16,
+      "fact": "AB de Villiers: balls to reach his fastest ODI fifty in 2015 — 16. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr27",
+      "q": "How many balls to reach his fastest ODI hundred in 2015 did AB de Villiers record?",
+      "a": 31,
+      "fact": "AB de Villiers: balls to reach his fastest ODI hundred in 2015 — 31. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr28",
+      "q": "How many highest individual IPL innings did Chris Gayle record?",
+      "a": 175,
+      "fact": "Chris Gayle: highest individual IPL innings — 175. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr29",
+      "q": "How many runs in the first IPL match in 2008 did Brendon McCullum record?",
+      "a": 158,
+      "fact": "Brendon McCullum: runs in the first IPL match in 2008 — 158. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr30",
+      "q": "How many runs in the 2016 IPL season did Virat Kohli record?",
+      "a": 973,
+      "fact": "Virat Kohli: runs in the 2016 IPL season — 973. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr31",
+      "q": "How many centuries in the 2016 IPL season did Virat Kohli record?",
+      "a": 4,
+      "fact": "Virat Kohli: centuries in the 2016 IPL season — 4. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr32",
+      "q": "How many centuries in the 2022 IPL season did Jos Buttler record?",
+      "a": 4,
+      "fact": "Jos Buttler: centuries in the 2022 IPL season — 4. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr33",
+      "q": "How many runs in the 2023 IPL season did Shubman Gill record?",
+      "a": 890,
+      "fact": "Shubman Gill: runs in the 2023 IPL season — 890. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr34",
+      "q": "How many runs in the 2016 IPL season did David Warner record?",
+      "a": 848,
+      "fact": "David Warner: runs in the 2016 IPL season — 848. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr35",
+      "q": "How many sixes in the 2013 IPL innings against Pune Warriors did Chris Gayle record?",
+      "a": 17,
+      "fact": "Chris Gayle: sixes in the 2013 IPL innings against Pune Warriors — 17. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr36",
+      "q": "How many runs in the 2011 ODI World Cup final did MS Dhoni record?",
+      "a": 91,
+      "fact": "MS Dhoni: runs in the 2011 ODI World Cup final — 91. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr37",
+      "q": "How many runs in the 2011 ODI World Cup final did Gautam Gambhir record?",
+      "a": 97,
+      "fact": "Gautam Gambhir: runs in the 2011 ODI World Cup final — 97. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr38",
+      "q": "How many runs in the 2011 ODI World Cup final did Mahela Jayawardene record?",
+      "a": 103,
+      "fact": "Mahela Jayawardene: runs in the 2011 ODI World Cup final — 103. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr39",
+      "q": "How many runs in the 2003 ODI World Cup final did Ricky Ponting record?",
+      "a": 140,
+      "fact": "Ricky Ponting: runs in the 2003 ODI World Cup final — 140. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr40",
+      "q": "How many runs in the 2007 ODI World Cup final did Adam Gilchrist record?",
+      "a": 149,
+      "fact": "Adam Gilchrist: runs in the 2007 ODI World Cup final — 149. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr41",
+      "q": "How many runs in the 2023 ODI World Cup final did Travis Head record?",
+      "a": 137,
+      "fact": "Travis Head: runs in the 2023 ODI World Cup final — 137. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr42",
+      "q": "How many runs in the 2019 ODI World Cup final did Ben Stokes record?",
+      "a": 84,
+      "fact": "Ben Stokes: runs in the 2019 ODI World Cup final — 84. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr43",
+      "q": "How many runs in the 2023 ODI World Cup tournament did Virat Kohli record?",
+      "a": 765,
+      "fact": "Virat Kohli: runs in the 2023 ODI World Cup tournament — 765. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr44",
+      "q": "How many runs in the 2003 ODI World Cup tournament did Sachin Tendulkar record?",
+      "a": 673,
+      "fact": "Sachin Tendulkar: runs in the 2003 ODI World Cup tournament — 673. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr45",
+      "q": "How many runs in the 2007 ODI World Cup tournament did Matthew Hayden record?",
+      "a": 659,
+      "fact": "Matthew Hayden: runs in the 2007 ODI World Cup tournament — 659. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr46",
+      "q": "How many centuries in the 2019 ODI World Cup tournament did Rohit Sharma record?",
+      "a": 5,
+      "fact": "Rohit Sharma: centuries in the 2019 ODI World Cup tournament — 5. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr47",
+      "q": "How many wickets in the 2023 ODI World Cup tournament did Mohammed Shami record?",
+      "a": 24,
+      "fact": "Mohammed Shami: wickets in the 2023 ODI World Cup tournament — 24. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr48",
+      "q": "How many wickets in the 2019 ODI World Cup tournament did Mitchell Starc record?",
+      "a": 27,
+      "fact": "Mitchell Starc: wickets in the 2019 ODI World Cup tournament — 27. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr49",
+      "q": "How many wickets in the 2007 ODI World Cup tournament did Glenn McGrath record?",
+      "a": 26,
+      "fact": "Glenn McGrath: wickets in the 2007 ODI World Cup tournament — 26. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr50",
+      "q": "How many balls for his 1996 ODI century against Sri Lanka did Shahid Afridi record?",
+      "a": 37,
+      "fact": "Shahid Afridi: balls for his 1996 ODI century against Sri Lanka — 37. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr51",
+      "q": "How many balls for his 2014 ODI century against West Indies did Corey Anderson record?",
+      "a": 36,
+      "fact": "Corey Anderson: balls for his 2014 ODI century against West Indies — 36. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr52",
+      "q": "How many runs in the 2021 T20 World Cup tournament did Babar Azam record?",
+      "a": 303,
+      "fact": "Babar Azam: runs in the 2021 T20 World Cup tournament — 303. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr53",
+      "q": "How many runs in the 2014 T20 World Cup tournament did Virat Kohli record?",
+      "a": 319,
+      "fact": "Virat Kohli: runs in the 2014 T20 World Cup tournament — 319. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr54",
+      "q": "How many runs in the 2016 T20 World Cup tournament did Virat Kohli record?",
+      "a": 273,
+      "fact": "Virat Kohli: runs in the 2016 T20 World Cup tournament — 273. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr55",
+      "q": "How many runs in the 2022 T20 World Cup tournament did Virat Kohli record?",
+      "a": 296,
+      "fact": "Virat Kohli: runs in the 2022 T20 World Cup tournament — 296. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr56",
+      "q": "How many wickets in the 2011 ODI World Cup tournament did Yuvraj Singh record?",
+      "a": 15,
+      "fact": "Yuvraj Singh: wickets in the 2011 ODI World Cup tournament — 15. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr57",
+      "q": "How many wickets in the 2011 ODI World Cup tournament did Zaheer Khan record?",
+      "a": 21,
+      "fact": "Zaheer Khan: wickets in the 2011 ODI World Cup tournament — 21. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr58",
+      "q": "How many wickets in the 2019 ODI World Cup tournament did Shakib Al Hasan record?",
+      "a": 11,
+      "fact": "Shakib Al Hasan: wickets in the 2019 ODI World Cup tournament — 11. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr59",
+      "q": "How many runs in the 2019 ODI World Cup tournament did Shakib Al Hasan record?",
+      "a": 606,
+      "fact": "Shakib Al Hasan: runs in the 2019 ODI World Cup tournament — 606. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr60",
+      "q": "How many runs in his unbeaten innings against Afghanistan at the 2023 ODI World Cup did Glenn Maxwell record?",
+      "a": 201,
+      "fact": "Glenn Maxwell: runs in his unbeaten innings against Afghanistan at the 2023 ODI World Cup — 201. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr61",
+      "q": "How many runs in his ODI double century against Bangladesh in 2022 did Ishan Kishan record?",
+      "a": 210,
+      "fact": "Ishan Kishan: runs in his ODI double century against Bangladesh in 2022 — 210. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr62",
+      "q": "How many runs in his ODI double century against New Zealand in 2023 did Shubman Gill record?",
+      "a": 208,
+      "fact": "Shubman Gill: runs in his ODI double century against New Zealand in 2023 — 208. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr63",
+      "q": "How many runs in the first men's ODI double century in 2010 did Sachin Tendulkar record?",
+      "a": 200,
+      "fact": "Sachin Tendulkar: runs in the first men's ODI double century in 2010 — 200. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr64",
+      "q": "How many runs against West Indies in the 2015 ODI World Cup quarter-final did Martin Guptill record?",
+      "a": 237,
+      "fact": "Martin Guptill: runs against West Indies in the 2015 ODI World Cup quarter-final — 237. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr65",
+      "q": "How many runs against Zimbabwe in the 2015 ODI World Cup did Chris Gayle record?",
+      "a": 215,
+      "fact": "Chris Gayle: runs against Zimbabwe in the 2015 ODI World Cup — 215. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr66",
+      "q": "How many runs against West Indies in the 2011 ODI series at Indore did Virender Sehwag record?",
+      "a": 219,
+      "fact": "Virender Sehwag: runs against West Indies in the 2011 ODI series at Indore — 219. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr67",
+      "q": "How many runs against Zimbabwe in the 2018 ODI series did Fakhar Zaman record?",
+      "a": 210,
+      "fact": "Fakhar Zaman: runs against Zimbabwe in the 2018 ODI series — 210. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr68",
+      "q": "How many runs in his 2013 ODI double century against Australia did Rohit Sharma record?",
+      "a": 209,
+      "fact": "Rohit Sharma: runs in his 2013 ODI double century against Australia — 209. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr69",
+      "q": "How many runs in his 2014 ODI double century against Sri Lanka did Rohit Sharma record?",
+      "a": 264,
+      "fact": "Rohit Sharma: runs in his 2014 ODI double century against Sri Lanka — 264. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr70",
+      "q": "How many runs in his 2017 ODI double century against Sri Lanka did Rohit Sharma record?",
+      "a": 208,
+      "fact": "Rohit Sharma: runs in his 2017 ODI double century against Sri Lanka — 208. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    },
+    {
+      "id": "cr71",
+      "q": "How many runs in his 2016 Test innings against Pakistan at Sydney did David Warner record?",
+      "a": 113,
+      "fact": "David Warner: runs in his 2016 Test innings against Pakistan at Sydney — 113. Source reference: cricket scorecards and career statistics (verify against official scorecards)."
+    }
+  ]
+}
