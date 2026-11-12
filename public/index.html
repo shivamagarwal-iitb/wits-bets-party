@@ -235,8 +235,24 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .board-selected{border-color:#7285df;box-shadow:0 0 0 3px #758be326}
 .board-winner{background:#e1f6ec;border-color:#57b397}
 @media(max-width:650px){.panel{box-shadow:0 7px 23px #4257790d}.tabletop-board{padding:10px 8px}}
+
+/* Player portrait rings */
+.avatar-ring{--avatar-ring:#7389d9;display:inline-flex;flex:none;align-items:center;justify-content:center;vertical-align:middle;width:30px;height:30px;padding:3px;border:2px solid var(--avatar-ring);border-radius:50%;background:white;box-shadow:0 2px 8px #263f6818;overflow:hidden}
+.avatar-ring>img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+.avatar-ring>span{width:100%;height:100%;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e8edfc;color:#3f5a93;font-weight:850;font-size:13px}
+.avatar-lg{width:60px;height:60px;padding:4px;border-width:3px}
+.avatar-lg>span{font-size:25px}
+.photo-preview{display:flex;align-items:center;gap:13px;padding:12px;border:1px dashed #c9d5ec;border-radius:14px;background:#f7f9ff;color:#647796;font-size:13px}
+.player-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 10px 5px 5px}
+.legend-person{display:inline-flex;align-items:center;gap:7px}
+.legend-person>.avatar-ring{width:26px;height:26px}
+.table-chip>.avatar-ring{width:29px;height:29px;margin-bottom:3px}
+.guess-owner{display:inline-flex;align-items:center;gap:5px}
+.guess-owner>.avatar-ring{width:22px;height:22px;padding:2px;border-width:1.5px}
+.leaderboard .avatar-ring{width:29px;height:29px;margin-right:5px}
+@media(max-width:500px){.table-chip>.avatar-ring{width:25px;height:25px}.table-chip b{font-size:10px}}
 </style></head><body><main><header><div class="logo">🎬 STUDIO <span>WITS & BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven surprise questions. Pick Bollywood or cricket, guess together, and watch the bets unfold.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=daylight-studio-25" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=player-photos-26" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
