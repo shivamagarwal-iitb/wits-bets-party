@@ -53,7 +53,7 @@ window.addEventListener('pageshow',refreshActiveTab);
 window.addEventListener('focus',refreshActiveTab);
 
 socket?.on('state',s=>{
- const changed=state?.phase!==s.phase||state?.round!==s.round;
+ const changed=state?.phase!==s.phase||state?.round!==s.round||state?.question!==s.question;
  const liveOnly=!changed&&s.phase==='betting'&&state?.phase==='betting';
  if(changed){selected=null;activeSlot=0;betAmount=0;guessDraft=null;}
  state=s;
