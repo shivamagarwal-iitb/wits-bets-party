@@ -32,7 +32,7 @@ let timerTick=null;
 let boardPreference=null;
 try{const saved=localStorage.getItem('wb_board_layout');if(['vertical','horizontal'].includes(saved))boardPreference=saved;}catch{}
 function boardLayout(){return boardPreference||(state?.host?'horizontal':'vertical');}
-function setBoardLayout(layout){if(!['vertical','horizontal'].includes(layout))return;boardPreference=layout;try{localStorage.setItem('wb_board_layout',layout);}catch{}render();}
+function setBoardLayout(layout){if(!['vertical','horizontal'].includes(layout))return;boardPreference=layout;try{localStorage.setItem('wb_board_layout',layout);}catch{}const scroller=document.querySelector('.tabletop-scroll');if(!scroller){render();return;}scroller.classList.toggle('vertical-mode',layout==='vertical');scroller.scrollLeft=0;document.querySelectorAll('[data-layout]').forEach(btn=>{const active=btn.dataset.layout===layout;btn.classList.toggle('secondary',!active);btn.setAttribute('aria-pressed',String(active));});const footer=scroller.querySelector('.tabletop-footer');if(footer)footer.textContent='🎬 Everyone’s chips are visible '+(layout==='horizontal'?'· Swipe sideways to see every guess ✦':'✦');}
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=x=>Number(x).toLocaleString('en-US');
 function notice(message){const t=document.getElementById('toast');t.textContent=message;t.classList.remove('hidden');clearTimeout(notice.timer);notice.timer=setTimeout(()=>t.classList.add('hidden'),3500)}
@@ -173,8 +173,7 @@ function board(reveal=false){
  return `<div class="tabletop-lane ${winner?'lane-winner':''} ${chosen?'lane-selected':''} ${o.id==='all-high'?'lane-all-high':''}" ${editable&&state.isPlayer?'data-option="'+esc(o.id)+'" role="button" tabindex="0"':''}>
  <div class="lane-odds">PAYS ${o.odds}:1</div>
  <div class="lane-chips">${placed.map(p=>`<div class="table-chip ${winner?'winning-chip':''}" style="--player-color:${playerColor(p.name)}">${avatar(p.name)}<b>${esc(p.name)}</b><small>#${p.slot+1}${p.extra?' +'+fmt(p.extra):''}</small></div>`).join('')||'<div class="lane-empty">○</div>'}</div>
- <div class="lane-card">${o.id==='all-high'?'<span class="lane-special">ALL GUESSES<br>TOO HIGH</span>':`<span>${fmt(o.value)}</span>`}</div>
- <div class="guess-owners">${(o.guessers||[]).map(g=>`<span class="guess-owner ${winner?'winning-guesser':''}" style="--player-color:${g.color}">${avatar(g.name)}${esc(g.name)}</span>`).join('')}</div>
+ <div class="lane-card"><div class="lane-number">${o.id==='all-high'?'<span class="lane-special">ALL GUESSES<br>TOO HIGH</span>':`<span>${fmt(o.value)}</span>`}</div>${o.id==='all-high'?'':`<div class="lane-guess-label">GUESSED BY</div><div class="guess-owners">${(o.guessers||[]).map(g=>`<span class="guess-owner ${winner?'winning-guesser':''}" style="--player-color:${g.color}">${avatar(g.name)}${esc(g.name)}</span>`).join('')}</div>`}</div>
  ${winner?'<div class="lane-winning-label">🏆 WINNER</div>':chosen?'<div class="lane-selected-label">✓ SELECTED</div>':''}
  </div>`}).join('')}</div>
  <div class="tabletop-footer">🎬 ${publicPhase?'Everyone’s chips are visible':'Only your chips are visible'} ${layout==='horizontal'?'· Swipe board sideways if needed':''} ✦</div>
