@@ -36,7 +36,7 @@ function state(room, viewerId, host=false) {
   return {
     code:room.code, phase:room.phase, round:room.round, maxRounds:room.maxRounds,
     category:room.category, categories:CATEGORIES, questionCount:QUESTION_BANK[room.category].length,
-    testMode:!!room.testMode,
+    testMode:!!room.testMode,paused:!!room.paused,roundHistory:room.roundHistory||[],
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
     question:room.phase==='lobby'?null:room.current?.q,
     guesses:isRevealed?room.options:[],
@@ -67,6 +67,7 @@ function hostRoom(socket) {const r=getRoom(socket.data.roomCode);return r && soc
 function emitError(socket, message){socket.emit('notice',{error:message});}
 function stopGuessingClock(room){if(room.guessingTimer)clearTimeout(room.guessingTimer);room.guessingTimer=null;room.guessingDeadline=null;}
 function finishGuessing(room){
+ if(room.paused)return;
  if(room.phase!=='guessing')return;
  stopGuessingClock(room);
  // If nobody submitted, keep the question open for the host to resolve.
@@ -74,14 +75,14 @@ function finishGuessing(room){
  revealGuesses(room);broadcast(room);
 }
 function startGuessingClock(room){
- stopGuessingClock(room);
+ stopGuessingClock(room);room.paused=false;room.pausedRemaining=null;
  room.guessingDeadline=Date.now()+room.guessingSeconds*1000;
  room.guessingTimer=setTimeout(()=>finishGuessing(room),room.guessingSeconds*1000);
 }
 function stopBettingClock(room){if(room.bettingTimer)clearTimeout(room.bettingTimer);room.bettingTimer=null;room.bettingDeadline=null;}
-function closeBetting(room){if(room.phase!=='betting')return;stopBettingClock(room);room.phase='locked-bets';broadcast(room);}
+function closeBetting(room){if(room.paused)return;if(room.phase!=='betting')return;stopBettingClock(room);room.phase='locked-bets';broadcast(room);}
 function startBettingClock(room){
- stopBettingClock(room);
+ stopBettingClock(room);room.paused=false;room.pausedRemaining=null;
  room.bettingDeadline=Date.now()+room.bettingSeconds*1000;
  room.bettingTimer=setTimeout(()=>closeBetting(room),room.bettingSeconds*1000);
 }
@@ -136,6 +137,7 @@ function settle(room){
   const revealedBets=[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra})));
   room.results={answer,explanation:room.current.fact,winningOptionId:winning?.id??null,winningValue:winning?.value??null,payouts,guessBonus:room.round,revealedBets};
   room.phase='results';
+ room.roundHistory??=[];room.roundHistory.push({round:room.round,question:room.current.q,answer,payouts:payouts.map(x=>({...x,total:room.players.size?[...room.players.values()].find(p=>p.name===x.name)?.chips:0}))});
 }
 io.on('connection',socket=>{
   socket.on('create',async (data,ack)=>{
@@ -145,7 +147,7 @@ io.on('connection',socket=>{
     const category=CATEGORIES.includes(data?.category)?data.category:'bollywood';
     const testMode=data?.testMode===true;
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
-      category,testMode,usedQuestionIds:new Set(),players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null};
+      category,testMode,paused:false,pausedRemaining:null,roundHistory:[],usedQuestionIds:new Set(),players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null};
     if(testMode){
       for(let i=0;i<4;i++){
         const name=['Alice','Bob','Charlie','Dana'][i];
@@ -165,6 +167,7 @@ io.on('connection',socket=>{
     const bots=[...room.players.values()].filter(p=>p.bot);
     const pick=()=>bots.find(p=>p.id===data?.playerId)||bots[0];
     const action=data?.action;
+    if(room.paused)return err(ack,'Resume the game before test actions.');
     if(action==='guess'||action==='autoGuess'){
       if(room.phase!=='guessing')return err(ack,'Guessing is not open.');
       const chosen=action==='guess'?[pick()]:bots.filter(p=>p.guess===null);
@@ -239,7 +242,7 @@ io.on('connection',socket=>{
   });
   socket.on('guess',(data,ack)=>{
     const room=getRoom(socket.data.roomCode);const p=room?.players.get(socket.data.playerId);
-    if(!p||room.phase!=='guessing'||(room.guessingDeadline&&Date.now()>=room.guessingDeadline)){if(room?.phase==='guessing'&&room.guessingDeadline&&Date.now()>=room.guessingDeadline)finishGuessing(room);return err(ack,'Guessing is closed.');}
+    if(!p||room.phase!=='guessing'||room.paused||(room.guessingDeadline&&Date.now()>=room.guessingDeadline)){if(room?.phase==='guessing'&&room.guessingDeadline&&Date.now()>=room.guessingDeadline)finishGuessing(room);return err(ack,'Guessing is closed.');}
     if(typeof data?.value!=='number'||!integer(data.value)||data.value>1000000000)return err(ack,'Enter a whole number from 0 to 1,000,000,000.');
     p.guess=data.value;reply(ack,{ok:true});broadcast(room);
   });
@@ -253,12 +256,19 @@ io.on('connection',socket=>{
     if(room.phase!=='locked-bets')return err(ack,'Betting can only be reopened before the answer is revealed.');
     reopenBetting(room);reply(ack,{ok:true});
   });
+  socket.on('togglePause',(data,ack)=>{
+    const room=hostRoom(socket);if(!room)return err(ack,'Only the host can pause the game.');
+    if(!['guessing','betting'].includes(room.phase))return err(ack,'Pause is available while guessing or betting.');
+    if(!room.paused){const deadline=room.phase==='guessing'?room.guessingDeadline:room.bettingDeadline;room.pausedRemaining=Math.max(1000,(deadline||Date.now())-Date.now());room.paused=true;if(room.phase==='guessing')stopGuessingClock(room);else stopBettingClock(room);}
+    else {const remaining=room.pausedRemaining||1000;room.paused=false;room.pausedRemaining=null;if(room.phase==='guessing'){room.guessingDeadline=Date.now()+remaining;room.guessingTimer=setTimeout(()=>finishGuessing(room),remaining);}else{room.bettingDeadline=Date.now()+remaining;room.bettingTimer=setTimeout(()=>closeBetting(room),remaining);}}
+    reply(ack,{ok:true});broadcast(room);
+  });
   socket.on('setGuessingTimer',(data,ack)=>{
     const room=hostRoom(socket);if(!room)return err(ack,'Only the host can set the timer.');
     const seconds=data?.seconds;
     if(!Number.isInteger(seconds)||seconds<15||seconds>1800)return err(ack,'Choose 15 seconds to 30 minutes.');
     room.guessingSeconds=seconds;
-    if(room.phase==='guessing')startGuessingClock(room);
+    if(room.phase==='guessing'&&!room.paused)startGuessingClock(room);
     reply(ack,{ok:true});broadcast(room);
   });
   socket.on('setBettingTimer',(data,ack)=>{
@@ -266,12 +276,12 @@ io.on('connection',socket=>{
     const seconds=data?.seconds;
     if(!Number.isInteger(seconds)||seconds<15||seconds>1800)return err(ack,'Choose 15 seconds to 30 minutes.');
     room.bettingSeconds=seconds;
-    if(room.phase==='betting')startBettingClock(room);
+    if(room.phase==='betting'&&!room.paused)startBettingClock(room);
     reply(ack,{ok:true});broadcast(room);
   });
   socket.on('bet',(data,ack)=>{
     const room=getRoom(socket.data.roomCode);const p=room?.players.get(socket.data.playerId);
-    if(!p||room.phase!=='betting'||!room.bettingDeadline||Date.now()>=room.bettingDeadline){if(room?.phase==='betting'&&Date.now()>=room.bettingDeadline)closeBetting(room);return err(ack,'Betting is locked.');}
+    if(!p||room.phase!=='betting'||room.paused||!room.bettingDeadline||Date.now()>=room.bettingDeadline){if(room?.phase==='betting'&&Date.now()>=room.bettingDeadline)closeBetting(room);return err(ack,'Betting is locked.');}
     const slot=data?.slot,extra=data?.extra;
     if(!Number.isInteger(slot)||slot<0||slot>1)return err(ack,'Choose betting chip 1 or 2.');
     if(!room.options.some(o=>o.id===data?.optionId))return err(ack,'Choose a valid answer.');
@@ -288,6 +298,7 @@ io.on('connection',socket=>{
   });
   socket.on('advance',(data,ack)=>{
     const room=hostRoom(socket);if(!room)return err(ack,'Only the host can advance the game.');
+    if(room.paused)return err(ack,'Resume the game before advancing.');
     if(room.phase==='lobby'){
       if(room.players.size<2)return err(ack,'At least two players are required.');
       startRound(room);
