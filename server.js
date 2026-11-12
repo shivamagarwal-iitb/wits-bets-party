@@ -36,7 +36,7 @@ function state(room, viewerId, host=false) {
   return {
     code:room.code, phase:room.phase, round:room.round, maxRounds:room.maxRounds,
     category:room.category, categories:CATEGORIES, questionCount:QUESTION_BANK[room.category].length,
-    testMode:!!room.testMode,paused:!!room.paused,roundHistory:room.roundHistory||[],
+    testMode:!!room.testMode,paused:!!room.paused,pausedRemaining:room.pausedRemaining||null,roundHistory:room.roundHistory||[],
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
     question:room.phase==='lobby'?null:room.current?.q,
     guesses:isRevealed?room.options:[],
