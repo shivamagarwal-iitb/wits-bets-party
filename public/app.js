@@ -315,6 +315,7 @@ function betting(){
  const available=myChips()+(chosen?.extra||0);
  const chosenLabel=chosen?optionLabel(state.guesses.find(o=>o.id===chosen.optionId)):'Not placed';
  return `<div class="panel stack"><div class="eyebrow">Round ${state.round} · ${editable?'Live public betting':'Betting closed'}</div><div class="question-with-image"><div class="question">${esc(state.question)}</div>${state.questionImage?.url?`<img class="question-photo" src="${esc(state.questionImage.url)}" alt="${esc(state.questionImage.alt||'Cricket')}" loading="lazy" onerror="this.style.display='none'">`:``}</div>
+ ${confidenceMeter()}
  <p>Bet on the closest guess <strong>without going over</strong>, or choose <strong>All Answers Too High</strong>. Everyone can see chip placements and changes live. Your two permanent chips return each round.</p>
  <div class="row"><span class="pill">⏱ <strong id="bet-timer">${formatTimer((state.bettingDeadline||0)-Date.now())}</strong></span><span class="pill">${editable?'Betting open · changes allowed':'Bets locked'}</span></div>
  ${timerSettings()}
@@ -332,6 +333,7 @@ function results(){
  const r=state.results;
  return `<div class="panel stack"><div class="eyebrow">Round ${state.round} · Betting reveal</div><div class="question-with-image"><div class="question">${esc(state.question)}</div>${state.questionImage?.url?`<img class="question-photo" src="${esc(state.questionImage.url)}" alt="${esc(state.questionImage.alt||'Cricket')}" loading="lazy" onerror="this.style.display='none'">`:``}</div>
  <div class="winner reveal-hero reveal-sequence-answer"><div class="muted">✨ ACTUAL ANSWER ✨</div><div class="big">${fmt(r.answer)}</div><p>${r.winningOptionId==='all-high'?'🏆 All Answers Too High wins! Every numerical guess was above the actual answer.':`🏆 Winning guess: <strong>${fmt(r.winningValue)}</strong>. Players who guessed it earn +${state.round} bonus chip${state.round===1?'':'s'}.`}</p></div>
+ ${confidenceMeter()}
  <h2 class="reveal-sequence-board">🏆 Winning lane, guesses & bets</h2><p class="muted">Every gold chip represents one permanent betting position. Stacked extras are shown alongside the player's name. The winning card is highlighted.</p>
  ${playerLegend()}
  ${board(true)}
