@@ -346,8 +346,48 @@ button.bet-chip-card.bet-chip-active{border-color:#667fdf;box-shadow:0 0 0 3px #
 button.bet-clear-extras{width:max-content;justify-self:center;font-size:12px;min-height:36px}
 .bet-editor #place{min-height:56px;font-size:17px;font-weight:800}
 @media(max-width:380px){.bet-chip-grid{gap:7px}button.bet-chip-card{padding:11px 9px;min-height:116px}.bet-step-heading{font-size:14px}}
+
+/* Live game flow: compact round status and steps */
+.game-progress{background:#ffffffeb;border:1px solid #dce5f4;border-radius:18px;padding:12px 15px;margin:0 0 16px;box-shadow:0 8px 28px #42577910;display:grid;gap:10px}
+.progress-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14px}
+.progress-top>strong{color:#2e4269}
+.round-progress-track{height:7px;flex:1;min-width:65px;border-radius:99px;background:#e5eaf6;overflow:hidden}
+.round-progress-track>div{height:100%;background:linear-gradient(90deg,#6a7edf,#46b6a0);transition:width .35s}
+.stage-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.stage-step{padding:8px 6px;text-align:center;background:#f0f3fa;color:#8190a6;border:1px solid #e3e9f3;border-radius:10px;font-weight:750;font-size:12px}
+.stage-step.stage-done{color:#238264;background:#e9f8f0;border-color:#bfe5d0}
+.stage-step.stage-current{color:#425fc2;background:#e9eeff;border-color:#b6c4f6;box-shadow:inset 0 -3px #697ddd}
+.progress-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.sticky-bet-bar{position:fixed;bottom:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px max(14px,env(safe-area-inset-right)) calc(11px + env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));background:#fffffff5;backdrop-filter:blur(18px);border-top:1px solid #cddaf0;box-shadow:0 -10px 35px #354d7e20}
+.sticky-bet-meta{display:grid;gap:3px;min-width:0;color:#304a75}
+.sticky-bet-meta small{font-size:12px;color:#61799b;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;max-width:48vw}
+.sticky-bet-bar button{flex:none;min-height:48px;padding:11px 18px}
+body:has(.sticky-bet-bar) main{padding-bottom:125px}
+.guess-arrival.arrival-pop{animation:arrival-pop .5s ease-out}
+@keyframes arrival-pop{0%{transform:scale(.85);box-shadow:0 0 0 0 #4fc48c80}55%{transform:scale(1.06);box-shadow:0 0 0 9px #4fc48c00}100%{transform:scale(1)}}
+.timer-urgent{background:#fff0e8!important;border-color:#ed9d79!important;color:#a43d28!important;animation:timer-pulse 1.5s ease-in-out infinite}
+@keyframes timer-pulse{50%{box-shadow:0 0 0 5px #e9865520}}
+.pill:has(#bet-timer),.pill:has(#guess-timer){position:relative;overflow:hidden}
+.pill:has(#bet-timer):after,.pill:has(#guess-timer):after{content:'';position:absolute;bottom:0;left:0;height:3px;width:var(--timer-progress,100%);background:#7187e0;transition:width .2s linear}
+.timer-urgent:after{background:#d65c3b!important}
+.reveal-sequence-answer{animation:reveal-drop .55s both}
+.reveal-sequence-board{animation:reveal-drop .6s .35s both}
+.reveal-sequence-payout{animation:reveal-drop .6s .8s both}
+@keyframes reveal-drop{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:none}}
+body.presentation-mode main{max-width:1800px}
+body.presentation-mode .game-progress{position:sticky;top:8px;z-index:15}
+body.presentation-mode .question{font-size:clamp(27px,3vw,52px);line-height:1.23}
+body.presentation-mode .tabletop-scroll:not(.vertical-mode) .tabletop-board{min-width:max(100%,calc(var(--lane-count) * 180px))}
+body.presentation-mode .tabletop-scroll:not(.vertical-mode) .tabletop-lanes{grid-template-columns:repeat(var(--lane-count),minmax(180px,1fr))!important}
+body.presentation-mode .tabletop-banner{font-size:22px}
+body.presentation-mode .lane-number{font-size:clamp(23px,2.5vw,38px)}
+body.presentation-mode .test-panel,body.presentation-mode .host-progress,body.presentation-mode .hostjoin,body.presentation-mode .player-legend,body.presentation-mode .leaderboard,body.presentation-mode .sound-toggle:not(#presentation-toggle),body.presentation-mode .field,body.presentation-mode .pause-indicator,body.presentation-mode #set-timer,body.presentation-mode #set-guessing-timer,body.presentation-mode .history-scroll{display:none!important}
+body.presentation-mode .panel{padding:clamp(20px,3vw,44px)}
+body.presentation-mode #presentation-toggle{display:inline-flex!important}
+@media(max-width:650px){.game-progress{padding:10px}.progress-top{gap:7px}.progress-top .pill{font-size:11px}.sticky-bet-bar{padding-top:9px}.sticky-bet-bar button{font-size:13px;padding:10px 13px}}
+@media(prefers-reduced-motion:reduce){.guess-arrival.arrival-pop,.timer-urgent,.reveal-sequence-answer,.reveal-sequence-board,.reveal-sequence-payout{animation:none!important}}
 </style></head><body><main><header><div class="logo">🎬 STUDIO <span>WITS & BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven surprise questions. Pick Bollywood or cricket, guess together, and watch the bets unfold.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=guided-betting-33" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=game-polish-34" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
