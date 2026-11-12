@@ -36,6 +36,7 @@ function state(room, viewerId, host=false) {
   return {
     code:room.code, phase:room.phase, round:room.round, maxRounds:room.maxRounds,
     category:room.category, categories:CATEGORIES, questionCount:QUESTION_BANK[room.category].length,
+    testMode:!!room.testMode,
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
     question:room.phase==='lobby'?null:room.current?.q,
     guesses:isRevealed?room.options:[],
@@ -142,13 +143,66 @@ io.on('connection',socket=>{
     const hostToken=token();
     const maxRounds=7;
     const category=CATEGORIES.includes(data?.category)?data.category:'bollywood';
+    const testMode=data?.testMode===true;
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
-      category,usedQuestionIds:new Set(),players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null};
+      category,testMode,usedQuestionIds:new Set(),players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null};
+    if(testMode){
+      for(let i=0;i<4;i++){
+        const name=['Alice','Bob','Charlie','Dana'][i];
+        const p={id:token(),secret:token(),name,color:PLAYER_COLORS[i],avatar:null,chips:STARTING_CHIPS,guess:null,bets:[],sockets:new Set(),bot:true};
+        room.players.set(p.id,p);
+      }
+      room.guessingSeconds=120;room.bettingSeconds=180;
+    }
     rooms.set(id,room);socket.data.hostToken=hostToken;identify(socket,room,{host:true});
     const base=(process.env.PUBLIC_URL||data?.origin||'').replace(/\/$/,'');
     const url=base?`${base}/?room=${id}&join=1`:`/?room=${id}&join=1`;
     let qr='';try{qr=await QRCode.toDataURL(url,{margin:1,width:280});}catch{}
     reply(ack,{ok:true,code:id,hostToken,joinUrl:url,qr});broadcast(room);
+  });
+  socket.on('testAction',(data,ack)=>{
+    const room=hostRoom(socket);if(!room||!room.testMode)return err(ack,'Only a test-room host can use these controls.');
+    const bots=[...room.players.values()].filter(p=>p.bot);
+    const pick=()=>bots.find(p=>p.id===data?.playerId)||bots[0];
+    const action=data?.action;
+    if(action==='guess'||action==='autoGuess'){
+      if(room.phase!=='guessing')return err(ack,'Guessing is not open.');
+      const chosen=action==='guess'?[pick()]:bots.filter(p=>p.guess===null);
+      const base=room.current?.a||100;
+      for(const p of chosen){
+        const value=action==='guess'?data?.value:Math.max(0,Math.round(base*(.55+crypto.randomInt(95)/100)));
+        if(!integer(value)||value>1000000000)return err(ack,'Enter a valid whole number.');
+        p.guess=value;
+      }
+    }else if(action==='bet'||action==='autoBet'){
+      if(room.phase!=='betting')return err(ack,'Betting is not open.');
+      const chosen=action==='bet'?[pick()]:bots;
+      const opts=room.options;
+      if(!opts.length)return err(ack,'No betting options.');
+      for(const p of chosen){
+        const optionId=action==='bet'?data?.optionId:opts[crypto.randomInt(opts.length)].id;
+        if(!opts.some(o=>o.id===optionId))return err(ack,'Invalid betting lane.');
+        const slot=action==='bet'?data?.slot:0;
+        if(!Number.isInteger(slot)||slot<0||slot>1)return err(ack,'Invalid chip.');
+        p.bets=p.bets.filter(b=>b.slot!==slot);
+        p.bets.push({slot,optionId,extra:0});
+        if(action==='autoBet')p.bets.push({slot:1,optionId:opts[crypto.randomInt(opts.length)].id,extra:0});
+      }
+    }else if(action==='advance'){
+      if(room.phase==='lobby')startRound(room);
+      else if(room.phase==='guessing'){if(!bots.some(p=>p.guess!==null))return err(ack,'Submit at least one guess first.');finishGuessing(room);}
+      else if(room.phase==='betting')closeBetting(room);
+      else if(room.phase==='locked-bets')settle(room);
+      else if(room.phase==='results')startRound(room);
+      else return err(ack,'Game finished.');
+    }else if(action==='resetGuesses'){
+      if(room.phase!=='guessing')return err(ack,'Only available while guessing.');
+      for(const p of bots)p.guess=null;
+    }else if(action==='resetBets'){
+      if(room.phase!=='betting')return err(ack,'Only available while betting.');
+      for(const p of bots){p.chips+=p.bets.reduce((n,b)=>n+b.extra,0);p.bets=[];}
+    }else return err(ack,'Unknown test action.');
+    reply(ack,{ok:true});broadcast(room);
   });
   socket.on('replaceQuestion',(data,ack)=>{
     const room=hostRoom(socket);if(!room)return err(ack,'Only the host can replace a question.');
