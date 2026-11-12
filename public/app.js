@@ -85,7 +85,14 @@ function recoveryPanel(){
 function myChips(){return state.players.find(p=>p.name===auth?.name)?.chips??0}
 function leaderboard(){return `<section class="panel section"><h2>🏆 Leaderboard</h2><table class="leaderboard"><thead><tr><th>Rank</th><th>Player</th><th>Earned chips</th></tr></thead><tbody>${state.players.map((p,i)=>`<tr><td>${i+1}</td><td>${esc(p.name)} ${p.connected?'🟢':'⚪'}</td><td><strong>${fmt(p.chips)}</strong></td></tr>`).join('')}</tbody></table></section>`}
 function lobby(){return `<div class="panel stack"><div class="eyebrow">Game lobby</div><h1 style="margin:0">Ready to play?</h1><p>Waiting for the host to begin. Share this room code with friends.</p><div class="code">${esc(state.code)}</div>${state.host?`<div class="hostjoin"><img id="qr" alt="QR code to join game" src="/qr/${encodeURIComponent(state.code)}"><div><p>Scan to join from any phone.</p><div class="row"><button class="secondary" id="copy">Copy invite link</button></div></div></div>`:''}${guessingTimerSettings()}${timerSettings()}<div class="row"><span class="pill">${state.players.length} / 30 players</span><span class="pill">${state.maxRounds} rounds</span></div><div class="row">${state.players.map(p=>`<span class="pill">${esc(p.name)}</span>`).join('')}</div>${state.host?`<button id="advance" ${state.players.length<2?'disabled':''}>Start game →</button>`:'<p class="muted">The host will start when everyone is ready.</p>'}</div>`}
-function guessing(){return `<div class="panel stack"><div class="eyebrow">Round ${state.round} · Secret guesses</div><div class="question">${esc(state.question)}</div><div class="row"><span class="pill">⏱ Guessing: <strong id="guess-timer">${formatTimer((state.guessingDeadline||0)-Date.now())}</strong></span></div>${state.isPlayer?`<p>Enter your best numerical guess. Other players won't see it until the host reveals all guesses.</p><label class="field">Your numerical answer<input id="guess" type="number" min="0" max="1000000000" step="1" placeholder="Enter a whole number" value="${esc(guessDraft??state.ownGuess??'')}"></label><button id="submitGuess">${state.ownGuess===null?'Submit guess':'Update guess'}</button>${state.ownGuess!==null?'<span class="pill">✓ Guess submitted</span>':''}`:`<p>${state.players.filter(p=>p.submitted).length} of ${state.players.length} guesses submitted</p><div class="row">${state.players.map(p=>`<span class="pill">${p.submitted?'✓':'…'} ${esc(p.name)}</span>`).join('')}</div>${guessingTimerSettings()}${timerSettings()}<button id="advance">End guessing early →</button>`}</div>`}
+function reopenControls(){
+ if(!state.host)return '';
+ if(state.phase==='guessing')return '<button class="secondary" id="reopen-guessing">Restart guessing timer</button>';
+ if(state.phase==='betting')return '<button class="secondary" id="reopen-guessing">Reopen guessing (reset bets)</button>';
+ if(state.phase==='locked-bets')return '<div class="row"><button class="secondary" id="reopen-betting">Reopen betting</button><button class="secondary" id="reopen-guessing">Reopen guessing (reset bets)</button></div>';
+ return '';
+}
+function guessing(){return `<div class="panel stack"><div class="eyebrow">Round ${state.round} · Secret guesses</div><div class="question">${esc(state.question)}</div><div class="row"><span class="pill">⏱ Guessing: <strong id="guess-timer">${formatTimer((state.guessingDeadline||0)-Date.now())}</strong></span></div>${state.isPlayer?`<p>Enter your best numerical guess. Other players won't see it until the host reveals all guesses.</p><label class="field">Your numerical answer<input id="guess" type="number" min="0" max="1000000000" step="1" placeholder="Enter a whole number" value="${esc(guessDraft??state.ownGuess??'')}"></label><button id="submitGuess">${state.ownGuess===null?'Submit guess':'Update guess'}</button>${state.ownGuess!==null?'<span class="pill">✓ Guess submitted</span>':''}`:`<p>${state.players.filter(p=>p.submitted).length} of ${state.players.length} guesses submitted</p><div class="row">${state.players.map(p=>`<span class="pill">${p.submitted?'✓':'…'} ${esc(p.name)}</span>`).join('')}</div>${guessingTimerSettings()}${timerSettings()}${reopenControls()}<button id="advance">End guessing early →</button>`}</div>`}
 function optionLabel(o){return o?.id==='all-high'?'ALL TOO HIGH':o?.value===null?'ALL TOO HIGH':fmt(o?.value)}
 function playerColor(name){return state.players.find(p=>p.name===name)?.color||'#ffd166'}
 function playerLegend(){return `<div class="player-legend"><strong>PLAYER COLORS</strong><div class="legend-items">${state.players.map(p=>`<span class="legend-person"><i style="background:${p.color||'#ffd166'}"></i>${esc(p.name)}</span>`).join('')}</div></div>`}
@@ -138,6 +145,7 @@ function betting(){
  <p>Bet on the closest guess <strong>without going over</strong>, or choose <strong>All Answers Too High</strong>. Everyone can see chip placements and changes live. Your two permanent chips return each round.</p>
  <div class="row"><span class="pill">⏱ <strong id="bet-timer">${formatTimer((state.bettingDeadline||0)-Date.now())}</strong></span><span class="pill">${editable?'Betting open · changes allowed':'Bets locked'}</span></div>
  ${timerSettings()}
+ ${reopenControls()}
  ${state.isPlayer&&editable?`<div class="bet-controls"><div class="muted">CHOOSE A PERMANENT CHIP</div><div class="row"><button class="${activeSlot===0?'':'secondary'}" data-slot="0">🟡 Chip 1</button><button class="${activeSlot===1?'':'secondary'}" data-slot="1">🟡 Chip 2</button></div><p class="muted">Select a card on the live board. You can change either chip until betting closes.</p></div>`:''}
  ${playerLegend()}
  <div id="live-board">${board(false)}</div>
@@ -169,6 +177,13 @@ function render(){if(!state)return renderWelcome();const oldGuess=document.getEl
   const url=new URL('/',location.origin);url.searchParams.set('room',state.code);url.searchParams.set('resume',p.playerToken);
   try{await navigator.clipboard.writeText(url.href);notice('Private rejoin link copied for '+p.name)}catch{window.prompt('Copy private rejoin link for '+p.name,url.href)}
  }));
+ document.getElementById('reopen-guessing')?.addEventListener('click',()=>{
+  if(state.phase==='betting'||state.phase==='locked-bets'){
+   if(!confirm('Reopening guesses will clear all placed bets and refund extra chips. Continue?'))return;
+  }
+  send('reopenGuessing',{},()=>notice('Guessing reopened'));
+ });
+ document.getElementById('reopen-betting')?.addEventListener('click',()=>send('reopenBetting',{},()=>notice('Betting reopened')));
  document.getElementById('advance')?.addEventListener('click',()=>send('advance',{}));
  document.getElementById('submitGuess')?.addEventListener('click',()=>{const input=document.getElementById('guess');if(!input.value.trim())return notice('Enter a number');send('guess',{value:Number(input.value)},()=>{guessDraft=null;notice('✓ Guess saved!')})});
  document.querySelectorAll('[data-layout]').forEach(el=>el.addEventListener('click',()=>setBoardLayout(el.dataset.layout)));
