@@ -56,8 +56,8 @@ function resumeSession(a){
  if(a?.hostToken)send('resumeHost',a,()=>{save(a);cleanRecoveryUrl()});
  else if(a?.playerToken)send('join',a,r=>{save({code:a.code,playerToken:r.playerToken,name:r.name});cleanRecoveryUrl()});
 }
-socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const a=stored();if(a)resumeSession(a);else renderWelcome();});
-socket?.on('disconnect',()=>{document.getElementById('connection').textContent='○ Reconnecting…'});
+socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const e=document.getElementById('network-banner');if(e)e.textContent='';const a=stored();if(a)resumeSession(a);else renderWelcome();});
+socket?.on('disconnect',()=>{document.getElementById('connection').textContent='○ Reconnecting…';const e=document.getElementById('network-banner');if(e)e.textContent='Connection lost — reconnecting. Unsaved changes must be resubmitted.';});
 // iOS pauses background tabs: explicitly rejoin and request current state when a tab becomes active.
 function refreshActiveTab(){
   if(document.visibilityState==='hidden')return;
@@ -245,7 +245,7 @@ function render(){if(!state)return renderWelcome();const oldGuess=document.getEl
  });
  document.getElementById('reopen-betting')?.addEventListener('click',()=>send('reopenBetting',{},()=>notice('Betting reopened')));
  document.getElementById('advance')?.addEventListener('click',()=>send('advance',{}));
- document.getElementById('submitGuess')?.addEventListener('click',()=>{const input=document.getElementById('guess');if(!input.value.trim())return notice('Enter a number');send('guess',{value:Number(input.value)},()=>{guessDraft=null;notice('✓ Guess saved!')})});
+ document.getElementById('submitGuess')?.addEventListener('click',()=>{const input=document.getElementById('guess');if(!input.value.trim())return notice('Enter a number');send('guess',{value:Number(input.value)},()=>{guessDraft=null;const e=document.getElementById('guess-saved');if(e)e.textContent='✓ Saved answer: '+fmt(Number(input.value));notice('✓ Guess saved!')})});
  document.querySelectorAll('[data-layout]').forEach(el=>el.addEventListener('click',()=>setBoardLayout(el.dataset.layout)));
  wireBoardChoices();
  document.querySelectorAll('[data-slot]').forEach(el=>el.onclick=()=>{activeSlot=Number(el.dataset.slot);selected=state.ownBets?.find(b=>b.slot===activeSlot)?.optionId??null;betAmount=0;render()});
@@ -258,7 +258,7 @@ function render(){if(!state)return renderWelcome();const oldGuess=document.getEl
   const seconds=Number(document.getElementById('timer-seconds').value);
   send('setBettingTimer',{seconds},()=>notice('Betting timer updated'));
  });
- document.getElementById('place')?.addEventListener('click',()=>{const amount=Number(document.getElementById('amount').value);send('bet',{slot:activeSlot,optionId:selected,extra:amount},()=>{notice('Chip '+(activeSlot+1)+' saved!');if(activeSlot===0&&!state.ownBets?.some(b=>b.slot===1)){activeSlot=1;selected=null;betAmount=0;render()}})});
+ document.getElementById('place')?.addEventListener('click',()=>{const amount=Number(document.getElementById('amount').value);send('bet',{slot:activeSlot,optionId:selected,extra:amount},()=>{const e=document.getElementById('bet-saved');if(e)e.textContent='✓ Chip '+(activeSlot+1)+' saved on '+optionLabel(state.guesses.find(o=>o.id===selected));notice('Chip '+(activeSlot+1)+' saved!');if(activeSlot===0&&!state.ownBets?.some(b=>b.slot===1)){activeSlot=1;selected=null;betAmount=0;render()}})});
  document.getElementById('copy')?.addEventListener('click',async()=>{const url=`${location.origin}/?room=${state.code}&join=1`;try{await navigator.clipboard.writeText(url);notice('Invite link copied!')}catch{notice(url)}});
  document.getElementById('newGame')?.addEventListener('click',()=>{try{sessionStorage.removeItem('wb_auth');localStorage.removeItem('wb_auth_last');if(state?.code)localStorage.removeItem('wb_auth_'+state.code)}catch{}state=null;auth=null;history.replaceState({},'','/');renderWelcome()});
 }
