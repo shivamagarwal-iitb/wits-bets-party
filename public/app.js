@@ -91,7 +91,9 @@ socket?.on('state',s=>{
    document.querySelectorAll('#live-board [data-layout]').forEach(el=>el.addEventListener('click',()=>setBoardLayout(el.dataset.layout)));
    const saved=document.getElementById('bet-saved');if(saved){const current=s.ownBets?.find(b=>b.slot===activeSlot);saved.textContent=current?'✓ Chip '+(activeSlot+1)+' saved':'Chip not placed yet';}
    const summary=document.getElementById('bet-summary');
-   if(summary)summary.textContent=(s.ownBets||[]).length+'/2 permanent chips placed';
+   if(summary)summary.textContent=(s.ownBets||[]).length+' of 2 placed';
+  document.querySelectorAll('[data-slot]').forEach(el=>{const slot=Number(el.dataset.slot);const bet=s.ownBets?.find(b=>b.slot===slot);const o=bet?s.guesses.find(o=>o.id===bet.optionId):null;el.classList.toggle('bet-chip-placed',!!bet);el.classList.toggle('bet-chip-active',slot===activeSlot);el.setAttribute('aria-pressed',String(slot===activeSlot));el.innerHTML='<span class="bet-chip-top">'+(bet?'✓':'◉')+' CHIP '+(slot+1)+'</span><strong>'+(bet?esc(optionLabel(o)):'Tap to place')+'</strong><small>'+(bet?'✓ Placed'+(bet.extra?' · +'+fmt(bet.extra)+' extra':''):'Not placed yet')+'</small>';});
+  const guidance=document.getElementById('bet-guidance');if(guidance){const count=(s.ownBets||[]).length;guidance.textContent=count===2?'✓ Both permanent chips placed! Tap either chip to move it or adjust extras.':'Step '+(activeSlot+1)+' of 2: Tap a number on the board, then confirm your chip.';}
    const chips=document.getElementById('chips-available');
    if(chips)chips.textContent=fmt(myChips());
    updateBetTimer();updatePauseControls();updateHostProgress();
@@ -231,7 +233,7 @@ function results(){
 }
 function finished(){const history=state.roundHistory||[];const winner=state.players[0];return `<div class="panel stack"><div class="eyebrow">Final results</div><h1>🎉 Game over!</h1><div class="winner champion-reveal"><div class="muted">🏆 PARTY CHAMPION 🏆</div><div class="big">${esc(state.players[0]?.name||'No winner')}</div><p>${fmt(state.players[0]?.chips||0)} virtual chips</p></div><h2>Round-by-round results</h2><div class="history-scroll"><table class="leaderboard"><thead><tr><th>Round</th>${state.players.map(p=>`<th>${esc(p.name)}</th>`).join('')}</tr></thead><tbody>${history.map(h=>`<tr><td>${h.round}</td>${state.players.map(p=>{const score=h.payouts.find(x=>x.name===p.name);return `<td><strong>+${fmt(score?.payout||0)}</strong><small class="muted"> · ${fmt(score?.total||0)} total</small></td>`}).join('')}</tr>`).join('')}</tbody></table></div><p>Thanks for playing! To host another game, open a new private browser tab and create a fresh room.</p><button class="secondary" id="newGame">Create a new game</button></div>`}
 function wireBoardChoices(){
- document.querySelectorAll('[data-option]').forEach(el=>{const choose=()=>{selected=el.dataset.option;document.querySelectorAll('[data-option]').forEach(lane=>lane.classList.toggle('lane-selected',lane.dataset.option===selected));const place=document.getElementById('place');if(place)place.disabled=false;};el.onclick=choose;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}}});
+ document.querySelectorAll('[data-option]').forEach(el=>{const choose=()=>{selected=el.dataset.option;document.querySelectorAll('[data-option]').forEach(lane=>lane.classList.toggle('lane-selected',lane.dataset.option===selected));const place=document.getElementById('place');if(place)place.disabled=false;const target=document.getElementById('bet-target');if(target)target.textContent=optionLabel(state.guesses.find(o=>o.id===selected));};el.onclick=choose;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}}});
 }
 function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML='<div id="network-banner" class="network-banner"></div>'+renderGameHeader()+testPanel()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+recoveryPanel();updateBetTimer();updateHostProgress();updatePauseControls();
  document.getElementById('sound-toggle')?.addEventListener('click',()=>{soundEnabled=!soundEnabled;localStorage.setItem('wits-sound',soundEnabled?'on':'off');updateSoundToggle();if(soundEnabled)playCue('bet')});
@@ -262,8 +264,15 @@ function render(){if(!state)return renderWelcome();const oldGuess=document.getEl
  document.getElementById('submitGuess')?.addEventListener('click',()=>{const input=document.getElementById('guess');if(!input.value.trim())return notice('Enter a number');send('guess',{value:Number(input.value)},()=>{guessDraft=null;const e=document.getElementById('guess-saved');if(e)e.textContent='✓ Saved answer: '+fmt(Number(input.value));playCue('guess');notice('✓ Guess saved!')})});
  document.querySelectorAll('[data-layout]').forEach(el=>el.addEventListener('click',()=>setBoardLayout(el.dataset.layout)));
  wireBoardChoices();
- document.querySelectorAll('[data-slot]').forEach(el=>el.onclick=()=>{activeSlot=Number(el.dataset.slot);selected=state.ownBets?.find(b=>b.slot===activeSlot)?.optionId??null;betAmount=0;render()});
- document.getElementById('amount')?.addEventListener('input',e=>{betAmount=Number(e.target.value)});
+ document.querySelectorAll('[data-slot]').forEach(el=>el.onclick=()=>{activeSlot=Number(el.dataset.slot);const saved=state.ownBets?.find(b=>b.slot===activeSlot);selected=saved?.optionId??null;betAmount=saved?.extra??0;render()});
+ const amountInput=document.getElementById('amount');
+ const currentExtraMax=()=>Math.max(0,myChips()+(state.ownBets?.find(b=>b.slot===activeSlot)?.extra||0));
+ const setExtra=(value)=>{if(!amountInput)return;betAmount=Math.max(0,Math.min(currentExtraMax(),Math.floor(Number(value)||0)));amountInput.value=String(betAmount);};
+ amountInput?.addEventListener('input',e=>{betAmount=Number(e.target.value)});
+ amountInput?.addEventListener('change',e=>setExtra(e.target.value));
+ document.getElementById('extra-minus')?.addEventListener('click',()=>setExtra((Number(amountInput.value)||0)-1));
+ document.getElementById('extra-plus')?.addEventListener('click',()=>setExtra((Number(amountInput.value)||0)+1));
+ document.getElementById('extra-clear')?.addEventListener('click',()=>setExtra(0));
  document.getElementById('set-guessing-timer')?.addEventListener('click',()=>{
   const seconds=Number(document.getElementById('guessing-seconds').value);
   send('setGuessingTimer',{seconds},()=>notice('Guessing timer updated'));
@@ -272,7 +281,23 @@ function render(){if(!state)return renderWelcome();const oldGuess=document.getEl
   const seconds=Number(document.getElementById('timer-seconds').value);
   send('setBettingTimer',{seconds},()=>notice('Betting timer updated'));
  });
- document.getElementById('place')?.addEventListener('click',()=>{const amount=Number(document.getElementById('amount').value);send('bet',{slot:activeSlot,optionId:selected,extra:amount},()=>{const e=document.getElementById('bet-saved');if(e)e.textContent='✓ Chip '+(activeSlot+1)+' saved on '+optionLabel(state.guesses.find(o=>o.id===selected));playCue('bet');notice('Chip '+(activeSlot+1)+' saved!');if(activeSlot===0&&!state.ownBets?.some(b=>b.slot===1)){activeSlot=1;selected=null;betAmount=0;render()}})});
+ document.getElementById('place')?.addEventListener('click',()=>{
+  const amountField=document.getElementById('amount');
+  const raw=amountField?.value??'0';
+  const amount=Number(raw);
+  if(raw.trim()===''||!Number.isInteger(amount)||amount<0||amount>currentExtraMax())return notice('Choose a whole number of extra chips between 0 and '+currentExtraMax());
+  if(selected===null)return notice('Tap a number on the board first.');
+  const placedSlot=activeSlot;
+  send('bet',{slot:placedSlot,optionId:selected,extra:amount},()=>{
+   playCue('bet');
+   notice('Chip '+(placedSlot+1)+' saved!');
+   const next=placedSlot===0&&!state.ownBets?.some(b=>b.slot===1)?1:placedSlot;
+   activeSlot=next;
+   selected=state.ownBets?.find(b=>b.slot===next)?.optionId??null;
+   betAmount=state.ownBets?.find(b=>b.slot===next)?.extra??0;
+   render();
+  });
+ });
  document.getElementById('copy')?.addEventListener('click',async()=>{const url=`${location.origin}/?room=${state.code}&join=1`;try{await navigator.clipboard.writeText(url);notice('Invite link copied!')}catch{notice(url)}});
  document.getElementById('newGame')?.addEventListener('click',()=>{try{sessionStorage.removeItem('wb_auth');localStorage.removeItem('wb_auth_last');if(state?.code)localStorage.removeItem('wb_auth_'+state.code)}catch{}state=null;auth=null;history.replaceState({},'','/');renderWelcome()});
 }
