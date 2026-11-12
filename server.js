@@ -109,6 +109,20 @@ function startBettingClock(room){
  room.bettingDeadline=Date.now()+room.bettingSeconds*1000;
  room.bettingTimer=setTimeout(()=>closeBetting(room),room.bettingSeconds*1000);
 }
+function reopenGuessing(room){
+ // Changing guesses invalidates the betting board. Refund all extra stakes before rebuilding.
+ stopBettingClock(room);stopGuessingClock(room);
+ for(const p of room.players.values()){
+  p.chips+=p.bets.reduce((total,b)=>total+b.extra,0);
+  p.bets=[];
+ }
+ room.options=[];room.phase='guessing';room.results=null;
+ startGuessingClock(room);broadcast(room);
+}
+function reopenBetting(room){
+ stopBettingClock(room);
+ room.phase='betting';startBettingClock(room);broadcast(room);
+}
 function startRound(room) {
   if(room.round>=room.maxRounds){room.phase='finished';return;}
   stopBettingClock(room);stopGuessingClock(room);
@@ -186,6 +200,16 @@ io.on('connection',socket=>{
     if(!p||room.phase!=='guessing'||(room.guessingDeadline&&Date.now()>=room.guessingDeadline)){if(room?.phase==='guessing'&&room.guessingDeadline&&Date.now()>=room.guessingDeadline)finishGuessing(room);return err(ack,'Guessing is closed.');}
     if(typeof data?.value!=='number'||!integer(data.value)||data.value>1000000000)return err(ack,'Enter a whole number from 0 to 1,000,000,000.');
     p.guess=data.value;reply(ack,{ok:true});broadcast(room);
+  });
+  socket.on('reopenGuessing',(data,ack)=>{
+    const room=hostRoom(socket);if(!room)return err(ack,'Only the host can reopen guessing.');
+    if(!['guessing','betting','locked-bets'].includes(room.phase))return err(ack,'Cannot reopen guessing after the answer has been revealed.');
+    reopenGuessing(room);reply(ack,{ok:true});
+  });
+  socket.on('reopenBetting',(data,ack)=>{
+    const room=hostRoom(socket);if(!room)return err(ack,'Only the host can reopen betting.');
+    if(room.phase!=='locked-bets')return err(ack,'Betting can only be reopened before the answer is revealed.');
+    reopenBetting(room);reply(ack,{ok:true});
   });
   socket.on('setGuessingTimer',(data,ack)=>{
     const room=hostRoom(socket);if(!room)return err(ack,'Only the host can set the timer.');
