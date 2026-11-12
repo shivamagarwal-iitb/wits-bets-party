@@ -314,7 +314,38 @@ function finished(){const history=state.roundHistory||[];const winner=state.play
 function wireBoardChoices(){
  document.querySelectorAll('[data-option]').forEach(el=>{const choose=()=>{selected=el.dataset.option;markBetDirty();document.querySelectorAll('[data-option]').forEach(lane=>lane.classList.toggle('lane-selected',lane.dataset.option===selected));const place=document.getElementById('place');if(place)place.disabled=false;updateStickyBetBar();const target=document.getElementById('bet-target');if(target)target.textContent=optionLabel(state.guesses.find(o=>o.id===selected));};el.onclick=choose;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}}});
 }
-function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML='<div id="network-banner" class="network-banner"></div>'+renderGameHeader()+testPanel()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+hostPlayerControls()+recoveryPanel()+stickyBetBar();updateBetTimer();updateHostProgress();updatePauseControls();updateStickyBetBar();
+let chatOpen=false,chatLastSeen=0,chatUpload=null;
+function chatPreview(m){return m?.type==='text'||m?.type==='reaction'?m.value:m?.type==='gif'?'Sent a GIF':'Sent a photo';}
+function gameChat(){
+ const messages=state.chat||[];
+ const latest=messages[messages.length-1];
+ const unread=messages.filter(m=>m.at>chatLastSeen).length;
+ const canSend=state.chatEnabled!==false;
+ return `<div class="game-chat-widget">
+ <button class="chat-peek" id="chat-peek" aria-label="Open game chat" aria-expanded="${chatOpen}" title="Open game chat"><span class="chat-peek-icon">◌</span><span class="chat-peek-copy"><strong>${latest?esc(latest.name):'Game chat'}</strong><span>${latest?esc(chatPreview(latest)):'Chat with everyone in the room'}</span></span>${unread&&!chatOpen?`<span class="chat-unread">${Math.min(unread,99)}</span>`:''}<span class="chat-peek-arrow">${chatOpen?'×':'↑'}</span></button>
+ ${chatOpen?`<section class="chat-panel" aria-label="Game chat"><div class="chat-panel-head"><strong>Game chat</strong><span>${state.players.length} players</span><button type="button" class="secondary" id="chat-close" aria-label="Close chat">×</button></div>
+ <div class="chat-messages" id="chat-messages" role="log" aria-live="polite">${messages.length?messages.map(m=>`<div class="chat-message"><div class="chat-message-head"><strong>${esc(m.name)}</strong><time>${new Date(m.at).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})}</time>${state.host?`<button type="button" class="chat-delete" data-chat-delete="${esc(m.id)}" title="Delete message">×</button>`:''}</div>${m.type==='image'||m.type==='gif'?`<img class="chat-media" src="${esc(m.value)}" alt="${m.type==='gif'?'Shared GIF':'Shared photo'}" loading="lazy">`:`<div class="chat-bubble">${esc(m.value)}</div>`}</div>`).join(''):'<p class="muted">No messages yet. Say hello!</p>'}</div>
+ <div class="chat-reactions">${['😂','🔥','😱','👏','❤️','🙌'].map(e=>`<button type="button" data-chat-reaction="${e}" ${canSend?'':'disabled'}>${e}</button>`).join('')}</div>
+ <div class="chat-compose"><input id="chat-text" maxlength="500" placeholder="${canSend?'Message your friends…':'Chat is disabled'}" ${canSend?'':'disabled'}><button type="button" id="chat-send" ${canSend?'':'disabled'}>Send</button></div>
+ <div class="chat-attachments"><label class="chat-upload-label">＋ Photo<input type="file" id="chat-photo" accept="image/*" hidden ${canSend?'':'disabled'}></label><input id="chat-gif-url" placeholder="Paste Tenor or Giphy GIF URL" aria-label="GIF URL" ${canSend?'':'disabled'}><button type="button" id="chat-gif-send" class="secondary" ${canSend?'':'disabled'}>GIF</button></div>
+ ${state.host?`<div class="chat-moderation"><button class="secondary" id="chat-toggle">${canSend?'Disable chat':'Enable chat'}</button><select id="chat-mute-player" aria-label="Choose player to mute"><option value="">Mute / unmute player…</option>${state.players.filter(p=>!p.bot).map(p=>`<option value="${esc(p.id)}">${esc(p.name)}${state.chatMuted?.includes(p.id)?' (muted)':''}</option>`).join('')}</select></div>`:''}
+ </section>`:''}
+ </div>`;
+}
+function bindGameChat(){
+ document.getElementById('chat-peek')?.addEventListener('click',()=>{chatOpen=!chatOpen;if(chatOpen)chatLastSeen=Date.now();render();});
+ document.getElementById('chat-close')?.addEventListener('click',()=>{chatOpen=false;render();});
+ document.getElementById('chat-send')?.addEventListener('click',()=>{const input=document.getElementById('chat-text');const value=input?.value.trim();if(value)send('chatSend',{type:'text',value},()=>{input.value='';});});
+ document.getElementById('chat-text')?.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();document.getElementById('chat-send')?.click();}});
+ document.querySelectorAll('[data-chat-reaction]').forEach(el=>el.addEventListener('click',()=>send('chatSend',{type:'reaction',value:el.dataset.chatReaction})));
+ document.getElementById('chat-photo')?.addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{const value=await resizeAvatar(file);send('chatSend',{type:'image',value});}catch(err){notice(err.message)}e.target.value='';});
+ document.getElementById('chat-gif-send')?.addEventListener('click',()=>{const input=document.getElementById('chat-gif-url');const value=input?.value.trim();if(value)send('chatSend',{type:'gif',value},()=>{input.value='';});});
+ document.querySelectorAll('[data-chat-delete]').forEach(el=>el.addEventListener('click',()=>send('chatModerate',{action:'delete',messageId:el.dataset.chatDelete})));
+ document.getElementById('chat-toggle')?.addEventListener('click',()=>send('chatModerate',{action:'toggle'}));
+ document.getElementById('chat-mute-player')?.addEventListener('change',e=>{if(e.target.value)send('chatModerate',{action:'mute',playerId:e.target.value});});
+ const box=document.getElementById('chat-messages');if(box)box.scrollTop=box.scrollHeight;
+}
+function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML='<div id="network-banner" class="network-banner"></div>'+renderGameHeader()+testPanel()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+hostPlayerControls()+recoveryPanel()+stickyBetBar()+gameChat();bindGameChat();updateBetTimer();updateHostProgress();updatePauseControls();updateStickyBetBar();
  document.getElementById('presentation-toggle')?.addEventListener('click',()=>{presentationMode=!presentationMode;try{localStorage.setItem('wb_presenter',presentationMode?'on':'off')}catch{}document.body.classList.toggle('presentation-mode',presentationMode);render();});
  document.body.classList.toggle('presentation-mode',presentationMode&&!!state.host);
  document.getElementById('sticky-place')?.addEventListener('click',()=>{const original=document.getElementById('place');if(original&&!original.disabled)original.click();});
