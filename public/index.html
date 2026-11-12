@@ -386,8 +386,35 @@ body.presentation-mode .panel{padding:clamp(20px,3vw,44px)}
 body.presentation-mode #presentation-toggle{display:inline-flex!important}
 @media(max-width:650px){.game-progress{padding:10px}.progress-top{gap:7px}.progress-top .pill{font-size:11px}.sticky-bet-bar{padding-top:9px}.sticky-bet-bar button{font-size:13px;padding:10px 13px}}
 @media(prefers-reduced-motion:reduce){.guess-arrival.arrival-pop,.timer-urgent,.reveal-sequence-answer,.reveal-sequence-board,.reveal-sequence-payout{animation:none!important}}
+
+/* Safer bets and multiplayer readiness */
+.bet-draft-status{padding:10px 13px;border-radius:11px;background:#e9f8f0;border:1px solid #b8dfca;color:#236a4d;font-size:13px;font-weight:750}
+.bet-draft-status.unsaved{background:#fff1dc;border-color:#eac588;color:#895c12}
+.bet-readiness{display:grid;gap:10px;background:#f7f9ff;border:1px solid #dce5f4;padding:14px;border-radius:16px}
+.bet-readiness-title{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.bet-readiness-title span{font-size:12px;color:#536ca1;font-weight:750}
+.bet-readiness-players{display:flex;flex-wrap:wrap;gap:8px}
+.bet-readiness-player{display:inline-flex;align-items:center;gap:6px;padding:5px 9px 5px 5px;background:#fff;border:1px solid #dbe3f1;border-radius:99px;color:#64748b;font-size:12px;font-weight:650}
+.bet-readiness-player.ready{background:#eaf9f0;border-color:#b7e4ca;color:#23754e}
+.bet-readiness-player .avatar-ring{width:25px;height:25px;padding:2px}
+.bet-readiness-player strong{font-size:11px}
+.round-highlights{padding:17px;background:linear-gradient(135deg,#fff8e7,#eff7ff);border:1px solid #e6d8b9;border-radius:17px;display:grid;gap:12px;animation:reveal-drop .5s .9s both}
+.round-highlights-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.round-highlights-grid>div{background:#ffffffd9;border:1px solid #e3e9f1;border-radius:12px;padding:12px;display:grid;gap:6px}
+.round-highlights-grid span{font-size:12px;color:#657a94}
+.round-highlights-grid strong{font-size:18px;color:#314e7a;overflow-wrap:anywhere}
+.round-highlights-grid small{font-size:12px;color:#547b73}
+.final-share{padding:16px;border:1px solid #cbd9f3;background:#f2f6ff;border-radius:16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.final-share h2{flex-basis:100%;margin:0}
+.final-share p{flex-basis:100%;margin:0}
+.final-standings{display:grid;gap:8px}
+.final-standing{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #dbe4f2;background:#f9fbff;border-radius:12px;padding:12px}
+.final-standing strong{display:inline-flex;align-items:center;gap:7px}
+.final-standing span{font-weight:800;color:#3c629b}
+@media(max-width:480px){.round-highlights-grid{grid-template-columns:1fr}.final-share button{flex:1}}
+@media(prefers-reduced-motion:reduce){.round-highlights{animation:none}}
 </style></head><body><main><header><div class="logo">🎬 STUDIO <span>WITS & BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven surprise questions. Pick Bollywood or cricket, guess together, and watch the bets unfold.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=game-polish-34" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=bet-safety-35" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
