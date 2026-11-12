@@ -32,23 +32,20 @@ const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const fmt=x=>Number(x).toLocaleString('en-US');
 function notice(message){const t=document.getElementById('toast');t.textContent=message;t.classList.remove('hidden');clearTimeout(notice.timer);notice.timer=setTimeout(()=>t.classList.add('hidden'),3500)}
 function send(event,payload,callback){if(!socket?.connected){betSubmitting=false;updateStickyBetBar();notice('Offline — change not saved. Reconnect and retry.');return;}socket.timeout(10000).emit(event,payload,(timeout,r)=>{if(timeout||!r?.ok){betSubmitting=false;updateStickyBetBar();notice(timeout?'No server confirmation — please retry.':r?.error||'Something went wrong');return;}callback?.(r)})}
+// Each browser tab owns its own player/host identity. Never restore another tab's
+// credentials from localStorage: two tabs must be able to join as different people.
 function stored(){
  if(auth?.code&&(!initialRoom||auth.code===initialRoom))return auth;
- // A private recovery link is a bearer credential: restore the same player even on a new device.
  if(recoveryToken&&initialRoom)return {code:initialRoom,playerToken:recoveryToken};
  try{
   const session=JSON.parse(sessionStorage.getItem('wb_auth')||'null');
   if(session?.code&&(!initialRoom||session.code===initialRoom))return session;
-  const persistent=JSON.parse(localStorage.getItem('wb_auth_'+initialRoom)||'null');
-  if(initialRoom&&persistent?.code===initialRoom)return persistent;
-  const last=JSON.parse(localStorage.getItem('wb_auth_last')||'null');
-  if(!initialRoom&&!forceJoin&&last?.code)return last;
  }catch{}
  return null;
 }
 function save(a){
  auth=a;joinedThisPage=true;
- try{sessionStorage.setItem('wb_auth',JSON.stringify(a));localStorage.setItem('wb_auth_'+a.code,JSON.stringify(a));localStorage.setItem('wb_auth_last',JSON.stringify(a))}catch{}
+ try{sessionStorage.setItem('wb_auth',JSON.stringify(a))}catch{}
 }
 function cleanRecoveryUrl(){if(recoveryToken){const url=new URL(location.href);url.searchParams.delete('resume');history.replaceState({},'',url.pathname+url.search+url.hash)}}
 function resumeSession(a){
@@ -59,7 +56,7 @@ socket?.on('connect',()=>{document.getElementById('connection').textContent='●
 socket?.on('removed',payload=>{
   const code=state?.code||auth?.code||initialRoom;
   auth=null;state=null;joinedThisPage=false;
-  try{sessionStorage.removeItem('wb_auth');localStorage.removeItem('wb_auth_'+code);localStorage.removeItem('wb_auth_last')}catch{}
+  try{sessionStorage.removeItem('wb_auth')}catch{}
   history.replaceState({},'',code?'/?room='+encodeURIComponent(code)+'&join=1':'/');
   renderWelcome();
   notice(payload?.message||'The host removed you. You can join again as a new player.');
