@@ -83,6 +83,8 @@ socket?.on('state',s=>{
    const el=document.getElementById('live-board');
    el.innerHTML=board(false);
    wireBoardChoices();
+   document.querySelectorAll('#live-board [data-layout]').forEach(el=>el.addEventListener('click',()=>setBoardLayout(el.dataset.layout)));
+   const saved=document.getElementById('bet-saved');if(saved){const current=s.ownBets?.find(b=>b.slot===activeSlot);saved.textContent=current?'✓ Chip '+(activeSlot+1)+' saved':'Chip not placed yet';}
    const summary=document.getElementById('bet-summary');
    if(summary)summary.textContent=(s.ownBets||[]).length+'/2 permanent chips placed';
    const chips=document.getElementById('chips-available');
