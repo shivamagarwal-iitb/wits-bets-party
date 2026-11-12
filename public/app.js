@@ -57,8 +57,8 @@ function save(a){
 }
 function cleanRecoveryUrl(){if(recoveryToken){const url=new URL(location.href);url.searchParams.delete('resume');history.replaceState({},'',url.pathname+url.search+url.hash)}}
 function resumeSession(a){
- if(a?.hostToken)send('resumeHost',a,()=>{save(a);cleanRecoveryUrl()});
- else if(a?.playerToken)send('join',a,r=>{save({code:a.code,playerToken:r.playerToken,name:r.name});cleanRecoveryUrl()});
+ if(a?.hostToken)send('resumeHost',a,()=>{save(a);cleanRecoveryUrl();const e=document.getElementById('network-banner');if(e)e.textContent='';});
+ else if(a?.playerToken)send('join',a,r=>{save({code:a.code,playerToken:r.playerToken,name:r.name});cleanRecoveryUrl();const e=document.getElementById('network-banner');if(e)e.textContent='';});
 }
 socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const e=document.getElementById('network-banner');if(e)e.textContent='';const a=stored();if(a)resumeSession(a);else renderWelcome();});
 socket?.on('disconnect',()=>{document.getElementById('connection').textContent='○ Reconnecting…';const e=document.getElementById('network-banner');if(e)e.textContent='Connection lost — reconnecting. Unsaved changes must be resubmitted.';});
@@ -186,9 +186,9 @@ function updateBetTimer(){
  const el=document.getElementById('bet-timer');
  if(!state)return;
  const remaining=(state.bettingDeadline||0)-Date.now();
- if(el)el.textContent=state.phase==='betting'?formatTimer(state.paused?state.pausedRemaining:remaining):'00:00';
+ if(el)el.textContent=state.phase==='betting'?formatTimer(state.paused?(state.pausedRemaining||0):remaining):'00:00';
  const guessing=document.getElementById('guess-timer');
- if(guessing)guessing.textContent=state.phase==='guessing'?(state.guessingDeadline?formatTimer(state.paused?state.pausedRemaining:state.guessingDeadline-Date.now()):'Time up'):'00:00';
+ if(guessing)guessing.textContent=state.phase==='guessing'?(state.paused?formatTimer(state.pausedRemaining||0):state.guessingDeadline?formatTimer(state.guessingDeadline-Date.now()):'Time up'):'00:00';
 }
 function guessingTimerSettings(){
  if(!state.host)return '';
