@@ -66,6 +66,7 @@ function state(room, viewerId, host=false) {
     category:room.category, categories:CATEGORIES, questionCount:QUESTION_BANK[room.category].length,
     testMode:!!room.testMode,paused:!!room.paused,pausedRemaining:room.pausedRemaining||null,roundHistory:room.roundHistory||[],
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
+    chat:(room.chat||[]).slice(-60),chatEnabled:room.chatEnabled!==false,chatMuted:host?[...(room.chatMuted||[])]:[],
     question:room.phase==='lobby'?null:room.current?.q,
     questionImage:room.phase==='lobby'?null:questionImage(room.current,room.category),
     guesses:isRevealed?room.options:[],
@@ -176,7 +177,7 @@ io.on('connection',socket=>{
     const category=CATEGORIES.includes(data?.category)?data.category:'bollywood';
     const testMode=data?.testMode===true;
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
-      category,testMode,paused:false,pausedRemaining:null,roundHistory:[],usedQuestionIds:new Set(),questionTopics:[],players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null};
+      category,testMode,paused:false,pausedRemaining:null,roundHistory:[],usedQuestionIds:new Set(),questionTopics:[],players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null,chat:[],chatMuted:new Set(),chatEnabled:true};
     if(testMode){
       for(let i=0;i<4;i++){
         const name=['Alice','Bob','Charlie','Dana'][i];
@@ -277,6 +278,42 @@ io.on('connection',socket=>{
     // A rejoining player retains their score, guesses, bets and avatar.
     identify(socket,room,{player});reply(ack,{ok:true,playerToken:player.secret,name:player.name,rejoined:!!data?.playerToken||player!==null});broadcast(room);
   });
+  socket.on('chatSend',(data,ack)=>{
+    const room=getRoom(socket.data.roomCode);
+    const p=room?.players.get(socket.data.playerId);
+    const host=!!hostRoom(socket);
+    if(!room||(!p&&!host))return err(ack,'Join the game before chatting.');
+    if(room.chatEnabled===false)return err(ack,'Chat is disabled by the host.');
+    if(p&&room.chatMuted?.has(p.id))return err(ack,'The host has muted your chat.');
+    const type=data?.type;
+    let value='';
+    if(type==='text')value=String(data?.value||'').trim().slice(0,500);
+    else if(type==='reaction'&&['😂','🔥','😱','👏','❤️','🙌'].includes(data?.value))value=data.value;
+    else if(type==='image'&&validAvatar(data?.value))value=data.value;
+    else if(type==='gif'&&typeof data?.value==='string'){
+      try{const u=new URL(data.value);if(u.protocol==='https:'&&['media.tenor.com','media.giphy.com','i.giphy.com'].includes(u.hostname)&&u.href.length<1200)value=u.href;}catch{}
+    }
+    if(!value)return err(ack,'Invalid or empty chat message.');
+    if(Date.now()-(socket.data.lastChatAt||0)<650)return err(ack,'Please wait before sending another message.');
+    socket.data.lastChatAt=Date.now();
+    const message={id:token(),name:host?'Host':p.name,playerId:p?.id||null,type,value,at:Date.now()};
+    room.chat??=[];room.chat.push(message);if(room.chat.length>100)room.chat.shift();
+    reply(ack,{ok:true});broadcast(room);
+  });
+  socket.on('chatModerate',(data,ack)=>{
+    const room=hostRoom(socket);if(!room)return err(ack,'Only the host can moderate chat.');
+    if(data?.action==='delete'){
+      room.chat=(room.chat||[]).filter(m=>m.id!==data.messageId);
+    }else if(data?.action==='toggle'){
+      room.chatEnabled=room.chatEnabled===false;
+    }else if(data?.action==='mute'){
+      if(!room.players.has(data.playerId))return err(ack,'Player not found.');
+      room.chatMuted??=new Set();
+      if(room.chatMuted.has(data.playerId))room.chatMuted.delete(data.playerId);
+      else room.chatMuted.add(data.playerId);
+    }else return err(ack,'Invalid moderation action.');
+    reply(ack,{ok:true});broadcast(room);
+  });
   socket.on('removePlayer',(data,ack)=>{
     const room=hostRoom(socket);
     if(!room)return err(ack,'Only the host can remove players.');
@@ -290,6 +327,7 @@ io.on('connection',socket=>{
     }
     player.sockets.clear();
     room.players.delete(player.id);
+    room.chatMuted?.delete(player.id);
     // Preserve an already-revealed betting board's option IDs and existing bets,
     // while removing the former player's displayed attribution.
     for(const option of room.options||[])option.guessers=option.guessers?.filter(g=>g.name!==player.name)||[];
