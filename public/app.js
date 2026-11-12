@@ -216,6 +216,37 @@ function recoveryPanel(){
  return `<section class="panel section"><h3>🔄 Player rejoin links</h3><p class="muted">If someone closes their browser or loses their place, send them their personal rejoin link. It restores their same player, chips, guesses and current round. Share each link privately.</p><div class="row">${players.map((p,i)=>`<button class="secondary" data-recover="${i}">Copy ${esc(p.name)}'s rejoin link</button>`).join('')}</div></section>`;
 }
 function myChips(){return state.players.find(p=>p.name===auth?.name)?.chips??0}
+function confidenceMeter(){
+ const c=state?.confidence;if(!c)return '';
+ const width=c.description==='Strong agreement'?20:c.description==='Some disagreement'?56:c.description==='Wildly divided'?94:5;
+ return `<section class="crowd-meter" aria-label="Crowd agreement"><div class="row between"><strong>How divided is the crowd?</strong><span>${esc(c.description)}</span></div><div class="crowd-track"><div style="width:${width}%"></div></div><small>${c.count} private guesses · Spread: ${fmt(c.spread)} · Revealed only after guessing closes</small></section>`;
+}
+function rankMovement(){
+ const r=state?.results;if(!r?.rankBefore)return '';
+ return `<section class="rank-movement"><h2>Leaderboard shake-up</h2><div class="rank-movement-grid">${state.players.map(p=>{const before=r.rankBefore.indexOf(p.id)+1;const after=r.rankAfter.indexOf(p.id)+1;const delta=before&&after?before-after:0;return `<div class="rank-move ${delta>0?'rank-up':delta<0?'rank-down':''}"><span>${avatar(p.name)} ${esc(p.name)}</span><strong>${before||'—'} → ${after||'—'}</strong><small>${delta>0?'↑ '+delta+' place'+(delta>1?'s':''):delta<0?'↓ '+Math.abs(delta)+' place'+(delta< -1?'s':''):'No change'}</small></div>`}).join('')}</div></section>`;
+}
+function awardCards(){
+ const awards=state.awards||[];
+ return awards.length?`<section class="awards"><h2>Game night awards</h2><div class="awards-grid">${awards.map((a,i)=>`<div class="award-card"><span class="award-symbol">${['✦','◎','↗','★'][i%4]}</span><strong>${esc(a.title)}</strong><span>${esc(a.name)}</span><small>${esc(a.detail)}</small></div>`).join('')}</div></section>`:'';
+}
+function shareableRecap(){
+ const awards=state.awards||[];
+ return `<section id="recap-card" class="recap-card"><div class="recap-brand">WITS & BETS <span>GAME NIGHT</span></div><h2>Final standings</h2><p>${state.maxRounds||7} rounds · ${esc(state.category||'Trivia')}</p><div class="recap-winner">✦ ${esc(state.players[0]?.name||'Champion')} <strong>${fmt(state.players[0]?.chips||0)} chips</strong></div><div class="recap-list">${state.players.map((p,i)=>`<div><span>#${i+1} ${esc(p.name)}</span><strong>${fmt(p.chips)}</strong></div>`).join('')}</div><div class="recap-awards">${awards.slice(1).map(a=>`<span>${esc(a.title)}: <strong>${esc(a.name)}</strong></span>`).join('')}</div></section>`;
+}
+async function shareRecapImage(){
+ const card=document.getElementById('recap-card');if(!card)return;
+ // SVG is generated from escaped text, not an external screenshot dependency.
+ const players=state.players.slice(0,20);
+ const awards=(state.awards||[]).slice(1,4);
+ const h=270+players.length*39+awards.length*30;
+ const xmlEscape=x=>String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+ const rows=players.map((p,i)=>`<text x="62" y="${240+i*39}" font-size="22" fill="#253a37">#${i+1}  ${xmlEscape(p.name)}</text><text x="680" y="${240+i*39}" font-size="22" text-anchor="end" fill="#253a37">${fmt(p.chips)}</text>`).join('');
+ const badges=awards.map((a,i)=>`<text x="62" y="${250+players.length*39+i*30}" font-size="18" fill="#4e6a61">${xmlEscape(a.title+': '+a.name)}</text>`).join('');
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="740" height="${h}" viewBox="0 0 740 ${h}"><rect width="740" height="${h}" fill="#f5f4ef"/><rect x="25" y="25" width="690" height="${h-50}" rx="22" fill="#ffffff" stroke="#d9e2dc"/><text x="62" y="89" font-family="Georgia,serif" font-size="41" fill="#263d38">Wits &amp; Bets</text><text x="62" y="124" font-size="16" fill="#667e72">GAME NIGHT · ${xmlEscape(state.category||'Trivia')}</text><text x="62" y="182" font-family="Georgia,serif" font-size="29" fill="#263d38">✦ ${xmlEscape(players[0]?.name||'Champion')} wins!</text>${rows}${badges}</svg>`;
+ const blob=new Blob([svg],{type:'image/svg+xml'});const file=new File([blob],'wits-bets-recap.svg',{type:'image/svg+xml'});
+ try{if(navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:'Wits & Bets game recap'});return;}}catch(e){if(e.name==='AbortError')return;}
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='wits-bets-recap.svg';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
 function leaderboard(){return `<section class="panel section"><h2>🏆 Leaderboard</h2><table class="leaderboard"><thead><tr><th>Rank</th><th>Player</th><th>Earned chips</th></tr></thead><tbody>${state.players.map((p,i)=>`<tr><td>${i+1}</td><td>${avatar(p.name)} ${esc(p.name)} ${p.connected?'🟢':'⚪'}</td><td><strong>${fmt(p.chips)}</strong></td></tr>`).join('')}</tbody></table></section>`}
 function hostPlayerControls(){
  if(!state?.host)return '';
@@ -306,16 +337,22 @@ function results(){
  ${board(true)}
  <div class="reveal-highlights reveal-sequence-payout"><div><strong>🎯 Winning original guess</strong><p>${(state.guesses.find(o=>o.id===r.winningOptionId)?.guessers||[]).map(g=>`<span class="winner-person" style="--player-color:${g.color}">${esc(g.name)}</span>`).join(' ')||'No numerical guess qualified.'}</p></div><div><strong>🪙 Winning bets</strong><p>${(r.revealedBets||[]).filter(b=>b.optionId===r.winningOptionId).map(b=>`<span class="winner-person" style="--player-color:${playerColor(b.name)}">${esc(b.name)} · Chip ${b.slot+1}</span>`).join(' ')||'Nobody bet on the winning lane.'}</p></div></div>
  ${roundHighlights()}
+ ${rankMovement()}
  <div class="answer-fact"><h2>💡 About the answer</h2><p>${esc(r.explanation||'This number describes the event in the question.')}</p></div>
  <h2 class="reveal-sequence-payout">💰 Round payouts</h2><div class="payout-grid">${r.payouts.map(p=>`<div class="payout-card"><strong>${esc(p.name)}</strong><span class="big">+${fmt(p.payout)}</span><small>Bet winnings: +${fmt(p.betWinnings)} · Best guess: +${fmt(p.guessBonus)}</small></div>`).join('')}</div>
  <p class="muted">Both permanent betting chips return next round; earned chips carry forward.</p>${state.host?`<button id="advance">${state.round>=state.maxRounds?'Finish game →':'Next round →'}</button>`:'<p>Waiting for host to start the next round…</p>'}</div>`;
 }
-function finished(){const history=state.roundHistory||[];const winner=state.players[0];return `<div class="panel stack"><div class="eyebrow">Final results</div><h1>🎉 Game over!</h1><div class="winner champion-reveal"><div class="muted">🏆 PARTY CHAMPION 🏆</div><div class="big">${esc(state.players[0]?.name||'No winner')}</div><p>${fmt(state.players[0]?.chips||0)} virtual chips</p></div><div class="final-share"><h2>📸 Share your results</h2><p>Capture this scoreboard or copy a formatted summary to your group chat.</p><button id="share-results" type="button">Share results</button><button id="copy-results" type="button" class="secondary">Copy scoreboard</button></div><h2>Final standings</h2><div class="final-standings">${state.players.map((p,i)=>`<div class="final-standing"><strong>${i===0?"🥇":i===1?"🥈":i===2?"🥉":"#"+(i+1)} ${avatar(p.name)} ${esc(p.name)}</strong><span>${fmt(p.chips)} chips</span></div>`).join("")}</div><h2>Round-by-round results</h2><div class="history-scroll"><table class="leaderboard"><thead><tr><th>Round</th>${state.players.map(p=>`<th>${esc(p.name)}</th>`).join('')}</tr></thead><tbody>${history.map(h=>`<tr><td>${h.round}</td>${state.players.map(p=>{const score=h.payouts.find(x=>x.name===p.name);return `<td><strong>+${fmt(score?.payout||0)}</strong><small class="muted"> · ${fmt(score?.total||0)} total</small></td>`}).join('')}</tr>`).join('')}</tbody></table></div><p>Thanks for playing! To host another game, open a new private browser tab and create a fresh room.</p><button class="secondary" id="newGame">Create a new game</button></div>`}
+function finished(){const history=state.roundHistory||[];const winner=state.players[0];return `<div class="panel stack">${shareableRecap()}${awardCards()}<div class="eyebrow">Final results</div><h1>🎉 Game over!</h1><div class="winner champion-reveal"><div class="muted">🏆 PARTY CHAMPION 🏆</div><div class="big">${esc(state.players[0]?.name||'No winner')}</div><p>${fmt(state.players[0]?.chips||0)} virtual chips</p></div><div class="final-share"><h2>📸 Share your results</h2><p>Capture this scoreboard or copy a formatted summary to your group chat.</p><button id="share-recap" type="button">Share recap card</button><button id="share-results" type="button">Share results</button><button id="copy-results" type="button" class="secondary">Copy scoreboard</button></div><h2>Final standings</h2><div class="final-standings">${state.players.map((p,i)=>`<div class="final-standing"><strong>${i===0?"🥇":i===1?"🥈":i===2?"🥉":"#"+(i+1)} ${avatar(p.name)} ${esc(p.name)}</strong><span>${fmt(p.chips)} chips</span></div>`).join("")}</div><h2>Round-by-round results</h2><div class="history-scroll"><table class="leaderboard"><thead><tr><th>Round</th>${state.players.map(p=>`<th>${esc(p.name)}</th>`).join('')}</tr></thead><tbody>${history.map(h=>`<tr><td>${h.round}</td>${state.players.map(p=>{const score=h.payouts.find(x=>x.name===p.name);return `<td><strong>+${fmt(score?.payout||0)}</strong><small class="muted"> · ${fmt(score?.total||0)} total</small></td>`}).join('')}</tr>`).join('')}</tbody></table></div><p>Thanks for playing! To host another game, open a new private browser tab and create a fresh room.</p><button class="secondary" id="newGame">Create a new game</button></div>`}
 function wireBoardChoices(){
  document.querySelectorAll('[data-option]').forEach(el=>{const choose=()=>{selected=el.dataset.option;markBetDirty();document.querySelectorAll('[data-option]').forEach(lane=>lane.classList.toggle('lane-selected',lane.dataset.option===selected));const place=document.getElementById('place');if(place)place.disabled=false;updateStickyBetBar();const target=document.getElementById('bet-target');if(target)target.textContent=optionLabel(state.guesses.find(o=>o.id===selected));};el.onclick=choose;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}}});
 }
 let chatOpen=false,chatLastSeen=0,chatUpload=null;
 function chatPreview(m){return m?.type==='text'||m?.type==='reaction'?m.value:m?.type==='gif'?'Sent a GIF':'Sent a photo';}
+function reactionStage(){
+ const now=Date.now();
+ const items=(state?.reactions||[]).filter(r=>now-r.at<4500).slice(-5);
+ return items.length?`<div class="reaction-stage" aria-label="Recent reactions">${items.map((r,i)=>`<span class="reaction-pop" style="--reaction-index:${i}"><b>${esc(r.value)}</b><small>${esc(r.name)}</small></span>`).join('')}</div>`:'';
+}
 function gameChat(){
  const messages=state.chat||[];
  const latest=messages[messages.length-1];
@@ -345,11 +382,12 @@ function bindGameChat(){
  document.getElementById('chat-mute-player')?.addEventListener('change',e=>{if(e.target.value)send('chatModerate',{action:'mute',playerId:e.target.value});});
  const box=document.getElementById('chat-messages');if(box)box.scrollTop=box.scrollHeight;
 }
-function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML='<div id="network-banner" class="network-banner"></div>'+renderGameHeader()+testPanel()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+hostPlayerControls()+recoveryPanel()+stickyBetBar()+gameChat();bindGameChat();updateBetTimer();updateHostProgress();updatePauseControls();updateStickyBetBar();
+function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML='<div id="network-banner" class="network-banner"></div>'+renderGameHeader()+testPanel()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+hostPlayerControls()+recoveryPanel()+stickyBetBar()+gameChat()+reactionStage();bindGameChat();updateBetTimer();updateHostProgress();updatePauseControls();updateStickyBetBar();
  document.getElementById('presentation-toggle')?.addEventListener('click',()=>{presentationMode=!presentationMode;try{localStorage.setItem('wb_presenter',presentationMode?'on':'off')}catch{}document.body.classList.toggle('presentation-mode',presentationMode);render();});
  document.body.classList.toggle('presentation-mode',presentationMode&&!!state.host);
  document.getElementById('sticky-place')?.addEventListener('click',()=>{const original=document.getElementById('place');if(original&&!original.disabled)original.click();});
  document.getElementById('copy-results')?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(finalShareText());notice('Scoreboard copied!')}catch{notice('Copy unavailable on this browser. Take a screenshot instead.')}});
+ document.getElementById('share-recap')?.addEventListener('click',shareRecapImage);
  document.getElementById('share-results')?.addEventListener('click',async()=>{try{if(navigator.share)await navigator.share({title:'Wits & Bets results',text:finalShareText()});else if(navigator.clipboard){await navigator.clipboard.writeText(finalShareText());notice('Scoreboard copied!')}else notice('Take a screenshot to share the scoreboard.')}catch(e){if(e.name!=='AbortError')notice('Sharing unavailable — try Copy scoreboard.')}});
  document.getElementById('sound-toggle')?.addEventListener('click',()=>{soundEnabled=!soundEnabled;localStorage.setItem('wits-sound',soundEnabled?'on':'off');updateSoundToggle();if(soundEnabled)playCue('bet')});
  document.getElementById('pause-game')?.addEventListener('click',()=>send('togglePause',{},()=>notice(state.paused?'Game paused':'Timer updated')));
