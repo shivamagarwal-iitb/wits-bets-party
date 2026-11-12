@@ -66,11 +66,11 @@ function state(room, viewerId, host=false) {
     category:room.category, categories:CATEGORIES, questionCount:QUESTION_BANK[room.category].length,
     testMode:!!room.testMode,paused:!!room.paused,pausedRemaining:room.pausedRemaining||null,roundHistory:room.roundHistory||[],
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
-    chat:(room.chat||[]).slice(-60),chatEnabled:room.chatEnabled!==false,chatMuted:host?[...(room.chatMuted||[])]:[],
+    chat:(room.chat||[]).slice(-60),reactions:(room.reactions||[]).filter(x=>x.at>Date.now()-4500),confidence:['betting','locked-bets','results'].includes(room.phase)?room.confidence:null,chatEnabled:room.chatEnabled!==false,chatMuted:host?[...(room.chatMuted||[])]:[],
     question:room.phase==='lobby'?null:room.current?.q,
     questionImage:room.phase==='lobby'?null:questionImage(room.current,room.category),
     guesses:isRevealed?room.options:[],
-    results:room.phase==='results'?room.results:null,
+    results:room.phase==='results'?room.results:null,awards:room.phase==='finished'?computeAwards(room):[],
     publicBets:['betting','locked-bets','results'].includes(room.phase)?[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra}))):[],
     ownGuess:viewerId?room.players.get(viewerId)?.guess:null,
     ownBets:viewerId?room.players.get(viewerId)?.bets:[],
@@ -128,7 +128,13 @@ function reopenGuessing(room){
 }
 function reopenBetting(room){
  stopBettingClock(room);
- room.phase='betting';startBettingClock(room);broadcast(room);
+ const guesses=[...room.players.values()].map(p=>p.guess).filter(v=>v!==null);
+  const spread=guesses.length>1?Math.max(...guesses)-Math.min(...guesses):0;
+  const sorted=[...guesses].sort((a,b)=>a-b);
+  const median=sorted.length?sorted[Math.floor(sorted.length/2)]:0;
+  const relative=median===0?(spread?1:0):spread/Math.abs(median);
+  room.confidence={count:guesses.length,spread,description:guesses.length<2?'Only one guess submitted':relative<.15?'Strong agreement':relative<.6?'Some disagreement':'Wildly divided'};
+  room.phase='betting';startBettingClock(room);broadcast(room);
 }
 function startRound(room) {
   if(room.round>=room.maxRounds){room.phase='finished';return;}
@@ -136,7 +142,7 @@ function startRound(room) {
   room.round++;
   room.current=drawQuestion(room);
   if(!room.current){room.phase='finished';return;}
-  room.phase='guessing';room.options=[];room.results=null;
+  room.phase='guessing';room.options=[];room.results=null;room.confidence=null;
   for(const p of room.players.values()){p.guess=null;p.bets=[];}
   startGuessingClock(room);
 }
@@ -149,6 +155,7 @@ function settle(room){
   const answer=room.current.a;
   const eligible=room.options.filter(o=>o.value!==null && o.value<=answer);
   const winning=eligible.length?eligible[eligible.length-1]:room.options.find(o=>o.id==='all-high');
+  const before=[...room.players.values()].sort((a,b)=>b.chips-a.chips).map(p=>p.id);
   const payouts=[];
   for(const p of room.players.values()){
     let winnings=0;
@@ -165,9 +172,30 @@ function settle(room){
     payouts.push({name:p.name,payout:winnings+guessBonus,betWinnings:winnings,guessBonus});
   }
   const revealedBets=[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra})));
-  room.results={answer,explanation:room.current.fact,winningOptionId:winning?.id??null,winningValue:winning?.value??null,payouts,guessBonus:room.round,revealedBets};
+  room.results={answer,explanation:room.current.fact,winningOptionId:winning?.id??null,winningValue:winning?.value??null,payouts,guessBonus:room.round,revealedBets,rankBefore:before,rankAfter:[...room.players.values()].sort((a,b)=>b.chips-a.chips).map(p=>p.id)};
   room.phase='results';
- room.roundHistory??=[];room.roundHistory.push({round:room.round,question:room.current.q,answer,payouts:payouts.map(x=>({...x,total:room.players.size?[...room.players.values()].find(p=>p.name===x.name)?.chips:0}))});
+ room.roundHistory??=[];room.roundHistory.push({round:room.round,question:room.current.q,answer,guesses:[...room.players.values()].map(p=>({name:p.name,value:p.guess})),bets:revealedBets,winningOptionId:winning?.id,winningGuessers:room.options.find(o=>o.id===winning?.id)?.guessers?.map(g=>g.name)||[],payouts:payouts.map(x=>({...x,total:room.players.size?[...room.players.values()].find(p=>p.name===x.name)?.chips:0}))});
+}
+function computeAwards(room){
+ const players=[...room.players.values()];
+ const history=room.roundHistory||[];
+ if(!players.length)return [];
+ const winner=players.slice().sort((a,b)=>b.chips-a.chips)[0];
+ const guessAccuracy=new Map(players.map(p=>[p.name,0]));
+ const risk=new Map(players.map(p=>[p.name,0]));
+ const comeback=new Map(players.map(p=>[p.name,0]));
+ for(const h of history){
+  const valid=(h.guesses||[]).filter(g=>typeof g.value==='number');
+  if(valid.length){const best=Math.min(...valid.map(g=>Math.abs(g.value-h.answer)));for(const g of valid)if(Math.abs(g.value-h.answer)===best)guessAccuracy.set(g.name,(guessAccuracy.get(g.name)||0)+1);}
+  for(const b of h.bets||[])risk.set(b.name,(risk.get(b.name)||0)+(b.extra||0));
+  for(const p of h.payouts||[])comeback.set(p.name,Math.max(comeback.get(p.name)||0,p.payout||0));
+ }
+ const top=(map)=>[...map].sort((a,b)=>b[1]-a[1])[0];
+ const awards=[{title:'Party Champion',name:winner.name,detail:'Highest final score'}];
+ for(const [title,map,detail] of [['Closest Guesser',guessAccuracy,'Most rounds with the nearest guess'],['Risk Taker',risk,'Most extra chips wagered'],['Biggest Round',comeback,'Largest single-round payout']]){
+  const result=top(map);if(result&&result[1]>0)awards.push({title,name:result[0],detail});
+ }
+ return awards;
 }
 io.on('connection',socket=>{
   socket.on('create',async (data,ack)=>{
@@ -177,7 +205,7 @@ io.on('connection',socket=>{
     const category=CATEGORIES.includes(data?.category)?data.category:'bollywood';
     const testMode=data?.testMode===true;
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
-      category,testMode,paused:false,pausedRemaining:null,roundHistory:[],usedQuestionIds:new Set(),questionTopics:[],players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null,chat:[],chatMuted:new Set(),chatEnabled:true};
+      category,testMode,paused:false,pausedRemaining:null,roundHistory:[],usedQuestionIds:new Set(),questionTopics:[],players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null,chat:[],chatMuted:new Set(),chatEnabled:true,reactions:[]};
     if(testMode){
       for(let i=0;i<4;i++){
         const name=['Alice','Bob','Charlie','Dana'][i];
@@ -297,6 +325,7 @@ io.on('connection',socket=>{
     if(Date.now()-(socket.data.lastChatAt||0)<650)return err(ack,'Please wait before sending another message.');
     socket.data.lastChatAt=Date.now();
     const message={id:token(),name:host?'Host':p.name,playerId:p?.id||null,type,value,at:Date.now()};
+    if(type==='reaction'){room.reactions??=[];room.reactions.push({id:message.id,name:message.name,value,at:message.at});room.reactions=room.reactions.filter(x=>x.at>Date.now()-4500).slice(-12);}
     room.chat??=[];room.chat.push(message);if(room.chat.length>100)room.chat.shift();
     reply(ack,{ok:true});broadcast(room);
   });
