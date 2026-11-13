@@ -77,6 +77,7 @@ window.addEventListener('focus',refreshActiveTab);
 socket?.on('state',s=>{
  const changed=state?.phase!==s.phase||state?.round!==s.round||state?.question!==s.question;
  if(changed&&s.phase==='results')playCue('reveal');
+ const spectaclePhase=changed?s.phase:null;
  const liveOnly=!changed&&s.phase==='betting'&&state?.phase==='betting';
  const lobbyOnly=!changed&&s.phase==='lobby'&&state?.phase==='lobby';
  const guessingOnly=!changed&&s.phase==='guessing'&&state?.phase==='guessing';
@@ -120,9 +121,36 @@ socket?.on('state',s=>{
    updateBetTimer();updatePauseControls();
    updateHostProgress();
  }else render();
+ if(spectaclePhase)showSpectacle(spectaclePhase);
 });
 socket?.on('notice',x=>notice(x.error||x.message));
 socket?.on('connect_error',e=>{document.getElementById('connection').textContent='○ Reconnecting…';console.warn('Connection issue',e.message)});
+
+// Short, non-interactive game-show transitions. Never block the game controls.
+let spectacleTimer=null;
+function showSpectacle(phase){
+ if(!['results','guessing','finished'].includes(phase))return;
+ document.getElementById('game-spectacle')?.remove();
+ if(spectacleTimer)clearTimeout(spectacleTimer);
+ const overlay=document.createElement('div');
+ overlay.id='game-spectacle';
+ overlay.className='game-spectacle spectacle-'+phase;
+ overlay.setAttribute('aria-live','polite');
+ overlay.setAttribute('aria-atomic','true');
+ if(phase==='results'){
+   const payouts=state?.results?.payouts||[];
+   const best=Math.max(0,...payouts.map(p=>Number(p.payout)||0));
+   const stars=best>0?payouts.filter(p=>Number(p.payout)===best).slice(0,3):[];
+   overlay.innerHTML='<div class="spectacle-spark">✦ ✧ ✦</div><div class="spectacle-kicker">THE BIG REVEAL</div><div class="spectacle-number">'+fmt(state.results.answer)+'</div><div class="spectacle-winner">🏆 '+esc(stars.length?stars.map(p=>p.name).join(' & ')+' · +'+fmt(best)+' chips':'Winning lane revealed')+'</div>';
+ }else if(phase==='finished'){
+   overlay.innerHTML='<div class="spectacle-spark">✦ 🏆 ✦</div><div class="spectacle-kicker">PARTY CHAMPION</div><div class="spectacle-number spectacle-name">'+esc(state.players[0]?.name||'Winner')+'</div>';
+ }else{
+   overlay.innerHTML='<div class="spectacle-kicker">'+(state.round===state.maxRounds?'FINAL ROUND':'ROUND '+state.round)+'</div><div class="spectacle-count">3 <span>2</span> <span>1</span></div><div class="spectacle-sub">Get ready to guess</div>';
+ }
+ document.body.appendChild(overlay);
+ spectacleTimer=setTimeout(()=>{overlay.classList.add('spectacle-exit');setTimeout(()=>overlay.remove(),350)},phase==='guessing'?1800:phase==='results'?2400:2100);
+}
+
 function renderWelcome(){if(state)return;const playerLanding=forceJoin||!!initialRoom;root.innerHTML=`<div class="hero"><div class="eyebrow">THE TRIVIA GAME NIGHT</div><h1>Guess big.<br>Bet bold.</h1><p>Choose Bollywood or cricket, answer seven surprise number questions, and compete with live bets.</p></div><div class="${playerLanding?'player-landing':'split'}">${playerLanding?'':`<section class="panel stack"><h2>Host a new game</h2><p>Put the host screen on your TV. Guests join with a code or QR scan.</p><div class="pill">🎲 7 random questions per game</div><label class="field">Choose game category<select id="category"><option value="bollywood">🎬 Bollywood</option><option value="cricket">🏏 Cricket</option></select></label><button id="create">Create game room</button><button class="secondary" id="test-create">🧪 Try Test Mode · 4 simulated players</button></section>`}<section class="panel stack join-game-panel"><h2>📱 ${playerLanding?'Join this game':'Join a game'}</h2><p>${playerLanding?'You’re invited! Enter your name, pick a cricket sticker, and join this room.':'Enter the room code from your host’s screen. Names must be unique. If disconnected, use the same name to resume.'}</p><label class="field">${playerLanding?'Your room code':'Room code'}<input id="room" placeholder="ABC123" maxlength="6" value="${esc(initialRoom)}" autocapitalize="characters"></label><label class="field">Your name<input id="name" placeholder="e.g. Alex" maxlength="24"></label><div class="field"><strong>Choose your cricket avatar</strong><p class="muted">Pick your favorite sticker. Other players can choose the same one.</p>${(()=>{const featured=PRESET_AVATARS.filter(x=>x.collection==='Iconic Cricket Moments').slice(0,12);const featuredIds=new Set(featured.map(x=>x.id));const avatarButtons=items=>items.map(x=>`<button type="button" class="preset-avatar cricket-avatar" data-avatar-preset="${x.id}" aria-label="${avatarLabel(x.id)}" title="${avatarLabel(x.id)}" aria-pressed="${joinAvatar==='preset:'+x.id}"><img src="/avatars/${x.file}" alt="" loading="lazy"><small>${avatarLabel(x.id)}</small></button>`).join('');return `<div class="avatar-group-label">🏆 Popular cricket moments</div><div class="preset-avatar-grid cricket-avatar-grid" role="group" aria-label="Featured avatars">${avatarButtons(featured)}</div><details class="more-avatar-disclosure" id="more-avatars"><summary>Show more avatars (${PRESET_AVATARS.length-featured.length})</summary>${['Iconic Cricket Moments','Cricket Avatars'].map(group=>{const items=PRESET_AVATARS.filter(x=>x.collection===group&&!featuredIds.has(x.id));return items.length?`<div class="avatar-group-label">${group==='Iconic Cricket Moments'?'🏆 More iconic moments':'🏏 Cricket favorites'}</div><div class="preset-avatar-grid cricket-avatar-grid" role="group" aria-label="${group}">${avatarButtons(items)}</div>`:''}).join('')}</details>`})()}</div><button id="join">Join game</button></section>${playerLanding?`<details class="host-link-disclosure"><summary>Want to host your own game?</summary><p class="muted">Create a separate room for your friends.</p><a class="button secondary" href="/?host=1">Create your own game room</a></details>`:''}</div>`;
  document.getElementById('create')&&(document.getElementById('create').onclick=()=>send('create',{rounds:7,category:document.getElementById('category').value,origin:location.origin},r=>{hostMeta=r;save({code:r.code,hostToken:r.hostToken});render();history.replaceState({},'',`/?room=${r.code}`)}));
  document.getElementById('test-create')&&(document.getElementById('test-create').onclick=()=>send('create',{testMode:true,category:document.getElementById('category').value,origin:location.origin},r=>{hostMeta=r;save({code:r.code,hostToken:r.hostToken});history.replaceState({},'',`/?room=${r.code}`);render();notice('Test room ready — four simulated players joined!')}));
