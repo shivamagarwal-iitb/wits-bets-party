@@ -69,6 +69,7 @@ function state(room, viewerId, host=false) {
     category:room.category, categories:CATEGORIES, questionCount:QUESTION_BANK[room.category].length,
     testMode:!!room.testMode,testPlayers:host&&room.testMode?[...room.players.values()].filter(p=>p.bot).map(p=>({id:p.id,name:p.name,guess:p.guess,bets:p.bets,chips:p.chips})):[],paused:!!room.paused,pausedRemaining:room.pausedRemaining||null,roundHistory:room.roundHistory||[],
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
+    publicPowerPlays:[...room.players.values()].filter(p=>p.powerPlaySelected).map(p=>({name:p.name})),
     chat:(room.chat||[]).slice(-60),reactions:(room.reactions||[]).filter(x=>x.at>Date.now()-4500),confidence:['betting','locked-bets','results'].includes(room.phase)?room.confidence:null,chatEnabled:room.chatEnabled!==false,chatMuted:host?[...(room.chatMuted||[])]:[],
     question:room.phase==='lobby'?null:room.current?.q,
     questionHint:room.phase==='lobby'?null:room.current?.hint||null,
