@@ -77,7 +77,7 @@ function state(room, viewerId, host=false) {
     questionImage:room.phase==='lobby'?null:questionImage(room.current,room.category),
     guesses:isRevealed?room.options:[],
     results:room.phase==='results'?(host?room.results:{...room.results,revealedBets:viewerId?[...(room.players.get(viewerId)?.bets||[])].map(b=>({name:room.players.get(viewerId)?.name,slot:b.slot,optionId:b.optionId,extra:b.extra})):[]}):null,awards:room.phase==='finished'?computeAwards(room):[],
-    publicBets:host&&['betting','locked-bets','results'].includes(room.phase)?[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra}))):[],
+    publicBets:(host&&['betting','locked-bets','results'].includes(room.phase)||['locked-bets','results'].includes(room.phase))?[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra}))):[],
     ownGuess:viewerId?room.players.get(viewerId)?.guess:null,
     ownBets:viewerId?room.players.get(viewerId)?.bets:[],ownPowerPlay:viewerId?{usedRound:room.players.get(viewerId)?.powerPlayUsedRound||null,selected:!!room.players.get(viewerId)?.powerPlaySelected}:null,
     bettingSeconds:room.bettingSeconds,bettingDeadline:room.bettingDeadline||null,
