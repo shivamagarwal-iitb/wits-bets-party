@@ -16,6 +16,8 @@ const PRESET_AVATARS=new Set(["star-batter","fast-bowler","spin-wizard","wicket-
 const validAvatar=x=>typeof x==='string' && /^preset:[a-z0-9-]+$/.test(x) && PRESET_AVATARS.has(x.slice(7));
 const STARTING_CHIPS = 0; // Earned chips; two permanent betting tokens are separate.
 const QUESTION_BANK = JSON.parse(readFileSync(new URL('./data/questions.json',import.meta.url),'utf8'));
+const FINAL_CRICKET = JSON.parse(readFileSync(new URL('./data/cricket-final.json',import.meta.url),'utf8'));
+QUESTION_BANK['cricket-final'] = FINAL_CRICKET;
 const CATEGORIES = Object.keys(QUESTION_BANK);
 function questionTopic(q){
  if(q.topic)return q.topic;
@@ -25,19 +27,19 @@ function questionTopic(q){
  return 'other';
 }
 function questionImage(q,category){
- if(!q)return null;
- if(category!=='cricket')return null;
- const topic=questionTopic(q);
- const text=q.q.toLowerCase();
- const file=text.includes('lord')||text.includes('1983 world cup')?'The_pitch_at_Lord%27s_Cricket_Ground.jpg':
- text.includes('edgbaston')||text.includes('ashes')?'Edgbaston.jpg':
- topic==='stadiums-and-history'?'Morning_Cricket_Ground.jpg':
- topic==='unusual-records'||topic==='captains-and-legends'?'Cricketball.jpg':
- 'Cricket_ground_%281%29.jpg';
- return {url:'https://commons.wikimedia.org/wiki/Special:FilePath/'+file,alt:'Cricket photography',credit:'Wikimedia Commons'};
+ if(!q||category!=='cricket')return null;
+ if(q.image)return {url:'/images/cricket/'+encodeURIComponent(q.image),alt:'Historical cricket photograph',credit:'Editorial photograph'};
+ return null;
 }
 function drawQuestion(room){
  const pool=QUESTION_BANK[room.category].filter(q=>!room.usedQuestionIds.has(q.id));
+  if(room.category==='cricket-final'){
+    const chosen=pool[0];
+    if(!chosen)return null;
+    room.usedQuestionIds.add(chosen.id);
+    room.questionTopics=(room.questionTopics||[]).concat(questionTopic(chosen));
+    return chosen;
+  }
  if(!pool.length)return null;
  const history=room.questionTopics||[];
  const last=history[history.length-1];
@@ -69,6 +71,7 @@ function state(room, viewerId, host=false) {
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
     chat:(room.chat||[]).slice(-60),reactions:(room.reactions||[]).filter(x=>x.at>Date.now()-4500),confidence:['betting','locked-bets','results'].includes(room.phase)?room.confidence:null,chatEnabled:room.chatEnabled!==false,chatMuted:host?[...(room.chatMuted||[])]:[],
     question:room.phase==='lobby'?null:room.current?.q,
+    questionHint:room.phase==='lobby'?null:room.current?.hint||null,
     questionImage:room.phase==='lobby'?null:questionImage(room.current,room.category),
     guesses:isRevealed?room.options:[],
     results:room.phase==='results'?room.results:null,awards:room.phase==='finished'?computeAwards(room):[],
