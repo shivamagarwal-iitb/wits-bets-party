@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="sky" x2="0" y2="1"><stop stop-color="#071328"/><stop offset=".6" stop-color="#102e45"/><stop offset="1" stop-color="#183c40"/></linearGradient>
+<radialGradient id="glow"><stop stop-color="#e7f5ff" stop-opacity=".55"/><stop offset="1" stop-color="#b6d9f5" stop-opacity="0"/></radialGradient>
+<linearGradient id="field" x2="0" y2="1"><stop stop-color="#2d7859"/><stop offset="1" stop-color="#0c3e32"/></linearGradient>
+<pattern id="crowd" width="17" height="13" patternUnits="userSpaceOnUse"><circle cx="3" cy="4" r="1.5" fill="#a7bac6" opacity=".48"/><circle cx="11" cy="9" r="1.2" fill="#f1d09b" opacity=".48"/></pattern>
+</defs>
+<rect width="1600" height="900" fill="url(#sky)"/>
+<g opacity=".7"><ellipse cx="160" cy="190" rx="270" ry="240" fill="url(#glow)"/><ellipse cx="1440" cy="190" rx="270" ry="240" fill="url(#glow)"/></g>
+<path d="M0 410 Q800 170 1600 410 L1600 760 0 760Z" fill="#152838"/>
+<path d="M0 435 Q800 205 1600 435 L1600 715 Q800 465 0 715Z" fill="#2d3c49"/>
+<path d="M0 435 Q800 205 1600 435 L1600 715 Q800 465 0 715Z" fill="url(#crowd)"/>
+<path d="M0 515 Q800 315 1600 515" stroke="#a1b5bf" stroke-opacity=".35" stroke-width="12" fill="none"/>
+<path d="M0 605 Q800 425 1600 605" stroke="#a1b5bf" stroke-opacity=".3" stroke-width="9" fill="none"/>
+<path d="M0 735 Q800 565 1600 735 L1600 900H0Z" fill="url(#field)"/>
+<ellipse cx="800" cy="980" rx="790" ry="280" fill="#3b8a63" opacity=".65"/>
+<path d="M0 758 Q800 590 1600 758" stroke="#d4e6e0" stroke-opacity=".35" stroke-width="5" fill="none"/>
+<g stroke="#b7cad7" stroke-width="8"><path d="M135 75v380M1465 75v380"/></g>
+<g fill="#effaff"><rect x="73" y="68" width="125" height="30" rx="3"/><rect x="1402" y="68" width="125" height="30" rx="3"/></g>
+<g fill="#fff" opacity=".8"><circle cx="90" cy="83" r="4"/><circle cx="110" cy="83" r="4"/><circle cx="130" cy="83" r="4"/><circle cx="150" cy="83" r="4"/><circle cx="170" cy="83" r="4"/><circle cx="1420" cy="83" r="4"/><circle cx="1440" cy="83" r="4"/><circle cx="1460" cy="83" r="4"/><circle cx="1480" cy="83" r="4"/><circle cx="1500" cy="83" r="4"/></g>
+<rect width="1600" height="900" fill="#06101e" opacity=".34"/>
+</svg>
