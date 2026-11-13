@@ -17,7 +17,7 @@ const validAvatar=x=>typeof x==='string' && /^preset:[a-z0-9-]+$/.test(x) && PRE
 const STARTING_CHIPS = 0; // Earned chips; two permanent betting tokens are separate.
 const QUESTION_BANK = JSON.parse(readFileSync(new URL('./data/questions.json',import.meta.url),'utf8'));
 const FINAL_CRICKET = JSON.parse(readFileSync(new URL('./data/cricket-final.json',import.meta.url),'utf8'));
-QUESTION_BANK.cricket = FINAL_CRICKET;
+QUESTION_BANK['cricket-final'] = FINAL_CRICKET;
 const CATEGORIES = Object.keys(QUESTION_BANK);
 function questionTopic(q){
  if(q.topic)return q.topic;
@@ -33,7 +33,7 @@ function questionImage(q,category){
 }
 function drawQuestion(room){
  const pool=QUESTION_BANK[room.category].filter(q=>!room.usedQuestionIds.has(q.id));
-  if(room.category==='cricket'){
+  if(room.category==='cricket-final'){
     const chosen=pool[0];
     if(!chosen)return null;
     room.usedQuestionIds.add(chosen.id);
