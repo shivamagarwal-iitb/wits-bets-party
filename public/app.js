@@ -208,7 +208,7 @@ function testPanel(){
 }
 function updateHostProgress(){const e=document.getElementById('host-progress');if(!e||!state?.host)return;if(state.phase==='betting'){const bets=state.publicBets||[];const missing=state.players.map(p=>({name:p.name,count:bets.filter(b=>b.name===p.name).length})).filter(p=>p.count<2);e.innerHTML=`<strong>${state.players.length-missing.length}/${state.players.length} players placed both chips</strong><div class="progress-track"><div style="width:${state.players.length?(state.players.length-missing.length)/state.players.length*100:0}%"></div></div><small>${missing.length?'Still placing: '+esc(missing.map(p=>p.name+' ('+p.count+'/2)').join(', ')):'Everyone has placed both chips!'}</small>`;return;}const done=state.players.filter(p=>p.submitted);e.innerHTML=`<strong>${done.length} / ${state.players.length} guesses submitted</strong><div class="progress-track"><div style="width:${state.players.length?done.length/state.players.length*100:0}%"></div></div><small>Waiting for: ${esc(state.players.filter(p=>!p.submitted).map(p=>p.name).join(', ')||'Nobody — all ready!')}</small>`;}
 function betReadiness(){
- if(!state||!['betting','locked-bets'].includes(state.phase))return '';
+ if(!state?.host||!['betting','locked-bets'].includes(state.phase))return '';
  const bets=state.publicBets||[];
  const ready=state.players.filter(p=>bets.filter(b=>b.name===p.name).length>=2).length;
  return `<div class="bet-readiness"><div class="bet-readiness-title"><strong>🪙 Betting readiness</strong><span id="bet-readiness-count">${ready} of ${state.players.length} ready</span></div><div class="bet-readiness-players" id="bet-readiness-players">${state.players.map(p=>{const count=bets.filter(b=>b.name===p.name).length;return `<span class="bet-readiness-player ${count===2?'ready':''}" data-bet-player="${esc(p.name)}">${avatar(p.name)} <span>${esc(p.name)}</span> <strong>${count}/2 ${count===2?'✓':''}</strong></span>`}).join('')}</div></div>`;
@@ -341,13 +341,13 @@ function publicPowerPlayStrip(reveal=false){
  return '<div class="power-play-public"><strong>⚡ 2× POWER PLAY ACTIVE</strong><div class="power-play-public-players">'+names.map(name=>'<span class="power-play-public-player" style="--player-color:'+playerColor(name)+'">'+avatar(name)+'<b>'+esc(name)+'</b><em>2×</em></span>').join('')+'</div></div>';
 }
 function board(reveal=false){
- const publicPhase=reveal||['betting','locked-bets'].includes(state.phase);
- const bets=publicPhase?(reveal?(state.results?.revealedBets||[]):(state.publicBets||[])):(state.ownBets||[]).map(b=>({...b,name:'You'}));
+ const showAllBets=!!state.host;
+ const bets=reveal?(state.results?.revealedBets||[]):showAllBets?(state.publicBets||[]):(state.ownBets||[]).map(b=>({...b,name:state.players.find(p=>p.id===state.playerId)?.name||'You'}));
  const options=state.guesses||[];
  const layout=boardLayout();
  const controls=`<div class="board-layout-switch" aria-label="Board layout"><span>Board view</span><button type="button" class="${layout==='vertical'?'':'secondary'}" data-layout="vertical" aria-pressed="${layout==='vertical'}">☷ Vertical</button><button type="button" class="${layout==='horizontal'?'':'secondary'}" data-layout="horizontal" aria-pressed="${layout==='horizontal'}">▥ Horizontal</button></div>`;
  return controls+publicPowerPlayStrip(reveal)+`<div class="tabletop-scroll ${layout==='vertical'?'vertical-mode':''}"><div class="tabletop-board" style="--lane-count:${options.length}">
- <div class="tabletop-banner">STUDIO · WITS & BETS <span>${reveal?'THE BIG REVEAL':state.phase==='locked-bets'?'BETS LOCKED':'LIVE PUBLIC BETTING'}</span></div>
+ <div class="tabletop-banner">STUDIO · WITS & BETS <span>${reveal?'THE BIG REVEAL':state.phase==='locked-bets'?'BETS LOCKED':'PRIVATE BETTING'}</span></div>
  <div class="tabletop-lanes">${options.map((o,i)=>{
  const winner=reveal&&state.results?.winningOptionId===o.id;
  const placed=bets.filter(b=>b.optionId===o.id);
@@ -359,7 +359,7 @@ function board(reveal=false){
  <div class="lane-card"><div class="lane-number">${o.id==='all-high'?'<span class="lane-special">ALL GUESSES<br>TOO HIGH</span>':`<span>${fmt(o.value)}</span>`}</div>${o.id==='all-high'?'':`<div class="lane-guess-label">GUESSED BY</div><div class="guess-owners">${(o.guessers||[]).map(g=>`<span class="guess-owner ${winner?'winning-guesser':''}" style="--player-color:${g.color}">${avatar(g.name)}${esc(g.name)}</span>`).join('')}</div>`}</div>
  ${winner?'<div class="lane-winning-label">🏆 WINNER</div>':chosen?'<div class="lane-selected-label">✓ SELECTED</div>':''}
  </div>`}).join('')}</div>
- <div class="tabletop-footer">🎬 ${publicPhase?'Everyone’s chips are visible':'Only your chips are visible'} ${layout==='horizontal'?'· Swipe board sideways if needed':''} ✦</div>
+ <div class="tabletop-footer">🎬 ${showAllBets?'Host view · All bets visible':'Private · Only your chips are visible'} ${layout==='horizontal'?'· Swipe board sideways if needed':''} ✦</div>
  </div></div>`;
 }
 function formatTimer(ms){const sec=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');}
@@ -392,7 +392,7 @@ function betting(){
  const chosen=own.find(b=>b.slot===activeSlot);
  const available=myChips()+(chosen?.extra||0);
  const chosenLabel=chosen?optionLabel(state.guesses.find(o=>o.id===chosen.optionId)):'Not placed';
- return `<div class="panel stack"><div class="eyebrow">Round ${state.round} · ${editable?'Live public betting':'Betting closed'}</div><div class="question-with-image"><div class="question">${esc(state.question)}</div>${state.questionHint?`<div class="question-hint">💡 Did you know? ${esc(state.questionHint)}</div>`:""}${state.questionImage?.url?`<img class="question-photo" src="${esc(state.questionImage.url)}" alt="${esc(state.questionImage.alt||'Cricket')}" loading="lazy" onerror="this.style.display='none'">`:``}</div>
+ return `<div class="panel stack"><div class="eyebrow">Round ${state.round} · ${editable?'Private betting':'Betting closed'}</div><div class="question-with-image"><div class="question">${esc(state.question)}</div>${state.questionHint?`<div class="question-hint">💡 Did you know? ${esc(state.questionHint)}</div>`:""}${state.questionImage?.url?`<img class="question-photo" src="${esc(state.questionImage.url)}" alt="${esc(state.questionImage.alt||'Cricket')}" loading="lazy" onerror="this.style.display='none'">`:``}</div>
  ${confidenceMeter()}
   ${powerPlayControl()}
  ${state.host?`<p class="bet-rule-hint">Pick the guess closest to the answer without going over. Both permanent chips return next round.</p>`:""}
