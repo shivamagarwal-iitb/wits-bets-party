@@ -575,8 +575,25 @@ button.bet-chip-card.bet-chip-placed{background:#eef4f0;border-color:#9eb8aa}
 .tabletop-lane.payout-mid:not(.lane-winner):not(.lane-selected) .lane-card{border-color:#c7d6ed}
 .tabletop-lane.payout-low:not(.lane-winner):not(.lane-selected) .lane-card{border-color:#e1d2b9}
 .tabletop-lane.lane-winner .lane-odds,.tabletop-lane.lane-selected .lane-odds{color:#ffe6a0}
+/* Individually differentiated payout odds, restrained pastel scale. */
+.tabletop-lane.payout-6:not(.lane-winner):not(.lane-selected){background:#dcece2;border-color:#a8cbb6}
+.tabletop-lane.payout-5:not(.lane-winner):not(.lane-selected){background:#eaf5ec;border-color:#c6e1cd}
+.tabletop-lane.payout-4:not(.lane-winner):not(.lane-selected){background:#e8f3f1;border-color:#c2ded9}
+.tabletop-lane.payout-3:not(.lane-winner):not(.lane-selected){background:#edf1fa;border-color:#cedaf0}
+.tabletop-lane.payout-2:not(.lane-winner):not(.lane-selected){background:#f5f0e7;border-color:#e4d8c4}
+.tabletop-lane.payout-6 .lane-odds{color:#236548}
+.tabletop-lane.payout-5 .lane-odds{color:#3b8055}
+.tabletop-lane.payout-4 .lane-odds{color:#3d7774}
+.tabletop-lane.payout-3 .lane-odds{color:#4568a2}
+.tabletop-lane.payout-2 .lane-odds{color:#8b7048}
+.tabletop-lane.payout-6:not(.lane-winner):not(.lane-selected) .lane-card{border-color:#a8cbb6}
+.tabletop-lane.payout-5:not(.lane-winner):not(.lane-selected) .lane-card{border-color:#c6e1cd}
+.tabletop-lane.payout-4:not(.lane-winner):not(.lane-selected) .lane-card{border-color:#c2ded9}
+.tabletop-lane.payout-3:not(.lane-winner):not(.lane-selected) .lane-card{border-color:#cedaf0}
+.tabletop-lane.payout-2:not(.lane-winner):not(.lane-selected) .lane-card{border-color:#e4d8c4}
+.tabletop-lane.lane-winner .lane-odds,.tabletop-lane.lane-selected .lane-odds{color:#ffe6a0}
 </style></head><body><main><header><div class="logo">WITS <span>& BETS</span></div><div id="connection" class="tag">Connecting…</div></header><div id="app"><div class="hero"><div class="eyebrow">A cinematic trivia party game</div><h1>Guess big.<br>Bet bold.</h1><p>Seven surprise questions. Pick Bollywood or cricket, guess together, and watch the bets unfold.</p></div><div class="panel stack"><h2>🎬 Getting your game ready</h2><p id="loading-help">Loading the multiplayer controls…</p><button class="secondary" onclick="location.reload()">Reload game</button></div></div><div class="footer">An independent trivia-and-betting party game · Virtual chips only · No real-money gambling</div></main><div id="toast" class="toast hidden"></div><script>
 window.addEventListener('error',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='JavaScript error: '+(e.message||'unknown')+' ('+(e.filename||'script').split('/').pop()+':'+(e.lineno||'?')+')';document.getElementById('connection').textContent='App error';});
 window.addEventListener('unhandledrejection',function(e){var t=document.getElementById('loading-help');if(t)t.textContent='App error: '+String(e.reason&&e.reason.message||e.reason);});
 setTimeout(function(){var t=document.getElementById('loading-help');if(t&&t.textContent==='Loading the multiplayer controls…'){t.textContent='The game has not started. Socket.IO loaded: '+(typeof window.io==='function'?'yes':'no')+'. Game script loaded: '+(window.__gameScriptLoaded?'yes':'no')+'.';}},5000);
-</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=payout-tiers-57" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
+</script><script src="/socket.io/socket.io.js" onerror="document.getElementById('loading-help').textContent='The live connection library could not load. Please try Safari without content blockers.';document.getElementById('connection').textContent='Connection error'"></script><script src="/app.js?v=payout-shades-58" onerror="document.getElementById('loading-help').textContent='The game script could not load. Please refresh or disable content blockers.';document.getElementById('connection').textContent='Script error'"></script></body></html>
