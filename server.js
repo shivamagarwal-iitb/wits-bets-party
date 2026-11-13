@@ -27,7 +27,7 @@ function questionTopic(q){
  return 'other';
 }
 function questionImage(q,category){
- if(!q||category!=='cricket')return null;
+ if(!q||category!=='cricket-final')return null;
  if(q.image)return {url:'/images/cricket/'+encodeURIComponent(q.image),alt:'Historical cricket photograph',credit:'Editorial photograph'};
  return null;
 }
