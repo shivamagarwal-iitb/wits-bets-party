@@ -108,6 +108,7 @@ socket?.on('state',s=>{
    const el=document.getElementById('live-board');
    el.innerHTML=board(false);
    wireBoardChoices();
+    const powerPanel=document.querySelector('.power-play-panel');if(powerPanel){powerPanel.outerHTML=powerPlayControl();document.getElementById('power-play-toggle')?.addEventListener('click',()=>{const selected=!state.ownPowerPlay?.selected;send('powerPlay',{selected},()=>notice(selected?'⚡ Power Play activated':'Power Play saved for later'));});}
    document.querySelectorAll('#live-board [data-layout]').forEach(el=>el.addEventListener('click',()=>setBoardLayout(el.dataset.layout)));
    const saved=document.getElementById('bet-saved');if(saved&&!betDraftDirty){const current=s.ownBets?.find(b=>b.slot===activeSlot);saved.textContent=current?'✓ Chip '+(activeSlot+1)+' saved':'Chip not placed yet';}
    const summary=document.getElementById('bet-summary');
