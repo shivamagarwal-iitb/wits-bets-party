@@ -67,7 +67,7 @@ function state(room, viewerId, host=false) {
   return {
     code:room.code, phase:room.phase, round:room.round, maxRounds:room.maxRounds,
     category:room.category, categories:CATEGORIES, questionCount:QUESTION_BANK[room.category].length,
-    testMode:!!room.testMode,testPlayers:host&&room.testMode?[...room.players.values()].filter(p=>p.bot).map(p=>({id:p.id,name:p.name,guess:p.guess,bets:p.bets,chips:p.chips})):[],paused:!!room.paused,pausedRemaining:room.pausedRemaining||null,roundHistory:room.roundHistory||[],
+    testMode:!!room.testMode,testPlayers:host&&room.testMode?[...room.players.values()].filter(p=>p.bot).map(p=>({id:p.id,name:p.name,guess:p.guess,bets:p.bets,chips:p.chips})):[],paused:!!room.paused,pausedRemaining:room.pausedRemaining||null,roundHistory:host?(room.roundHistory||[]):(room.roundHistory||[]).map(h=>({...h,bets:viewerId?(h.bets||[]).filter(b=>b.name===room.players.get(viewerId)?.name):[]})),
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
     pendingJoins:host?[...(room.pendingJoins||new Map()).values()].map(p=>({id:p.id,name:p.name,requestedAt:p.requestedAt})):[],
     publicPowerPlays:[...room.players.values()].filter(p=>p.powerPlaySelected).map(p=>({name:p.name})),
