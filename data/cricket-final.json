@@ -1,0 +1,65 @@
+[
+  {
+    "id": "final143",
+    "topic": "world-cup",
+    "q": "How many runs did Pakistan need from the last over when MS Dhoni handed the ball to Joginder Sharma in the 2007 T20 World Cup final?",
+    "a": 13,
+    "hint": "Dhoni chose Joginder Sharma rather than the more experienced Harbhajan Singh.",
+    "fact": "In Johannesburg, Dhoni entrusted Joginder Sharma with the final over. Misbah-ul-Haq hit a six, but his attempted scoop was caught by Sreesanth, sealing India's inaugural T20 World Cup triumph.",
+    "image": "IMG_2266.jpeg"
+  },
+  {
+    "id": "final118",
+    "topic": "cricket-memorabilia",
+    "q": "How many rupees did Sachin Tendulkar's bat fetch at a charity auction in Bengaluru in 2003?",
+    "a": 300000,
+    "hint": "Yuvraj Singh and Virender Sehwag both reportedly joined the bidding.",
+    "fact": "At a Bengaluru charity auction in September 2003, Yuvraj and Sehwag bid for Sachin's bat before fan Venu Nambiar won it. The auction raised funds for charity.",
+    "image": "IMG_2267.jpeg"
+  },
+  {
+    "id": "final151",
+    "topic": "test-comebacks",
+    "q": "How many runs did VVS Laxman and Rahul Dravid add in their historic fifth-wicket partnership against Australia in the 2001 Kolkata Test?",
+    "a": 376,
+    "hint": "After India followed on, they batted through an entire day without losing a wicket.",
+    "fact": "Laxman and Dravid turned the follow-on into one of Test cricket's greatest comebacks at Eden Gardens. Laxman made 281, Dravid 180, and India went on to win.",
+    "image": "IMG_2268.jpeg"
+  },
+  {
+    "id": "final168",
+    "topic": "controversies",
+    "q": "How many Test matches was Harbhajan Singh initially suspended for following the Sydney Test controversy, before his appeal?",
+    "a": 3,
+    "hint": "The controversy became so serious that India's tour of Australia was thrown into uncertainty.",
+    "fact": "The original suspension followed the 2008 Sydney Test dispute involving Harbhajan Singh and Andrew Symonds. On appeal, the charge was reduced and the Test ban was overturned.",
+    "image": "IMG_2269.jpeg"
+  },
+  {
+    "id": "final099",
+    "topic": "stadiums-and-history",
+    "q": "How many days of actual play took place in the 1939 timeless Test between England and South Africa before the match was abandoned so England could catch its ship home?",
+    "a": 9,
+    "hint": "The match stretched across nearly two weeks, including rest days and a day lost to rain.",
+    "fact": "The Durban Test ran from March 3 to March 14, 1939. Two Sundays were rest days and another day was washed out. England had to leave for their ship while still chasing a victory target.",
+    "image": "IMG_2270.jpeg"
+  },
+  {
+    "id": "final128",
+    "topic": "captains-and-legends",
+    "q": "How many consecutive first-class innings did Don Bradman score a century in during the 1938–39 Australian season?",
+    "a": 6,
+    "hint": "This streak was in first-class cricket, not just Test matches.",
+    "fact": "Playing for South Australia, Bradman recorded six consecutive first-class centuries in the 1938–39 season, equalling C. B. Fry's longstanding mark.",
+    "image": "IMG_2271.jpeg"
+  },
+  {
+    "id": "final162",
+    "topic": "test-comebacks",
+    "q": "How many runs did India need to win at the start of the final day's play in the famous 2021 Gabba Test against Australia?",
+    "a": 324,
+    "hint": "Australia had not lost a Test at the Gabba for decades.",
+    "fact": "India began the final day on 4 without loss, chasing a target of 328. Rishabh Pant's unbeaten innings helped India pull off a historic series-clinching victory.",
+    "image": "IMG_2272.jpeg"
+  }
+]
