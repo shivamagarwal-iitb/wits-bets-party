@@ -341,13 +341,13 @@ function publicPowerPlayStrip(reveal=false){
  return '<div class="power-play-public"><strong>⚡ 2× POWER PLAY ACTIVE</strong><div class="power-play-public-players">'+names.map(name=>'<span class="power-play-public-player" style="--player-color:'+playerColor(name)+'">'+avatar(name)+'<b>'+esc(name)+'</b><em>2×</em></span>').join('')+'</div></div>';
 }
 function board(reveal=false){
- const showAllBets=!!state.host;
+ const showAllBets=!!state.host||state.phase==='locked-bets'||reveal;
  const bets=reveal?(state.results?.revealedBets||[]):showAllBets?(state.publicBets||[]):(state.ownBets||[]).map(b=>({...b,name:state.players.find(p=>p.id===state.playerId)?.name||'You'}));
  const options=state.guesses||[];
  const layout=boardLayout();
  const controls=`<div class="board-layout-switch" aria-label="Board layout"><span>Board view</span><button type="button" class="${layout==='vertical'?'':'secondary'}" data-layout="vertical" aria-pressed="${layout==='vertical'}">☷ Vertical</button><button type="button" class="${layout==='horizontal'?'':'secondary'}" data-layout="horizontal" aria-pressed="${layout==='horizontal'}">▥ Horizontal</button></div>`;
  return controls+publicPowerPlayStrip(reveal)+`<div class="tabletop-scroll ${layout==='vertical'?'vertical-mode':''}"><div class="tabletop-board" style="--lane-count:${options.length}">
- <div class="tabletop-banner">STUDIO · WITS & BETS <span>${reveal?'THE BIG REVEAL':state.phase==='locked-bets'?'BETS LOCKED':'PRIVATE BETTING'}</span></div>
+ <div class="tabletop-banner">STUDIO · WITS & BETS <span>${reveal?'THE BIG REVEAL':state.phase==='locked-bets'?'ALL BETS REVEALED':'PRIVATE BETTING'}</span></div>
  <div class="tabletop-lanes">${options.map((o,i)=>{
  const winner=reveal&&state.results?.winningOptionId===o.id;
  const placed=bets.filter(b=>b.optionId===o.id);
@@ -359,7 +359,7 @@ function board(reveal=false){
  <div class="lane-card"><div class="lane-number">${o.id==='all-high'?'<span class="lane-special">ALL GUESSES<br>TOO HIGH</span>':`<span>${fmt(o.value)}</span>`}</div>${o.id==='all-high'?'':`<div class="lane-guess-label">GUESSED BY</div><div class="guess-owners">${(o.guessers||[]).map(g=>`<span class="guess-owner ${winner?'winning-guesser':''}" style="--player-color:${g.color}">${avatar(g.name)}${esc(g.name)}</span>`).join('')}</div>`}</div>
  ${winner?'<div class="lane-winning-label">🏆 WINNER</div>':chosen?'<div class="lane-selected-label">✓ SELECTED</div>':''}
  </div>`}).join('')}</div>
- <div class="tabletop-footer">🎬 ${showAllBets?'Host view · All bets visible':'Private · Only your chips are visible'} ${layout==='horizontal'?'· Swipe board sideways if needed':''} ✦</div>
+ <div class="tabletop-footer">🎬 ${state.host?'Host view · All bets visible':showAllBets?'Betting closed · Everyone’s bets revealed':'Private · Only your chips are visible'} ${layout==='horizontal'?'· Swipe board sideways if needed':''} ✦</div>
  </div></div>`;
 }
 function formatTimer(ms){const sec=Math.max(0,Math.ceil(ms/1000));return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');}
