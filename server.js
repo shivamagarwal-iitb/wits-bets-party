@@ -77,7 +77,7 @@ function state(room, viewerId, host=false) {
     results:room.phase==='results'?room.results:null,awards:room.phase==='finished'?computeAwards(room):[],
     publicBets:['betting','locked-bets','results'].includes(room.phase)?[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra}))):[],
     ownGuess:viewerId?room.players.get(viewerId)?.guess:null,
-    ownBets:viewerId?room.players.get(viewerId)?.bets:[],
+    ownBets:viewerId?room.players.get(viewerId)?.bets:[],ownPowerPlay:viewerId?{usedRound:room.players.get(viewerId)?.powerPlayUsedRound||null,selected:!!room.players.get(viewerId)?.powerPlaySelected}:null,
     bettingSeconds:room.bettingSeconds,bettingDeadline:room.bettingDeadline||null,
     guessingSeconds:room.guessingSeconds,guessingDeadline:room.guessingDeadline||null,
     host, isPlayer:!!viewerId,
@@ -147,7 +147,7 @@ function startRound(room) {
   room.current=drawQuestion(room);
   if(!room.current){room.phase='finished';return;}
   room.phase='guessing';room.options=[];room.results=null;room.confidence=null;
-  for(const p of room.players.values()){p.guess=null;p.bets=[];}
+  for(const p of room.players.values()){p.guess=null;p.bets=[];p.powerPlaySelected=false;}
   startGuessingClock(room);
 }
 function revealGuesses(room){
@@ -172,8 +172,7 @@ function settle(room){
       }
     }
     const guessBonus=winning && winning.id!=='all-high' && p.guess===winning.value ? room.round : 0;
-    p.chips+=winnings+guessBonus;
-    payouts.push({name:p.name,payout:winnings+guessBonus,betWinnings:winnings,guessBonus});
+    const basePayout=winnings+guessBonus;const powerPlay=!!p.powerPlaySelected&&!p.powerPlayUsedRound;const powerPlayBonus=powerPlay?basePayout:0;if(powerPlay)p.powerPlayUsedRound=room.round;p.powerPlaySelected=false;p.chips+=basePayout+powerPlayBonus;payouts.push({name:p.name,payout:basePayout+powerPlayBonus,basePayout,betWinnings:winnings,guessBonus,powerPlay,powerPlayBonus});
   }
   const revealedBets=[...room.players.values()].flatMap(p=>p.bets.map(b=>({name:p.name,slot:b.slot,optionId:b.optionId,extra:b.extra})));
   room.results={answer,explanation:room.current.fact,winningOptionId:winning?.id??null,winningValue:winning?.value??null,payouts,guessBonus:room.round,revealedBets,rankBefore:before,rankAfter:[...room.players.values()].sort((a,b)=>b.chips-a.chips).map(p=>p.id)};
@@ -213,7 +212,7 @@ io.on('connection',socket=>{
     if(testMode){
       for(let i=0;i<4;i++){
         const name=['Alice','Bob','Charlie','Dana'][i];
-        const p={id:token(),secret:token(),name,color:PLAYER_COLORS[i],avatar:null,chips:STARTING_CHIPS,guess:null,bets:[],sockets:new Set(),bot:true};
+        const p={id:token(),secret:token(),name,color:PLAYER_COLORS[i],avatar:null,chips:STARTING_CHIPS,guess:null,bets:[],powerPlayUsedRound:null,powerPlaySelected:false,sockets:new Set(),bot:true};
         room.players.set(p.id,p);
       }
       room.guessingSeconds=120;room.bettingSeconds=180;
@@ -307,7 +306,7 @@ io.on('connection',socket=>{
         player=existing;
       }else{
         if(room.players.size>=30)return err(ack,'Room is full (30 players).');
-        player={id:token(),secret:token(),name,color:PLAYER_COLORS[room.players.size%PLAYER_COLORS.length],avatar:validAvatar(data?.avatar)?data.avatar:null,chips:STARTING_CHIPS,guess:null,bets:[],sockets:new Set()};
+        player={id:token(),secret:token(),name,color:PLAYER_COLORS[room.players.size%PLAYER_COLORS.length],avatar:validAvatar(data?.avatar)?data.avatar:null,chips:STARTING_CHIPS,guess:null,bets:[],powerPlayUsedRound:null,powerPlaySelected:false,sockets:new Set()};
         room.players.set(player.id,player);
       }
     }
@@ -409,6 +408,7 @@ io.on('connection',socket=>{
     if(room.phase==='betting'&&!room.paused)startBettingClock(room);
     reply(ack,{ok:true});broadcast(room);
   });
+  socket.on('powerPlay',(data,ack)=>{const room=getRoom(socket.data.roomCode);const p=room?.players.get(socket.data.playerId);if(!p)return err(ack,'Join as a player first.');if(room.phase!=='betting'||room.paused||!room.bettingDeadline||Date.now()>=room.bettingDeadline)return err(ack,'Power Play can only be changed while betting is open.');if(p.powerPlayUsedRound)return err(ack,'Power Play already used in round '+p.powerPlayUsedRound);if(typeof data?.selected!=='boolean')return err(ack,'Invalid choice.');p.powerPlaySelected=data.selected;reply(ack,{ok:true});broadcast(room);});
   socket.on('bet',(data,ack)=>{
     const room=getRoom(socket.data.roomCode);const p=room?.players.get(socket.data.playerId);
     if(!p||room.phase!=='betting'||room.paused||!room.bettingDeadline||Date.now()>=room.bettingDeadline){if(room?.phase==='betting'&&Date.now()>=room.bettingDeadline)closeBetting(room);return err(ack,'Betting is locked.');}
