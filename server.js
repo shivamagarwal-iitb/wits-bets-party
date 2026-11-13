@@ -69,6 +69,7 @@ function state(room, viewerId, host=false) {
     category:room.category, categories:CATEGORIES, questionCount:QUESTION_BANK[room.category].length,
     testMode:!!room.testMode,testPlayers:host&&room.testMode?[...room.players.values()].filter(p=>p.bot).map(p=>({id:p.id,name:p.name,guess:p.guess,bets:p.bets,chips:p.chips})):[],paused:!!room.paused,pausedRemaining:room.pausedRemaining||null,roundHistory:room.roundHistory||[],
     players:[...room.players.values()].map(playerView).sort((a,b)=>b.chips-a.chips),
+    pendingJoins:host?[...(room.pendingJoins||new Map()).values()].map(p=>({id:p.id,name:p.name,requestedAt:p.requestedAt})):[],
     publicPowerPlays:[...room.players.values()].filter(p=>p.powerPlaySelected).map(p=>({name:p.name})),
     chat:(room.chat||[]).slice(-60),reactions:(room.reactions||[]).filter(x=>x.at>Date.now()-4500),confidence:['betting','locked-bets','results'].includes(room.phase)?room.confidence:null,chatEnabled:room.chatEnabled!==false,chatMuted:host?[...(room.chatMuted||[])]:[],
     question:room.phase==='lobby'?null:room.current?.q,
@@ -209,7 +210,7 @@ io.on('connection',socket=>{
     const category=CATEGORIES.includes(data?.category)?data.category:'bollywood';
     const testMode=data?.testMode===true;
     const room={code:id,hostToken,hostSocket:socket.id,phase:'lobby',round:0,maxRounds,
-      category,testMode,paused:false,pausedRemaining:null,roundHistory:[],usedQuestionIds:new Set(),questionTopics:[],players:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null,chat:[],chatMuted:new Set(),chatEnabled:true,reactions:[]};
+      category,testMode,paused:false,pausedRemaining:null,roundHistory:[],usedQuestionIds:new Set(),questionTopics:[],players:new Map(),pendingJoins:new Map(),current:null,options:[],results:null,bettingSeconds:180,bettingDeadline:null,bettingTimer:null,guessingSeconds:120,guessingDeadline:null,guessingTimer:null,chat:[],chatMuted:new Set(),chatEnabled:true,reactions:[]};
     if(testMode){
       for(let i=0;i<4;i++){
         const name=['Alice','Bob','Charlie','Dana'][i];
@@ -307,12 +308,35 @@ io.on('connection',socket=>{
         player=existing;
       }else{
         if(room.players.size>=30)return err(ack,'Room is full (30 players).');
+        if(room.phase!=='lobby'){
+          room.pendingJoins??=new Map();
+          for(const [id,pending] of room.pendingJoins)if(pending.socketId===socket.id)room.pendingJoins.delete(id);
+          const request={id:token(),socketId:socket.id,name,avatar:validAvatar(data?.avatar)?data.avatar:null,requestedAt:Date.now()};
+          room.pendingJoins.set(request.id,request);
+          reply(ack,{ok:true,pending:true,requestId:request.id});broadcast(room);return;
+        }
         player={id:token(),secret:token(),name,color:PLAYER_COLORS[room.players.size%PLAYER_COLORS.length],avatar:validAvatar(data?.avatar)?data.avatar:null,chips:STARTING_CHIPS,guess:null,bets:[],powerPlayUsedRound:null,powerPlaySelected:false,sockets:new Set()};
         room.players.set(player.id,player);
       }
     }
     // A rejoining player retains their score, guesses, bets and avatar.
     identify(socket,room,{player});reply(ack,{ok:true,playerToken:player.secret,name:player.name,rejoined:!!data?.playerToken||player!==null});broadcast(room);
+  });
+  socket.on('reviewJoin',(data,ack)=>{
+    const room=hostRoom(socket);if(!room)return err(ack,'Only the host can approve players.');
+    const pending=room.pendingJoins?.get(data?.requestId);if(!pending)return err(ack,'Request is no longer pending.');
+    room.pendingJoins.delete(pending.id);
+    const guest=io.sockets.sockets.get(pending.socketId);
+    if(data?.approve!==true){guest?.emit('joinDecision',{approved:false,message:'The host declined your request.'});reply(ack,{ok:true});broadcast(room);return;}
+    if(!guest?.connected){reply(ack,{ok:true});broadcast(room);return;}
+    if(room.phase==='finished'||room.players.size>=30||[...room.players.values()].some(p=>p.name.toLocaleLowerCase()===pending.name.toLocaleLowerCase())){
+      guest.emit('joinDecision',{approved:false,message:'Unable to join: the game ended, the room is full, or the name is taken.'});
+      reply(ack,{ok:true});broadcast(room);return;
+    }
+    const player={id:token(),secret:token(),name:pending.name,color:PLAYER_COLORS[room.players.size%PLAYER_COLORS.length],avatar:pending.avatar,chips:STARTING_CHIPS,guess:null,bets:[],powerPlayUsedRound:null,powerPlaySelected:false,sockets:new Set()};
+    room.players.set(player.id,player);identify(guest,room,{player});
+    guest.emit('joinDecision',{approved:true,code:room.code,playerToken:player.secret,name:player.name});
+    reply(ack,{ok:true});broadcast(room);
   });
   socket.on('chatSend',(data,ack)=>{
     const room=getRoom(socket.data.roomCode);
