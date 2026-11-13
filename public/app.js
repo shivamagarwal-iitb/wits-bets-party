@@ -4,6 +4,7 @@ const socket=typeof io==='function'?io({transports:['polling','websocket'],timeo
 const params=new URLSearchParams(location.search);const initialRoom=(params.get('room')||'').toUpperCase();const forceJoin=params.get('join')==='1';const recoveryToken=params.get('resume');
 let state=null,auth=null,selected=null,betAmount=0,activeSlot=0,hostMeta=null;
 let joinedThisPage=false;
+let pendingJoin=null;
 let presentationMode=false;try{presentationMode=localStorage.getItem('wb_presenter')==='on'}catch{}
 let previousArrivalIds=new Set();
 let betDraftDirty=false,betSubmitting=false,lastBetWarningRound=null;
@@ -69,7 +70,8 @@ function resumeSession(a){
   }
  else if(a?.playerToken)send('join',a,r=>{save({code:a.code,playerToken:r.playerToken,name:r.name});cleanRecoveryUrl();const e=document.getElementById('network-banner');if(e)e.textContent='';});
 }
-socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const e=document.getElementById('network-banner');if(e)e.textContent='✓ Connected — syncing your game…';const a=stored();if(a)resumeSession(a);else renderWelcome();});
+socket?.on('joinDecision',r=>{if(!pendingJoin)return;if(r.approved){save({code:r.code,playerToken:r.playerToken,name:r.name});history.replaceState({},'',`/?room=${r.code}`);pendingJoin=null;notice('✓ Host approved your join!');}else{pendingJoin=null;state=null;renderWelcome();notice(r.message||'Join request declined.');}});
+socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const e=document.getElementById('network-banner');if(e)e.textContent='✓ Connected — syncing your game…';const a=stored();if(a)resumeSession(a);else if(pendingJoin){pendingJoin=null;renderWelcome();notice('Connection restored. Please send your join request again.');}else renderWelcome();});
 socket?.on('removed',payload=>{
   const code=state?.code||auth?.code||initialRoom;
   auth=null;state=null;joinedThisPage=false;
@@ -117,7 +119,7 @@ socket?.on('state',s=>{
   const guidance=document.getElementById('bet-guidance');if(guidance){const count=(s.ownBets||[]).length;guidance.textContent=count===2?'✓ Both permanent chips placed! Tap either chip to move it or adjust extras.':'Step '+(activeSlot+1)+' of 2: Tap a guess below, then press Save bet.';}
    const chips=document.getElementById('chips-available');
    if(chips)chips.textContent=fmt(myChips());
-   updateStickyBetBar();updateBetTimer();updatePauseControls();updateHostProgress();updateBetReadiness();
+   updateStickyBetBar();updateBetTimer();updatePauseControls();updateHostProgress();updateBetReadiness();refreshHostJoinApprovals();
  }else if(lobbyOnly){
    const count=document.getElementById('lobby-player-count');if(count)count.textContent=s.players.length+' / 30 players';
    const list=document.getElementById('lobby-player-list');if(list)list.innerHTML=lobbyStage();
@@ -137,7 +139,7 @@ socket?.on('state',s=>{
    });
    previousArrivalIds=new Set(s.players.filter(p=>p.submitted).map(p=>p.id));
    updateBetTimer();updatePauseControls();
-   updateHostProgress();
+   updateHostProgress();refreshHostJoinApprovals();
  }else render();
  if(spectaclePhase)showSpectacle(spectaclePhase);
 });
@@ -174,7 +176,7 @@ function renderWelcome(){if(state)return;const playerLanding=forceJoin||!!initia
  document.getElementById('test-create')&&(document.getElementById('test-create').onclick=()=>send('create',{testMode:true,category:document.getElementById('category').value,origin:location.origin},r=>{hostMeta=r;save({code:r.code,hostToken:r.hostToken});history.replaceState({},'',`/?room=${r.code}`);render();notice('Test room ready — four simulated players joined!')}));
  document.querySelectorAll('[data-avatar-preset]').forEach(el=>el.addEventListener('click',()=>{const id=el.dataset.avatarPreset;if(!PRESET_AVATARS.some(x=>x.id===id))return;joinAvatar='preset:'+id;document.querySelectorAll('[data-avatar-preset]').forEach(x=>x.setAttribute('aria-pressed',String(x===el)));}));
  const moreAvatars=document.getElementById('more-avatars');if(moreAvatars)moreAvatars.addEventListener('toggle',()=>{const summary=moreAvatars.querySelector('summary');if(summary)summary.textContent=moreAvatars.open?'Show fewer avatars':'Show more avatars ('+(PRESET_AVATARS.length-12)+')';});
- document.getElementById('join').onclick=()=>{const code=document.getElementById('room').value.trim().toUpperCase(),name=document.getElementById('name').value.trim();send('join',{code,name,avatar:joinAvatar},r=>{save({code,playerToken:r.playerToken,name:r.name});history.replaceState({},'',`/?room=${code}`)})};
+ document.getElementById('join').onclick=()=>{const code=document.getElementById('room').value.trim().toUpperCase(),name=document.getElementById('name').value.trim();send('join',{code,name,avatar:joinAvatar},r=>{if(r.pending){pendingJoin={code,name};root.innerHTML='<div class="panel stack join-waiting"><h2>⏳ Waiting for host approval</h2><p>Your request to join <strong>'+esc(code)+'</strong> as <strong>'+esc(name)+'</strong> has been sent.</p><p class="muted">You will enter the game automatically once the host approves. Keep this page open.</p></div>';return;}save({code,playerToken:r.playerToken,name:r.name});history.replaceState({},'',`/?room=${code}`)})};
 }
 let testSeatId=null,testSlot=0,testOption=null;
 function testPanel(){
@@ -314,8 +316,10 @@ async function shareRecapImage(){
 function leaderboard(){const me=state.players.find(p=>p.id===state.ownPlayerId)||state.players.find(p=>p.name===auth?.name);const rank=me?state.players.indexOf(me)+1:0;return `<details class="panel section compact-standings" ${state.host?'open':''}><summary><strong>Standings</strong><span>${me?`You: #${rank} · ${fmt(me.chips)} chips`:`${state.players.length} players`} <span class="standings-expand">View all</span></span></summary><table class="leaderboard"><thead><tr><th>Rank</th><th>Player</th><th>Earned chips</th></tr></thead><tbody>${state.players.map((p,i)=>`<tr><td>${i+1}</td><td>${avatar(p.name)} ${esc(p.name)} ${p.connected?'🟢':'⚪'}</td><td><strong>${fmt(p.chips)}</strong></td></tr>`).join('')}</tbody></table></details>`}
 function hostPlayerControls(){
  if(!state?.host)return '';
- return `<section class="panel section"><div class="row between"><div><h2 style="margin:0">Manage players</h2><p class="muted" style="margin:5px 0 0">Remove a player so they can join again with a fresh profile and photo.</p></div></div><div class="host-player-list">${state.players.filter(p=>!p.bot).map(p=>`<div class="host-player-row"><span>${avatar(p.name)} <strong>${esc(p.name)}</strong> <small class="muted">${p.connected?'Connected':'Disconnected'} · ${fmt(p.chips)} chips${p.avatar?' · Photo added':' · No photo'}</small></span><button class="secondary" data-remove-player="${esc(p.id)}" aria-label="Remove ${esc(p.name)}">Remove</button></div>`).join('')||'<p class="muted">No players have joined.</p>'}</div></section>`;
+ return `<section class="panel section" id="host-player-controls">${(state.pendingJoins||[]).length?`<div class="join-approval-panel"><h2>🔔 Join requests (${state.pendingJoins.length})</h2><p class="muted">New players must be approved because the game has started.</p>${state.pendingJoins.map(p=>`<div class="join-approval-row"><strong>${esc(p.name)}</strong><div class="row"><button type="button" data-review-join="${esc(p.id)}" data-approve="yes">✓ Allow</button><button type="button" class="secondary" data-review-join="${esc(p.id)}" data-approve="no">Decline</button></div></div>`).join('')}</div>`:''}<div class="row between"><div><h2 style="margin:0">Manage players</h2><p class="muted" style="margin:5px 0 0">Remove a player so they can join again with a fresh profile and photo.</p></div></div><div class="host-player-list">${state.players.filter(p=>!p.bot).map(p=>`<div class="host-player-row"><span>${avatar(p.name)} <strong>${esc(p.name)}</strong> <small class="muted">${p.connected?'Connected':'Disconnected'} · ${fmt(p.chips)} chips${p.avatar?' · Photo added':' · No photo'}</small></span><button class="secondary" data-remove-player="${esc(p.id)}" aria-label="Remove ${esc(p.name)}">Remove</button></div>`).join('')||'<p class="muted">No players have joined.</p>'}</div></section>`;
 }
+function bindJoinApprovals(){document.querySelectorAll('[data-review-join]').forEach(el=>el.addEventListener('click',()=>send('reviewJoin',{requestId:el.dataset.reviewJoin,approve:el.dataset.approve==='yes'},()=>notice(el.dataset.approve==='yes'?'Player approved':'Join request declined'))));}
+function refreshHostJoinApprovals(){const el=document.getElementById('host-player-controls');if(el&&state.host){el.outerHTML=hostPlayerControls();bindJoinApprovals();}}
 function lobbyStage(){
  const players=state.players||[];
  return `<div class="lobby-stage" aria-label="Players joining the game"><div class="stage-title">✦ THE GAME SHOW ✦</div><div class="stage-player-count">${players.length} ${players.length===1?'PLAYER':'PLAYERS'} ON STAGE</div><div class="stage-cards">${players.map((p,i)=>`<div class="stage-player-card" style="--stage-accent:${esc(p.color||'#e3b968')};animation-delay:${Math.min(i,8)*65}ms">${avatar(p.name,'lg')}<span class="stage-player-name">${esc(p.name)}</span></div>`).join('')}${players.length<6?Array.from({length:Math.min(6-players.length,3)},()=>'<div class="stage-player-empty" aria-hidden="true"><span>+</span></div>').join(''):''}</div><div class="stage-floor" aria-hidden="true"></div></div>`;
@@ -459,7 +463,7 @@ function bindGameChat(){
  document.getElementById('chat-mute-player')?.addEventListener('change',e=>{if(e.target.value)send('chatModerate',{action:'mute',playerId:e.target.value});});
  const box=document.getElementById('chat-messages');if(box)box.scrollTop=box.scrollHeight;
 }
-function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML='<div id="network-banner" class="network-banner"></div>'+renderGameHeader()+testPanel()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+hostPlayerControls()+recoveryPanel()+stickyBetBar()+gameChat()+reactionStage();bindGameChat();updateBetTimer();updateHostProgress();updatePauseControls();updateStickyBetBar();
+function render(){if(!state)return renderWelcome();const oldGuess=document.getElementById('guess');const guessFocused=oldGuess&&document.activeElement===oldGuess;const cursor=guessFocused?oldGuess.selectionStart:null;root.innerHTML='<div id="network-banner" class="network-banner"></div>'+renderGameHeader()+testPanel()+({lobby,guessing,betting,'open-bets':betting,'final-betting':betting,'locked-bets':betting,results,finished}[state.phase]?.()||'')+(state.phase==='lobby'?'':leaderboard())+hostPlayerControls()+recoveryPanel()+stickyBetBar()+gameChat()+reactionStage();bindGameChat();updateBetTimer();updateHostProgress();updatePauseControls();updateStickyBetBar();bindJoinApprovals();
  document.getElementById('presentation-toggle')?.addEventListener('click',()=>{presentationMode=!presentationMode;try{localStorage.setItem('wb_presenter',presentationMode?'on':'off')}catch{}document.body.classList.toggle('presentation-mode',presentationMode);render();});
  document.body.classList.toggle('presentation-mode',presentationMode&&!!state.host);
  document.getElementById('power-play-toggle')?.addEventListener('click',()=>{const selected=!state.ownPowerPlay?.selected;send('powerPlay',{selected},()=>notice(selected?'⚡ Power Play activated':'Power Play saved for later'));});
