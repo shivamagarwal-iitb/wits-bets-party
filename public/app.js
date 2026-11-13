@@ -49,7 +49,24 @@ function save(a){
 }
 function cleanRecoveryUrl(){if(recoveryToken){const url=new URL(location.href);url.searchParams.delete('resume');history.replaceState({},'',url.pathname+url.search+url.hash)}}
 function resumeSession(a){
- if(a?.hostToken)send('resumeHost',a,()=>{save(a);cleanRecoveryUrl();const e=document.getElementById('network-banner');if(e)e.textContent='';});
+ if(a?.hostToken){
+    if(!socket?.connected)return;
+    socket.timeout(10000).emit('resumeHost',a,(timeout,res)=>{
+      if(timeout){notice('Unable to reconnect to your game. Please retry.');return;}
+      if(!res?.ok){
+        if(res?.error==='Host credentials not recognized'){
+          auth=null;state=null;joinedThisPage=false;hostMeta=null;
+          try{sessionStorage.removeItem('wb_auth')}catch{}
+          history.replaceState({},'',location.pathname+'?host=1');
+          renderWelcome();
+          notice('Previous game ended after a server restart. Create a new room.');
+          return;
+        }
+        notice(res?.error||'Unable to resume host session.');return;
+      }
+      save(a);cleanRecoveryUrl();const e=document.getElementById('network-banner');if(e)e.textContent='';
+    });
+  }
  else if(a?.playerToken)send('join',a,r=>{save({code:a.code,playerToken:r.playerToken,name:r.name});cleanRecoveryUrl();const e=document.getElementById('network-banner');if(e)e.textContent='';});
 }
 socket?.on('connect',()=>{document.getElementById('connection').textContent='● Live';const e=document.getElementById('network-banner');if(e)e.textContent='✓ Connected — syncing your game…';const a=stored();if(a)resumeSession(a);else renderWelcome();});
