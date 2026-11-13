@@ -288,7 +288,7 @@ function board(reveal=false){
  const placed=bets.filter(b=>b.optionId===o.id);
  const editable=!reveal&&['betting','final-betting'].includes(state.phase);
  const chosen=editable&&state.isPlayer&&selected===o.id;
- return `<div class="tabletop-lane ${winner?'lane-winner':''} ${chosen?'lane-selected':''} ${o.id==='all-high'?'lane-all-high':''}" ${editable&&state.isPlayer?'data-option="'+esc(o.id)+'" role="button" tabindex="0" aria-label="Select bet on '+(o.id==='all-high'?'all guesses too high':fmt(o.value))+'" aria-pressed="'+chosen+'"':''}>
+ return `<div class="tabletop-lane ${winner?'lane-winner':''} ${chosen?'lane-selected':''} ${o.id==='all-high'?'lane-all-high':''} ${Number(o.odds)>=5?'payout-high':Number(o.odds)>=3?'payout-mid':'payout-low'}" ${editable&&state.isPlayer?'data-option="'+esc(o.id)+'" role="button" tabindex="0" aria-label="Select bet on '+(o.id==='all-high'?'all guesses too high':fmt(o.value))+'" aria-pressed="'+chosen+'"':''}>
  <div class="lane-odds">PAYS ${o.odds}:1</div>
  <div class="lane-chips">${placed.map(p=>`<div class="table-chip ${winner?'winning-chip':''}" style="--player-color:${playerColor(p.name)}">${avatar(p.name)}<b>${esc(p.name)}</b><small>#${p.slot+1}${p.extra?' +'+fmt(p.extra):''}</small></div>`).join('')||'<div class="lane-empty">○</div>'}</div>
  <div class="lane-card"><div class="lane-number">${o.id==='all-high'?'<span class="lane-special">ALL GUESSES<br>TOO HIGH</span>':`<span>${fmt(o.value)}</span>`}</div>${o.id==='all-high'?'':`<div class="lane-guess-label">GUESSED BY</div><div class="guess-owners">${(o.guessers||[]).map(g=>`<span class="guess-owner ${winner?'winning-guesser':''}" style="--player-color:${g.color}">${avatar(g.name)}${esc(g.name)}</span>`).join('')}</div>`}</div>
