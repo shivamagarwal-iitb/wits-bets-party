@@ -85,18 +85,6 @@
       "explanation": "Ben Stokes was Player of the Match in the tied final at Lord's."
     },
     {
-      "id": "modern-8",
-      "q": "Who took the famous catch of David Miller in the 2024 T20 World Cup final?",
-      "options": [
-        "Axar Patel",
-        "Suryakumar Yadav",
-        "Rishabh Pant",
-        "Hardik Pandya"
-      ],
-      "answer": 1,
-      "explanation": "Suryakumar's boundary juggling catch was a decisive moment."
-    },
-    {
       "id": "modern-9",
       "q": "In the 2007 T20 World Cup final, who bowled the last over for India?",
       "options": [
@@ -241,8 +229,176 @@
       "explanation": "Lasith Malinga removed Tendulkar early in India's chase."
     },
     {
-      "id": "modern-21",
-      "q": "Who made an unbeaten 135 in the 2019 Headingley Ashes Test to seal a one-wicket win?",
+      "id": "highlight-1",
+      "q": "In the 2022 India–Pakistan T20 World Cup thriller at the MCG, which bowler conceded Kohli's iconic straight six?",
+      "options": [
+        "Shaheen Afridi",
+        "Haris Rauf",
+        "Naseem Shah",
+        "Mohammad Wasim Jr."
+      ],
+      "answer": 1,
+      "explanation": "Virat Kohli struck a memorable straight six off Haris Rauf during his unbeaten 82."
+    },
+    {
+      "id": "highlight-2",
+      "q": "Which team was India playing when MS Dhoni ran out a batter off the last ball to win by one run at the 2016 T20 World Cup?",
+      "options": [
+        "Pakistan",
+        "Bangladesh",
+        "Australia",
+        "Sri Lanka"
+      ],
+      "answer": 1,
+      "explanation": "Dhoni sprinted to break the stumps against Bangladesh in Bengaluru."
+    },
+    {
+      "id": "highlight-3",
+      "q": "Who hit three consecutive sixes off Shaheen Afridi in the 2021 T20 World Cup semifinal?",
+      "options": [
+        "Marcus Stoinis",
+        "David Warner",
+        "Matthew Wade",
+        "Glenn Maxwell"
+      ],
+      "answer": 2,
+      "explanation": "Matthew Wade finished Australia's chase with three sixes."
+    },
+    {
+      "id": "highlight-4",
+      "q": "Who scored 77 not out to win the 2021 T20 World Cup final for Australia?",
+      "options": [
+        "David Warner",
+        "Mitchell Marsh",
+        "Aaron Finch",
+        "Glenn Maxwell"
+      ],
+      "answer": 1,
+      "explanation": "Mitchell Marsh was Player of the Match against New Zealand."
+    },
+    {
+      "id": "highlight-5",
+      "q": "Who hit an unbeaten 82 against Australia in India's 2016 T20 World Cup chase at Mohali?",
+      "options": [
+        "Rohit Sharma",
+        "Yuvraj Singh",
+        "Virat Kohli",
+        "MS Dhoni"
+      ],
+      "answer": 2,
+      "explanation": "Kohli's 82 not out off 51 balls carried India into the semifinals."
+    },
+    {
+      "id": "highlight-6",
+      "q": "Who hit a 63-ball 113 to stun England in the 2011 ODI World Cup?",
+      "options": [
+        "Paul Stirling",
+        "Kevin O'Brien",
+        "Ed Joyce",
+        "William Porterfield"
+      ],
+      "answer": 1,
+      "explanation": "Kevin O'Brien inspired Ireland's remarkable chase in Bengaluru."
+    },
+    {
+      "id": "highlight-7",
+      "q": "Who was run out by Martin Guptill's direct hit in India's 2019 World Cup semifinal defeat?",
+      "options": [
+        "Ravindra Jadeja",
+        "MS Dhoni",
+        "Dinesh Karthik",
+        "Hardik Pandya"
+      ],
+      "answer": 1,
+      "explanation": "Guptill's direct hit dismissed Dhoni and ended India's hopes."
+    },
+    {
+      "id": "highlight-8",
+      "q": "Who bowled Brendon McCullum with a yorker in the first over of the 2015 ODI World Cup final?",
+      "options": [
+        "Mitchell Johnson",
+        "Josh Hazlewood",
+        "Mitchell Starc",
+        "James Faulkner"
+      ],
+      "answer": 2,
+      "explanation": "Mitchell Starc removed New Zealand's captain in the first over."
+    },
+    {
+      "id": "highlight-9",
+      "q": "Who hit 140 not out in the 2003 ODI World Cup final against India?",
+      "options": [
+        "Adam Gilchrist",
+        "Ricky Ponting",
+        "Damien Martyn",
+        "Matthew Hayden"
+      ],
+      "answer": 1,
+      "explanation": "Ricky Ponting's unbeaten 140 powered Australia's huge total."
+    },
+    {
+      "id": "highlight-10",
+      "q": "Which Sri Lankan fast bowler took four wickets in four balls against South Africa at the 2007 ODI World Cup?",
+      "options": [
+        "Chaminda Vaas",
+        "Lasith Malinga",
+        "Nuwan Kulasekara",
+        "Dilhara Fernando"
+      ],
+      "answer": 1,
+      "explanation": "Lasith Malinga's four consecutive wickets almost stole the game."
+    },
+    {
+      "id": "highlight-11",
+      "q": "Who took 7/57 for India in the 2023 ODI World Cup semifinal against New Zealand?",
+      "options": [
+        "Jasprit Bumrah",
+        "Mohammed Siraj",
+        "Mohammed Shami",
+        "Kuldeep Yadav"
+      ],
+      "answer": 2,
+      "explanation": "Mohammed Shami took seven wickets in Mumbai."
+    },
+    {
+      "id": "highlight-12",
+      "q": "Who scored a century for Australia in the 2023 ODI World Cup final against India?",
+      "options": [
+        "David Warner",
+        "Travis Head",
+        "Mitchell Marsh",
+        "Steve Smith"
+      ],
+      "answer": 1,
+      "explanation": "Travis Head's 137 was decisive in Ahmedabad."
+    },
+    {
+      "id": "highlight-13",
+      "q": "Who scored the fastest century of the 2023 ODI World Cup, off 40 balls?",
+      "options": [
+        "Heinrich Klaasen",
+        "Glenn Maxwell",
+        "Rohit Sharma",
+        "Aiden Markram"
+      ],
+      "answer": 1,
+      "explanation": "Glenn Maxwell reached his hundred off 40 balls against the Netherlands."
+    },
+    {
+      "id": "highlight-14",
+      "q": "Who was Player of the Tournament at the 2023 ODI World Cup?",
+      "options": [
+        "Mohammed Shami",
+        "Rohit Sharma",
+        "Virat Kohli",
+        "Travis Head"
+      ],
+      "answer": 2,
+      "explanation": "Virat Kohli scored a record 765 runs in the tournament."
+    },
+    {
+      "id": "highlight-15",
+      "q": "Who scored 135 not out to win the dramatic 2019 Headingley Ashes Test?",
       "options": [
         "Joe Root",
         "Ben Stokes",
@@ -250,7 +406,127 @@
         "Jonny Bairstow"
       ],
       "answer": 1,
-      "explanation": "Ben Stokes produced an extraordinary unbeaten 135, not 149, in the Headingley chase."
+      "explanation": "Ben Stokes and Jack Leach added 76 for the last wicket."
+    },
+    {
+      "id": "highlight-16",
+      "q": "Who scored 158 not out in the first-ever IPL match in 2008?",
+      "options": [
+        "Brendon McCullum",
+        "Chris Gayle",
+        "Adam Gilchrist",
+        "Sourav Ganguly"
+      ],
+      "answer": 0,
+      "explanation": "Brendon McCullum's 158 not out set the tone for the IPL."
+    },
+    {
+      "id": "highlight-17",
+      "q": "Who scored an unbeaten 175 in an IPL match in 2013?",
+      "options": [
+        "AB de Villiers",
+        "Virat Kohli",
+        "Chris Gayle",
+        "Brendon McCullum"
+      ],
+      "answer": 2,
+      "explanation": "Chris Gayle's 175 not out came against Pune Warriors."
+    },
+    {
+      "id": "highlight-18",
+      "q": "Which captain led India to the famous Gabba Test win in January 2021?",
+      "options": [
+        "Virat Kohli",
+        "Ajinkya Rahane",
+        "Rohit Sharma",
+        "KL Rahul"
+      ],
+      "answer": 1,
+      "explanation": "Ajinkya Rahane captained the injury-hit Indian side."
+    },
+    {
+      "id": "highlight-19",
+      "q": "Which Indian batter finished unbeaten on 89 in the 2021 Gabba Test chase?",
+      "options": [
+        "Shubman Gill",
+        "Rishabh Pant",
+        "Cheteshwar Pujara",
+        "Washington Sundar"
+      ],
+      "answer": 1,
+      "explanation": "Rishabh Pant steered India home in Brisbane."
+    },
+    {
+      "id": "highlight-20",
+      "q": "Who scored 281 in India's remarkable 2001 Kolkata Test comeback?",
+      "options": [
+        "Rahul Dravid",
+        "VVS Laxman",
+        "Sourav Ganguly",
+        "Sachin Tendulkar"
+      ],
+      "answer": 1,
+      "explanation": "VVS Laxman helped India win after following on."
+    },
+    {
+      "id": "highlight-21",
+      "q": "Which England player took the astonishing one-handed boundary catch against South Africa at the 2019 ODI World Cup?",
+      "options": [
+        "Jason Roy",
+        "Ben Stokes",
+        "Joe Root",
+        "Chris Woakes"
+      ],
+      "answer": 1,
+      "explanation": "Ben Stokes leapt to take a remarkable catch to dismiss Andile Phehlukwayo."
+    },
+    {
+      "id": "highlight-22",
+      "q": "Which bowler took a last-over hat-trick for India against Afghanistan in the 2019 ODI World Cup?",
+      "options": [
+        "Mohammed Shami",
+        "Jasprit Bumrah",
+        "Bhuvneshwar Kumar",
+        "Yuzvendra Chahal"
+      ],
+      "answer": 0,
+      "explanation": "Mohammed Shami sealed a tense Indian win with a hat-trick."
+    },
+    {
+      "id": "highlight-23",
+      "q": "Which player was Player of the Match in the 2024 T20 World Cup final?",
+      "options": [
+        "Jasprit Bumrah",
+        "Virat Kohli",
+        "Hardik Pandya",
+        "Suryakumar Yadav"
+      ],
+      "answer": 1,
+      "explanation": "Virat Kohli's 76 anchored India's innings."
+    },
+    {
+      "id": "highlight-24",
+      "q": "Which team did India defeat in the 2024 T20 World Cup final?",
+      "options": [
+        "England",
+        "Australia",
+        "South Africa",
+        "Afghanistan"
+      ],
+      "answer": 2,
+      "explanation": "India beat South Africa by seven runs in Barbados."
+    },
+    {
+      "id": "highlight-25",
+      "q": "Who hit the winning six for India in the 2011 ODI World Cup final?",
+      "options": [
+        "Yuvraj Singh",
+        "MS Dhoni",
+        "Gautam Gambhir",
+        "Virat Kohli"
+      ],
+      "answer": 1,
+      "explanation": "MS Dhoni sealed the title with a six in Mumbai."
     }
   ],
   "bollywood": [
