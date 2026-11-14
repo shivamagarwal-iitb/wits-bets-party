@@ -1,412 +1,256 @@
 {
   "cricket": [
     {
-      "id": "c1",
-      "q": "Who won the inaugural men's T20 World Cup in 2007?",
+      "id": "modern-1",
+      "q": "In the 2024 T20 World Cup final, who took the famous boundary catch to dismiss David Miller?",
       "options": [
-        "Pakistan",
-        "India",
-        "Australia",
-        "Sri Lanka"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: India."
-    },
-    {
-      "id": "c2",
-      "q": "Which team won the 1983 men's ODI Cricket World Cup?",
-      "options": [
-        "India",
-        "West Indies",
-        "Australia",
-        "England"
-      ],
-      "answer": 0,
-      "explanation": "Correct answer: India."
-    },
-    {
-      "id": "c3",
-      "q": "Who hit six sixes in an over against England in the 2007 T20 World Cup?",
-      "options": [
-        "MS Dhoni",
-        "Yuvraj Singh",
         "Rohit Sharma",
-        "Virat Kohli"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: Yuvraj Singh."
-    },
-    {
-      "id": "c4",
-      "q": "Who bowled that over to Yuvraj Singh?",
-      "options": [
-        "James Anderson",
-        "Stuart Broad",
-        "Andrew Flintoff",
-        "Ryan Sidebottom"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: Stuart Broad."
-    },
-    {
-      "id": "c5",
-      "q": "Which team won the 2011 men's ODI Cricket World Cup?",
-      "options": [
-        "Sri Lanka",
-        "India",
-        "Pakistan",
-        "Australia"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: India."
-    },
-    {
-      "id": "c6",
-      "q": "Which venue hosted the 2011 ODI World Cup final?",
-      "options": [
-        "Eden Gardens",
-        "Wankhede Stadium",
-        "Lord's",
-        "MCG"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: Wankhede Stadium."
-    },
-    {
-      "id": "c7",
-      "q": "Who captained India to the 2011 ODI World Cup title?",
-      "options": [
+        "Suryakumar Yadav",
         "Virat Kohli",
-        "Sourav Ganguly",
-        "MS Dhoni",
-        "Rahul Dravid"
+        "Ravindra Jadeja"
+      ],
+      "answer": 1,
+      "explanation": "Suryakumar Yadav's spectacular catch off Hardik Pandya helped India defend 176."
+    },
+    {
+      "id": "modern-2",
+      "q": "In the 2024 T20 World Cup final, who bowled the last over for India?",
+      "options": [
+        "Jasprit Bumrah",
+        "Arshdeep Singh",
+        "Hardik Pandya",
+        "Axar Patel"
       ],
       "answer": 2,
-      "explanation": "Correct answer: MS Dhoni."
+      "explanation": "Hardik Pandya defended 16 runs in the final over against South Africa."
     },
     {
-      "id": "c8",
-      "q": "Which team did India beat in the 2011 ODI World Cup final?",
+      "id": "modern-3",
+      "q": "Which South African batter smashed 52 from 27 balls in the 2024 T20 World Cup final?",
       "options": [
-        "Australia",
+        "David Miller",
+        "Heinrich Klaasen",
+        "Quinton de Kock",
+        "Aiden Markram"
+      ],
+      "answer": 1,
+      "explanation": "Klaasen's rapid half-century almost took South Africa to the title."
+    },
+    {
+      "id": "modern-4",
+      "q": "In the 2023 World Cup, Glenn Maxwell hit an unbeaten double century against which team?",
+      "options": [
         "Pakistan",
-        "Sri Lanka",
+        "Afghanistan",
+        "New Zealand",
         "South Africa"
       ],
-      "answer": 2,
-      "explanation": "Correct answer: Sri Lanka."
+      "answer": 1,
+      "explanation": "Maxwell's 201 not out rescued Australia from 91/7 in a chase of 292."
     },
     {
-      "id": "c9",
-      "q": "Who was India's highest scorer in the 2011 World Cup final?",
+      "id": "modern-5",
+      "q": "At what score were Australia seven wickets down before Maxwell's miracle chase against Afghanistan in 2023?",
       "options": [
-        "MS Dhoni",
-        "Sachin Tendulkar",
-        "Gautam Gambhir",
-        "Virender Sehwag"
-      ],
-      "answer": 2,
-      "explanation": "Correct answer: Gautam Gambhir."
-    },
-    {
-      "id": "c10",
-      "q": "Who scored 91 not out in the 2011 World Cup final?",
-      "options": [
-        "Yuvraj Singh",
-        "MS Dhoni",
-        "Gautam Gambhir",
-        "Virat Kohli"
+        "49",
+        "91",
+        "125",
+        "157"
       ],
       "answer": 1,
-      "explanation": "Correct answer: MS Dhoni."
+      "explanation": "Australia slumped to 91/7 before Maxwell and Pat Cummins completed a remarkable chase."
     },
     {
-      "id": "c11",
-      "q": "Which team won the 1992 ODI Cricket World Cup?",
+      "id": "modern-6",
+      "q": "Which team lost the unforgettable 2019 ODI World Cup final on the boundary-count rule?",
       "options": [
         "India",
-        "Pakistan",
-        "England",
-        "New Zealand"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: Pakistan."
-    },
-    {
-      "id": "c12",
-      "q": "Which team won the 1987 ODI Cricket World Cup?",
-      "options": [
-        "Australia",
-        "India",
-        "England",
-        "Pakistan"
-      ],
-      "answer": 0,
-      "explanation": "Correct answer: Australia."
-    },
-    {
-      "id": "c13",
-      "q": "Which team won the 1996 ODI Cricket World Cup?",
-      "options": [
-        "India",
-        "Australia",
-        "Sri Lanka",
-        "Pakistan"
-      ],
-      "answer": 2,
-      "explanation": "Correct answer: Sri Lanka."
-    },
-    {
-      "id": "c14",
-      "q": "Which team won the 2003 ODI Cricket World Cup?",
-      "options": [
-        "India",
-        "South Africa",
-        "Australia",
-        "Sri Lanka"
-      ],
-      "answer": 2,
-      "explanation": "Correct answer: Australia."
-    },
-    {
-      "id": "c15",
-      "q": "Which team won the 2007 ODI Cricket World Cup?",
-      "options": [
-        "Sri Lanka",
-        "Australia",
-        "India",
-        "New Zealand"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: Australia."
-    },
-    {
-      "id": "c16",
-      "q": "Who took the first hat-trick in a men's ODI Cricket World Cup?",
-      "options": [
-        "Chetan Sharma",
-        "Kapil Dev",
-        "Wasim Akram",
-        "Chaminda Vaas"
-      ],
-      "answer": 0,
-      "explanation": "Correct answer: Chetan Sharma."
-    },
-    {
-      "id": "c17",
-      "q": "Against which team did Chetan Sharma take his 1987 World Cup hat-trick?",
-      "options": [
-        "England",
-        "New Zealand",
-        "Australia",
-        "Pakistan"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: New Zealand."
-    },
-    {
-      "id": "c18",
-      "q": "Which country hosted the 2007 men's T20 World Cup?",
-      "options": [
-        "India",
-        "England",
-        "South Africa",
-        "Australia"
-      ],
-      "answer": 2,
-      "explanation": "Correct answer: South Africa."
-    },
-    {
-      "id": "c19",
-      "q": "Which team won the 2009 men's T20 World Cup?",
-      "options": [
-        "Pakistan",
-        "India",
-        "England",
-        "West Indies"
-      ],
-      "answer": 0,
-      "explanation": "Correct answer: Pakistan."
-    },
-    {
-      "id": "c20",
-      "q": "Which team won the 2010 men's T20 World Cup?",
-      "options": [
-        "Australia",
-        "England",
-        "India",
-        "Sri Lanka"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: England."
-    },
-    {
-      "id": "c21",
-      "q": "Which team won the 2012 men's T20 World Cup?",
-      "options": [
-        "Sri Lanka",
-        "India",
-        "West Indies",
-        "Pakistan"
-      ],
-      "answer": 2,
-      "explanation": "Correct answer: West Indies."
-    },
-    {
-      "id": "c22",
-      "q": "Which team won the 2014 men's T20 World Cup?",
-      "options": [
-        "India",
-        "Sri Lanka",
-        "Australia",
-        "England"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: Sri Lanka."
-    },
-    {
-      "id": "c23",
-      "q": "Which team won the 2016 men's T20 World Cup?",
-      "options": [
-        "England",
-        "India",
-        "West Indies",
-        "New Zealand"
-      ],
-      "answer": 2,
-      "explanation": "Correct answer: West Indies."
-    },
-    {
-      "id": "c24",
-      "q": "Which team won the 2021 men's T20 World Cup?",
-      "options": [
         "Australia",
         "New Zealand",
-        "Pakistan",
-        "England"
-      ],
-      "answer": 0,
-      "explanation": "Correct answer: Australia."
-    },
-    {
-      "id": "c25",
-      "q": "Which team won the 2022 men's T20 World Cup?",
-      "options": [
-        "Pakistan",
-        "England",
-        "India",
-        "Australia"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: England."
-    },
-    {
-      "id": "c26",
-      "q": "Which team won the 2024 men's T20 World Cup?",
-      "options": [
-        "South Africa",
-        "India",
-        "England",
-        "Australia"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: India."
-    },
-    {
-      "id": "c27",
-      "q": "Who hit four consecutive sixes in the final over of the 2016 T20 World Cup final?",
-      "options": [
-        "Chris Gayle",
-        "Andre Russell",
-        "Carlos Brathwaite",
-        "Kieron Pollard"
+        "Pakistan"
       ],
       "answer": 2,
-      "explanation": "Correct answer: Carlos Brathwaite."
+      "explanation": "England and New Zealand tied both the match and Super Over; England won on boundary count."
     },
     {
-      "id": "c28",
-      "q": "Who bowled the final over of the 2016 men's T20 World Cup final?",
+      "id": "modern-7",
+      "q": "Who hit 84 not out for England in the 2019 ODI World Cup final?",
       "options": [
-        "Stuart Broad",
+        "Jos Buttler",
         "Ben Stokes",
-        "Chris Jordan",
-        "Adil Rashid"
+        "Joe Root",
+        "Jason Roy"
       ],
       "answer": 1,
-      "explanation": "Correct answer: Ben Stokes."
+      "explanation": "Ben Stokes was Player of the Match in the tied final at Lord's."
     },
     {
-      "id": "c29",
-      "q": "Which country won the 2023 men's ODI Cricket World Cup?",
+      "id": "modern-8",
+      "q": "Who took the famous catch of David Miller in the 2024 T20 World Cup final?",
       "options": [
-        "India",
-        "Australia",
-        "England",
-        "New Zealand"
+        "Axar Patel",
+        "Suryakumar Yadav",
+        "Rishabh Pant",
+        "Hardik Pandya"
       ],
       "answer": 1,
-      "explanation": "Correct answer: Australia."
+      "explanation": "Suryakumar's boundary juggling catch was a decisive moment."
     },
     {
-      "id": "c30",
-      "q": "Who scored the first century in men's T20 World Cup history?",
+      "id": "modern-9",
+      "q": "In the 2007 T20 World Cup final, who bowled the last over for India?",
       "options": [
-        "Brendon McCullum",
-        "Chris Gayle",
-        "Yuvraj Singh",
-        "Shahid Afridi"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: Chris Gayle."
-    },
-    {
-      "id": "c31",
-      "q": "Who bowled the final over for India in the 2007 T20 World Cup final?",
-      "options": [
-        "Harbhajan Singh",
         "Irfan Pathan",
+        "Harbhajan Singh",
         "Joginder Sharma",
         "RP Singh"
       ],
       "answer": 2,
-      "explanation": "Correct answer: Joginder Sharma."
+      "explanation": "MS Dhoni trusted Joginder Sharma with the final over against Pakistan."
     },
     {
-      "id": "c32",
-      "q": "Which ground hosted India's 1983 World Cup final victory?",
+      "id": "modern-10",
+      "q": "Who hit six sixes in Stuart Broad's over in the 2007 T20 World Cup?",
       "options": [
-        "The Oval",
-        "Lord's",
-        "Eden Gardens",
-        "Old Trafford"
-      ],
-      "answer": 1,
-      "explanation": "Correct answer: Lord's."
-    },
-    {
-      "id": "c33",
-      "q": "Which team won the 1975 men's ODI Cricket World Cup?",
-      "options": [
-        "West Indies",
-        "Australia",
-        "England",
-        "India"
+        "Yuvraj Singh",
+        "MS Dhoni",
+        "Chris Gayle",
+        "Shahid Afridi"
       ],
       "answer": 0,
-      "explanation": "Correct answer: West Indies."
+      "explanation": "Yuvraj Singh struck six consecutive sixes against England."
     },
     {
-      "id": "c34",
-      "q": "Which team won the 1979 men's ODI Cricket World Cup?",
+      "id": "modern-11",
+      "q": "Who hit four straight sixes off Ben Stokes to win the 2016 T20 World Cup final?",
       "options": [
-        "India",
-        "West Indies",
-        "England",
-        "Australia"
+        "Andre Russell",
+        "Chris Gayle",
+        "Carlos Brathwaite",
+        "Marlon Samuels"
+      ],
+      "answer": 2,
+      "explanation": "Carlos Brathwaite hit four sixes in the last over against England."
+    },
+    {
+      "id": "modern-12",
+      "q": "Who captained India during the famous 2021 Gabba Test victory?",
+      "options": [
+        "Virat Kohli",
+        "Ajinkya Rahane",
+        "Rohit Sharma",
+        "Cheteshwar Pujara"
       ],
       "answer": 1,
-      "explanation": "Correct answer: West Indies."
+      "explanation": "Ajinkya Rahane led India in the historic series-deciding victory."
+    },
+    {
+      "id": "modern-13",
+      "q": "Who hit the winning runs in India's 2021 Gabba Test chase?",
+      "options": [
+        "Shubman Gill",
+        "Rishabh Pant",
+        "Washington Sundar",
+        "Ajinkya Rahane"
+      ],
+      "answer": 1,
+      "explanation": "Rishabh Pant remained unbeaten on 89 as India chased 328."
+    },
+    {
+      "id": "modern-14",
+      "q": "Who scored 281 in the historic 2001 Kolkata Test against Australia?",
+      "options": [
+        "Rahul Dravid",
+        "VVS Laxman",
+        "Sachin Tendulkar",
+        "Sourav Ganguly"
+      ],
+      "answer": 1,
+      "explanation": "VVS Laxman's 281 turned the match after India followed on."
+    },
+    {
+      "id": "modern-15",
+      "q": "Who partnered VVS Laxman in the epic fifth-wicket stand at Kolkata in 2001?",
+      "options": [
+        "Sachin Tendulkar",
+        "Rahul Dravid",
+        "Sourav Ganguly",
+        "Virender Sehwag"
+      ],
+      "answer": 1,
+      "explanation": "Rahul Dravid made 180 in the famous comeback."
+    },
+    {
+      "id": "modern-16",
+      "q": "Who smashed 175 not out for Royal Challengers Bangalore in the IPL in 2013?",
+      "options": [
+        "AB de Villiers",
+        "Virat Kohli",
+        "Chris Gayle",
+        "Brendon McCullum"
+      ],
+      "answer": 2,
+      "explanation": "Chris Gayle's 175* against Pune Warriors remains one of the IPL's iconic innings."
+    },
+    {
+      "id": "modern-17",
+      "q": "Who scored 158 not out in the very first IPL match in 2008?",
+      "options": [
+        "Brendon McCullum",
+        "Chris Gayle",
+        "Adam Gilchrist",
+        "Sourav Ganguly"
+      ],
+      "answer": 0,
+      "explanation": "McCullum's innings for Kolkata Knight Riders launched the IPL spectacularly."
+    },
+    {
+      "id": "modern-18",
+      "q": "Which bowler took a hat-trick in the 2019 ODI World Cup against Afghanistan for India?",
+      "options": [
+        "Jasprit Bumrah",
+        "Mohammed Shami",
+        "Bhuvneshwar Kumar",
+        "Kuldeep Yadav"
+      ],
+      "answer": 1,
+      "explanation": "Mohammed Shami's last-over hat-trick sealed a tense Indian victory."
+    },
+    {
+      "id": "modern-19",
+      "q": "Who struck the winning six in the 2011 ODI World Cup final?",
+      "options": [
+        "Yuvraj Singh",
+        "Gautam Gambhir",
+        "MS Dhoni",
+        "Virat Kohli"
+      ],
+      "answer": 2,
+      "explanation": "MS Dhoni finished the chase with a six at Wankhede Stadium."
+    },
+    {
+      "id": "modern-20",
+      "q": "Which bowler dismissed Sachin Tendulkar in the 2011 ODI World Cup final?",
+      "options": [
+        "Lasith Malinga",
+        "Muttiah Muralitharan",
+        "Nuwan Kulasekara",
+        "Thisara Perera"
+      ],
+      "answer": 0,
+      "explanation": "Lasith Malinga removed Tendulkar early in India's chase."
+    },
+    {
+      "id": "modern-21",
+      "q": "Who made an unbeaten 135 in the 2019 Headingley Ashes Test to seal a one-wicket win?",
+      "options": [
+        "Joe Root",
+        "Ben Stokes",
+        "Jos Buttler",
+        "Jonny Bairstow"
+      ],
+      "answer": 1,
+      "explanation": "Ben Stokes produced an extraordinary unbeaten 135, not 149, in the Headingley chase."
     }
   ],
   "bollywood": [
