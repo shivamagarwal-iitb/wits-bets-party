@@ -3,6 +3,7 @@ import http from 'node:http';
 import crypto from 'node:crypto';
 import { Server } from 'socket.io';
 import QRCode from 'qrcode';
+import {installTrivia} from './trivia-server.js';
 import { readFileSync } from 'node:fs';
 
 const app = express();
@@ -202,6 +203,7 @@ function computeAwards(room){
  }
  return awards;
 }
+installTrivia(io);
 io.on('connection',socket=>{
   socket.on('create',async (data,ack)=>{
     let id;do{id=code()}while(rooms.has(id));
