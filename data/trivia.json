@@ -1,0 +1,822 @@
+{
+  "cricket": [
+    {
+      "id": "c1",
+      "q": "Who won the inaugural men's T20 World Cup in 2007?",
+      "options": [
+        "Pakistan",
+        "India",
+        "Australia",
+        "Sri Lanka"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: India."
+    },
+    {
+      "id": "c2",
+      "q": "Which team won the 1983 men's ODI Cricket World Cup?",
+      "options": [
+        "India",
+        "West Indies",
+        "Australia",
+        "England"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: India."
+    },
+    {
+      "id": "c3",
+      "q": "Who hit six sixes in an over against England in the 2007 T20 World Cup?",
+      "options": [
+        "MS Dhoni",
+        "Yuvraj Singh",
+        "Rohit Sharma",
+        "Virat Kohli"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Yuvraj Singh."
+    },
+    {
+      "id": "c4",
+      "q": "Who bowled that over to Yuvraj Singh?",
+      "options": [
+        "James Anderson",
+        "Stuart Broad",
+        "Andrew Flintoff",
+        "Ryan Sidebottom"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Stuart Broad."
+    },
+    {
+      "id": "c5",
+      "q": "Which team won the 2011 men's ODI Cricket World Cup?",
+      "options": [
+        "Sri Lanka",
+        "India",
+        "Pakistan",
+        "Australia"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: India."
+    },
+    {
+      "id": "c6",
+      "q": "Which venue hosted the 2011 ODI World Cup final?",
+      "options": [
+        "Eden Gardens",
+        "Wankhede Stadium",
+        "Lord's",
+        "MCG"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Wankhede Stadium."
+    },
+    {
+      "id": "c7",
+      "q": "Who captained India to the 2011 ODI World Cup title?",
+      "options": [
+        "Virat Kohli",
+        "Sourav Ganguly",
+        "MS Dhoni",
+        "Rahul Dravid"
+      ],
+      "answer": 2,
+      "explanation": "Correct answer: MS Dhoni."
+    },
+    {
+      "id": "c8",
+      "q": "Which team did India beat in the 2011 ODI World Cup final?",
+      "options": [
+        "Australia",
+        "Pakistan",
+        "Sri Lanka",
+        "South Africa"
+      ],
+      "answer": 2,
+      "explanation": "Correct answer: Sri Lanka."
+    },
+    {
+      "id": "c9",
+      "q": "Who was India's highest scorer in the 2011 World Cup final?",
+      "options": [
+        "MS Dhoni",
+        "Sachin Tendulkar",
+        "Gautam Gambhir",
+        "Virender Sehwag"
+      ],
+      "answer": 2,
+      "explanation": "Correct answer: Gautam Gambhir."
+    },
+    {
+      "id": "c10",
+      "q": "Who scored 91 not out in the 2011 World Cup final?",
+      "options": [
+        "Yuvraj Singh",
+        "MS Dhoni",
+        "Gautam Gambhir",
+        "Virat Kohli"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: MS Dhoni."
+    },
+    {
+      "id": "c11",
+      "q": "Which team won the 1992 ODI Cricket World Cup?",
+      "options": [
+        "India",
+        "Pakistan",
+        "England",
+        "New Zealand"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Pakistan."
+    },
+    {
+      "id": "c12",
+      "q": "Which team won the 1987 ODI Cricket World Cup?",
+      "options": [
+        "Australia",
+        "India",
+        "England",
+        "Pakistan"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Australia."
+    },
+    {
+      "id": "c13",
+      "q": "Which team won the 1996 ODI Cricket World Cup?",
+      "options": [
+        "India",
+        "Australia",
+        "Sri Lanka",
+        "Pakistan"
+      ],
+      "answer": 2,
+      "explanation": "Correct answer: Sri Lanka."
+    },
+    {
+      "id": "c14",
+      "q": "Which team won the 2003 ODI Cricket World Cup?",
+      "options": [
+        "India",
+        "South Africa",
+        "Australia",
+        "Sri Lanka"
+      ],
+      "answer": 2,
+      "explanation": "Correct answer: Australia."
+    },
+    {
+      "id": "c15",
+      "q": "Which team won the 2007 ODI Cricket World Cup?",
+      "options": [
+        "Sri Lanka",
+        "Australia",
+        "India",
+        "New Zealand"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Australia."
+    },
+    {
+      "id": "c16",
+      "q": "Who took the first hat-trick in a men's ODI Cricket World Cup?",
+      "options": [
+        "Chetan Sharma",
+        "Kapil Dev",
+        "Wasim Akram",
+        "Chaminda Vaas"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Chetan Sharma."
+    },
+    {
+      "id": "c17",
+      "q": "Against which team did Chetan Sharma take his 1987 World Cup hat-trick?",
+      "options": [
+        "England",
+        "New Zealand",
+        "Australia",
+        "Pakistan"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: New Zealand."
+    },
+    {
+      "id": "c18",
+      "q": "Which country hosted the 2007 men's T20 World Cup?",
+      "options": [
+        "India",
+        "England",
+        "South Africa",
+        "Australia"
+      ],
+      "answer": 2,
+      "explanation": "Correct answer: South Africa."
+    },
+    {
+      "id": "c19",
+      "q": "Which team won the 2009 men's T20 World Cup?",
+      "options": [
+        "Pakistan",
+        "India",
+        "England",
+        "West Indies"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Pakistan."
+    },
+    {
+      "id": "c20",
+      "q": "Which team won the 2010 men's T20 World Cup?",
+      "options": [
+        "Australia",
+        "England",
+        "India",
+        "Sri Lanka"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: England."
+    },
+    {
+      "id": "c21",
+      "q": "Which team won the 2012 men's T20 World Cup?",
+      "options": [
+        "Sri Lanka",
+        "India",
+        "West Indies",
+        "Pakistan"
+      ],
+      "answer": 2,
+      "explanation": "Correct answer: West Indies."
+    },
+    {
+      "id": "c22",
+      "q": "Which team won the 2014 men's T20 World Cup?",
+      "options": [
+        "India",
+        "Sri Lanka",
+        "Australia",
+        "England"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Sri Lanka."
+    },
+    {
+      "id": "c23",
+      "q": "Which team won the 2016 men's T20 World Cup?",
+      "options": [
+        "England",
+        "India",
+        "West Indies",
+        "New Zealand"
+      ],
+      "answer": 2,
+      "explanation": "Correct answer: West Indies."
+    },
+    {
+      "id": "c24",
+      "q": "Which team won the 2021 men's T20 World Cup?",
+      "options": [
+        "Australia",
+        "New Zealand",
+        "Pakistan",
+        "England"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Australia."
+    },
+    {
+      "id": "c25",
+      "q": "Which team won the 2022 men's T20 World Cup?",
+      "options": [
+        "Pakistan",
+        "England",
+        "India",
+        "Australia"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: England."
+    },
+    {
+      "id": "c26",
+      "q": "Which team won the 2024 men's T20 World Cup?",
+      "options": [
+        "South Africa",
+        "India",
+        "England",
+        "Australia"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: India."
+    },
+    {
+      "id": "c27",
+      "q": "Who hit four consecutive sixes in the final over of the 2016 T20 World Cup final?",
+      "options": [
+        "Chris Gayle",
+        "Andre Russell",
+        "Carlos Brathwaite",
+        "Kieron Pollard"
+      ],
+      "answer": 2,
+      "explanation": "Correct answer: Carlos Brathwaite."
+    },
+    {
+      "id": "c28",
+      "q": "Who bowled the final over of the 2016 men's T20 World Cup final?",
+      "options": [
+        "Stuart Broad",
+        "Ben Stokes",
+        "Chris Jordan",
+        "Adil Rashid"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Ben Stokes."
+    },
+    {
+      "id": "c29",
+      "q": "Which country won the 2023 men's ODI Cricket World Cup?",
+      "options": [
+        "India",
+        "Australia",
+        "England",
+        "New Zealand"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Australia."
+    },
+    {
+      "id": "c30",
+      "q": "Who scored the first century in men's T20 World Cup history?",
+      "options": [
+        "Brendon McCullum",
+        "Chris Gayle",
+        "Yuvraj Singh",
+        "Shahid Afridi"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Chris Gayle."
+    },
+    {
+      "id": "c31",
+      "q": "Who bowled the final over for India in the 2007 T20 World Cup final?",
+      "options": [
+        "Harbhajan Singh",
+        "Irfan Pathan",
+        "Joginder Sharma",
+        "RP Singh"
+      ],
+      "answer": 2,
+      "explanation": "Correct answer: Joginder Sharma."
+    },
+    {
+      "id": "c32",
+      "q": "Which ground hosted India's 1983 World Cup final victory?",
+      "options": [
+        "The Oval",
+        "Lord's",
+        "Eden Gardens",
+        "Old Trafford"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Lord's."
+    },
+    {
+      "id": "c33",
+      "q": "Which team won the 1975 men's ODI Cricket World Cup?",
+      "options": [
+        "West Indies",
+        "Australia",
+        "England",
+        "India"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: West Indies."
+    },
+    {
+      "id": "c34",
+      "q": "Which team won the 1979 men's ODI Cricket World Cup?",
+      "options": [
+        "India",
+        "West Indies",
+        "England",
+        "Australia"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: West Indies."
+    }
+  ],
+  "bollywood": [
+    {
+      "id": "b1",
+      "q": "Who directed the film Lagaan (2001)?",
+      "options": [
+        "Karan Johar",
+        "Ashutosh Gowariker",
+        "Sanjay Leela Bhansali",
+        "Rajkumar Hirani"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Ashutosh Gowariker."
+    },
+    {
+      "id": "b2",
+      "q": "Which film was nominated for the Academy Award for Best Foreign Language Film at the 2002 Oscars?",
+      "options": [
+        "Dil Chahta Hai",
+        "Lagaan",
+        "Devdas",
+        "Kabhi Khushi Kabhie Gham"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Lagaan."
+    },
+    {
+      "id": "b3",
+      "q": "Who played Bhuvan in Lagaan?",
+      "options": [
+        "Shah Rukh Khan",
+        "Aamir Khan",
+        "Salman Khan",
+        "Hrithik Roshan"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Aamir Khan."
+    },
+    {
+      "id": "b4",
+      "q": "Who directed 3 Idiots (2009)?",
+      "options": [
+        "Rajkumar Hirani",
+        "Farhan Akhtar",
+        "Anurag Kashyap",
+        "Karan Johar"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Rajkumar Hirani."
+    },
+    {
+      "id": "b5",
+      "q": "Who played Rancho in 3 Idiots?",
+      "options": [
+        "Sharman Joshi",
+        "Aamir Khan",
+        "R. Madhavan",
+        "Boman Irani"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Aamir Khan."
+    },
+    {
+      "id": "b6",
+      "q": "Who directed Dil Chahta Hai (2001)?",
+      "options": [
+        "Zoya Akhtar",
+        "Farhan Akhtar",
+        "Karan Johar",
+        "Imtiaz Ali"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Farhan Akhtar."
+    },
+    {
+      "id": "b7",
+      "q": "Which actor played Munna Bhai in Munna Bhai M.B.B.S.?",
+      "options": [
+        "Arshad Warsi",
+        "Sanjay Dutt",
+        "Aamir Khan",
+        "Akshay Kumar"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Sanjay Dutt."
+    },
+    {
+      "id": "b8",
+      "q": "Who played Circuit in Munna Bhai M.B.B.S.?",
+      "options": [
+        "Arshad Warsi",
+        "Boman Irani",
+        "Paresh Rawal",
+        "Suniel Shetty"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Arshad Warsi."
+    },
+    {
+      "id": "b9",
+      "q": "Who directed Dangal (2016)?",
+      "options": [
+        "Nitesh Tiwari",
+        "Rajkumar Hirani",
+        "Kabir Khan",
+        "S. S. Rajamouli"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Nitesh Tiwari."
+    },
+    {
+      "id": "b10",
+      "q": "Who played Mahavir Singh Phogat in Dangal?",
+      "options": [
+        "Salman Khan",
+        "Aamir Khan",
+        "Shah Rukh Khan",
+        "Ajay Devgn"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Aamir Khan."
+    },
+    {
+      "id": "b11",
+      "q": "Who directed Zindagi Na Milegi Dobara (2011)?",
+      "options": [
+        "Farhan Akhtar",
+        "Zoya Akhtar",
+        "Imtiaz Ali",
+        "Reema Kagti"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Zoya Akhtar."
+    },
+    {
+      "id": "b12",
+      "q": "Which film features the characters Kabir, Arjun and Imran on a road trip in Spain?",
+      "options": [
+        "Dil Chahta Hai",
+        "Zindagi Na Milegi Dobara",
+        "Yeh Jawaani Hai Deewani",
+        "Tamasha"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Zindagi Na Milegi Dobara."
+    },
+    {
+      "id": "b13",
+      "q": "Who directed Jab We Met (2007)?",
+      "options": [
+        "Imtiaz Ali",
+        "Anurag Basu",
+        "Ayan Mukerji",
+        "Karan Johar"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Imtiaz Ali."
+    },
+    {
+      "id": "b14",
+      "q": "Who played Geet in Jab We Met?",
+      "options": [
+        "Deepika Padukone",
+        "Kareena Kapoor",
+        "Priyanka Chopra",
+        "Anushka Sharma"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Kareena Kapoor."
+    },
+    {
+      "id": "b15",
+      "q": "Who directed Taare Zameen Par (2007)?",
+      "options": [
+        "Aamir Khan",
+        "Ashutosh Gowariker",
+        "Rajkumar Hirani",
+        "Farhan Akhtar"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Aamir Khan."
+    },
+    {
+      "id": "b16",
+      "q": "Who played the lead role in Queen (2014)?",
+      "options": [
+        "Alia Bhatt",
+        "Kangana Ranaut",
+        "Vidya Balan",
+        "Sonam Kapoor"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Kangana Ranaut."
+    },
+    {
+      "id": "b17",
+      "q": "Who directed Queen (2014)?",
+      "options": [
+        "Vikas Bahl",
+        "Anurag Kashyap",
+        "Shoojit Sircar",
+        "Sriram Raghavan"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Vikas Bahl."
+    },
+    {
+      "id": "b18",
+      "q": "Who directed Gully Boy (2019)?",
+      "options": [
+        "Zoya Akhtar",
+        "Farhan Akhtar",
+        "Karan Johar",
+        "Meghna Gulzar"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Zoya Akhtar."
+    },
+    {
+      "id": "b19",
+      "q": "Who played Murad in Gully Boy?",
+      "options": [
+        "Ranbir Kapoor",
+        "Ranveer Singh",
+        "Varun Dhawan",
+        "Vicky Kaushal"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Ranveer Singh."
+    },
+    {
+      "id": "b20",
+      "q": "Who directed Andhadhun (2018)?",
+      "options": [
+        "Sriram Raghavan",
+        "Anurag Basu",
+        "Vishal Bhardwaj",
+        "Neeraj Pandey"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Sriram Raghavan."
+    },
+    {
+      "id": "b21",
+      "q": "Who played the pianist Akash in Andhadhun?",
+      "options": [
+        "Rajkummar Rao",
+        "Ayushmann Khurrana",
+        "Vicky Kaushal",
+        "Shahid Kapoor"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Ayushmann Khurrana."
+    },
+    {
+      "id": "b22",
+      "q": "Who directed PK (2014)?",
+      "options": [
+        "Rajkumar Hirani",
+        "Nitesh Tiwari",
+        "Karan Johar",
+        "Rohit Shetty"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Rajkumar Hirani."
+    },
+    {
+      "id": "b23",
+      "q": "Who played the title character in PK?",
+      "options": [
+        "Shah Rukh Khan",
+        "Aamir Khan",
+        "Salman Khan",
+        "Ranbir Kapoor"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Aamir Khan."
+    },
+    {
+      "id": "b24",
+      "q": "Who directed Bajrangi Bhaijaan (2015)?",
+      "options": [
+        "Kabir Khan",
+        "Ali Abbas Zafar",
+        "Sohail Khan",
+        "Rohit Shetty"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Kabir Khan."
+    },
+    {
+      "id": "b25",
+      "q": "Who played the lead role in Bajrangi Bhaijaan?",
+      "options": [
+        "Akshay Kumar",
+        "Salman Khan",
+        "Ajay Devgn",
+        "Shah Rukh Khan"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Salman Khan."
+    },
+    {
+      "id": "b26",
+      "q": "Who directed Barfi! (2012)?",
+      "options": [
+        "Anurag Basu",
+        "Imtiaz Ali",
+        "Ayan Mukerji",
+        "Shoojit Sircar"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Anurag Basu."
+    },
+    {
+      "id": "b27",
+      "q": "Who played the title character in Barfi!?",
+      "options": [
+        "Ranveer Singh",
+        "Ranbir Kapoor",
+        "Shahid Kapoor",
+        "Ayushmann Khurrana"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Ranbir Kapoor."
+    },
+    {
+      "id": "b28",
+      "q": "Who directed Kahaani (2012)?",
+      "options": [
+        "Sujoy Ghosh",
+        "Sriram Raghavan",
+        "Anurag Kashyap",
+        "Neeraj Pandey"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Sujoy Ghosh."
+    },
+    {
+      "id": "b29",
+      "q": "Who played Vidya Bagchi in Kahaani?",
+      "options": [
+        "Vidya Balan",
+        "Rani Mukerji",
+        "Kareena Kapoor",
+        "Kangana Ranaut"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Vidya Balan."
+    },
+    {
+      "id": "b30",
+      "q": "Who directed Swades (2004)?",
+      "options": [
+        "Ashutosh Gowariker",
+        "Farhan Akhtar",
+        "Karan Johar",
+        "Rajkumar Hirani"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Ashutosh Gowariker."
+    },
+    {
+      "id": "b31",
+      "q": "Who played Mohan Bhargava in Swades?",
+      "options": [
+        "Aamir Khan",
+        "Shah Rukh Khan",
+        "Hrithik Roshan",
+        "Abhishek Bachchan"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Shah Rukh Khan."
+    },
+    {
+      "id": "b32",
+      "q": "Who directed My Name Is Khan (2010)?",
+      "options": [
+        "Karan Johar",
+        "Aditya Chopra",
+        "Sanjay Leela Bhansali",
+        "Yash Chopra"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Karan Johar."
+    },
+    {
+      "id": "b33",
+      "q": "Who directed Chak De! India (2007)?",
+      "options": [
+        "Shimit Amin",
+        "Kabir Khan",
+        "Nitesh Tiwari",
+        "Karan Johar"
+      ],
+      "answer": 0,
+      "explanation": "Correct answer: Shimit Amin."
+    },
+    {
+      "id": "b34",
+      "q": "Who played the coach Kabir Khan in Chak De! India?",
+      "options": [
+        "Aamir Khan",
+        "Shah Rukh Khan",
+        "Salman Khan",
+        "Saif Ali Khan"
+      ],
+      "answer": 1,
+      "explanation": "Correct answer: Shah Rukh Khan."
+    }
+  ]
+}
